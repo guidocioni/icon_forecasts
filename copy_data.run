@@ -1,0 +1,102 @@
+#!/bin/bash
+. ~/functions_download_dwd.sh
+
+export NCARG_ROOT=/sw/jessie-x64/ncl-6.4.0-nodap-precompiled 
+export PATH=$NCARG_ROOT/bin:$PATH 
+
+export cdo=/sw/jessie-x64/cdo-1.8.0-gccsys/bin/cdo
+export python=/sw/jessie-x64/python/python-2.7-ve6-gccsys/bin/python
+
+export year=`date +"%Y"`
+export month=`date +"%m"`
+export day=`date +"%d"`
+export hour=`date +"%H"`
+export hour_no_zero=`date -u +"%-H"`
+# note that this date is in UTC which is needed for retrieving the correct run!
+
+if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 10 ] 
+then 
+ run="00"
+elif [ "$hour_no_zero" -ge 10 ] && [ "$hour_no_zero" -lt 16 ] 
+then
+ run="06"
+elif [ "$hour_no_zero" -ge 16 ] && [ "$hour_no_zero" -lt 21 ] 
+then
+ run="12"
+elif [ "$hour_no_zero" -ge 21 ] 
+then
+ run="18"
+fi
+
+export run
+
+cd /scratch/local1/m300382/icon_forecasts/
+rm *.nc
+cp /home/mpim/m300382/icon_forecasts/*.ncl ./ 
+cp /home/mpim/m300382/icon_forecasts/*.py ./
+
+#2-D variables
+export TASK_PYTHON_ICON_EU="download_merge_2d_variable_icon_eu"
+${python} task_parallelism_general.py T_2M U_10M V_10M PMSL CAPE_ML VMAX_10M TOT_PREC CLCL CLCH SNOWLMT HZEROCL H_SNOW SNOW_GSP SNOW_CON RAIN_GSP RAIN_CON
+
+#3-D variables on pressure levels
+export TASK_PYTHON_ICON_EU="download_merge_3d_variable_icon_eu"
+${python} task_parallelism_general.py T FI RELHUM U V
+
+${cdo} merge *.grib2 ICON_${year}${month}${day}${run}_eur.grib2
+${cdo} -f nc copy ICON_${year}${month}${day}${run}_eur.grib2 ICON_${year}${month}${day}${run}_eur.nc
+rm *.grib2
+
+#plot with NCL
+${python} task_parallelism.py plot_gph_t_850.ncl plot_gph_thetae_850.ncl plot_rain_clouds.ncl plot_winds10m.ncl plot_jetstream.ncl plot_vorticity.ncl plot_hsnow.ncl plot_cape.ncl plot_convergence.ncl plot_gph_t_500.ncl plot_rain_acc.ncl
+
+# remove white stripes
+for f in *.png; do convert -trim +repage ${f} ${f}; done
+
+#create animations
+# convert -delay 15 t_v_pres* animation_t_v_pres_${year}${month}${day}${run}.gif
+# convert -delay 15 gph_t_* animation_gph_t_${year}${month}${day}${run}.gif
+
+# upload images on the FTP server but first clean old png and gifs
+
+# Rename all the local images so that they contain the run 
+# this is useful to distinguish the images on the remote server
+# so that HTTP has to load new content every time 
+# for f in *.png; do NEW=${f%.png}_${year}${month}${day}${run}.png; mv ${f} "${NEW}"; done
+
+ncftpput -R -v altervista icon_forecasts/gph_t_850 gph_t_850_*
+ncftpput -R -v altervista icon_forecasts/gph_t_500 gph_t_500_*
+ncftpput -R -v altervista icon_forecasts/gph_thetae_850 gph_thetae_850_*
+ncftpput -R -v altervista icon_forecasts/precip_clouds precip_clouds_*
+ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
+ncftpput -R -v altervista icon_forecasts/winds10m winds10m_*
+ncftpput -R -v altervista icon_forecasts/winds_jet winds_jet_*
+ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
+ncftpput -R -v altervista icon_forecasts/hsnow hsnow_*
+ncftpput -R -v altervista icon_forecasts/cape cape_*
+ncftpput -R -v altervista icon_forecasts/conv conv_*
+
+# ncftpput -R -v altervista icon_forecasts/gph_t animation_gph_t_*
+# ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
+# ncftpput -R -v altervista icon_forecasts/t_v_pres animation_t_v_pres_*
+
+#Remove images locally
+rm *.png
+rm *.gif
+
+# archive data on pftp
+
+#tar -cvf ${year}${month}${day}${run}.tar *.nc
+#
+#/client/bin/pftp <<EOF
+#user m300382 password
+#cd bm0682/m300382/icon_forecasts
+#mput *.tar
+#bye
+#EOF
+
+rm *.tar
+rm *.ncl 
+rm *.py
+
+cd 
