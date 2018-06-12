@@ -27,3 +27,6 @@ depending on the load). Similary to what was done when downloading the files, pl
 
 ## Upload of the pictures
 PNG pictures are uploaded to a FTP server defined in `ncftp` bookmarks.
+
+## Additional files
+ICON-EU invariant data are required by some NCL scripts. You can download them here: https://opendata.dwd.de/weather/icon/eu_nest/grib/00/invariant_data/
