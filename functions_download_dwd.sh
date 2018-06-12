@@ -45,6 +45,16 @@ download_merge_3d_variable_icon_eu()
 }
 export -f download_merge_3d_variable_icon_eu
 ################################################
+download_merge_soil_variable_icon_eu()
+{
+	filename="ICON_EU_soil_level_elements_${1}_${year}${month}${day}${run}"
+	wget -r -nH -np -nv -nd --reject "index.html*" --cut-dirs=4 -A "${filename}*" "https://opendata.dwd.de/weather/icon/eu_nest/grib/${run}"
+	bzip2 -d ${filename}* 
+	${cdo} mergetime ${filename}* ${1}_${year}${month}${day}${run}_eur.grib2
+	rm ${filename}*
+}
+export -f download_merge_soil_variable_icon_eu
+################################################
 download_merge_2d_variable_icon_globe()
 {
 	filename="ICON_iko_single_level_elements_world_${1}_${year}${month}${day}${run}"
