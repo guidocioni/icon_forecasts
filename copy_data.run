@@ -43,12 +43,16 @@ ${python} task_parallelism_general.py T_2M U_10M V_10M PMSL CAPE_ML VMAX_10M TOT
 export TASK_PYTHON_ICON_EU="download_merge_3d_variable_icon_eu"
 ${python} task_parallelism_general.py T FI RELHUM U V
 
+#soil levels
+export TASK_PYTHON_ICON_EU="download_merge_soil_variable_icon_eu"
+${python} task_parallelism_general.py W_SO
+
 ${cdo} merge *.grib2 ICON_${year}${month}${day}${run}_eur.grib2
 ${cdo} -f nc copy ICON_${year}${month}${day}${run}_eur.grib2 ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2
 
 #plot with NCL
-${python} task_parallelism.py plot_gph_t_850.ncl plot_gph_thetae_850.ncl plot_rain_clouds.ncl plot_winds10m.ncl plot_jetstream.ncl plot_vorticity.ncl plot_hsnow.ncl plot_cape.ncl plot_convergence.ncl plot_gph_t_500.ncl plot_rain_acc.ncl
+${python} task_parallelism.py plot_gph_t_850.ncl plot_gph_thetae_850.ncl plot_rain_clouds.ncl plot_winds10m.ncl plot_jetstream.ncl plot_vorticity.ncl plot_hsnow.ncl plot_cape.ncl plot_convergence.ncl plot_gph_t_500.ncl plot_rain_acc.ncl plot_soil_moisture.ncl
 
 # remove white stripes
 for f in *.png; do convert -trim +repage ${f} ${f}; done
@@ -75,6 +79,7 @@ ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
 ncftpput -R -v altervista icon_forecasts/hsnow hsnow_*
 ncftpput -R -v altervista icon_forecasts/cape cape_*
 ncftpput -R -v altervista icon_forecasts/conv conv_*
+ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
 
 # ncftpput -R -v altervista icon_forecasts/gph_t animation_gph_t_*
 # ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
