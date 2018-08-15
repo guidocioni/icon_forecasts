@@ -3,7 +3,7 @@ load "$NCARG_ROOT/lib/ncarg/nclscripts/contrib/cd_string.ncl"
 begin
 ; Open model level output file
 
-fils = systemfunc ("ls ICON_2017092812_eur.nc") ; file paths
+fils = systemfunc ("ls /scratch/local1/m300382/icon_forecasts/*.nc") ; file paths
 f_pres    = addfiles (fils, "r")  
 ListSetType (f_pres, "cat")
 
@@ -19,9 +19,9 @@ lon = f_pres[:]->lon
 lat = f_pres[:]->lat
 time= f_pres[:]->time
 
-date_string=tostring(cd_calendar(time, -3))
+date_string=time/60
 run_time=str_sub_str(time@units,"minutes since ","")
- run_string="Run: "+run_time
+run_string="Run: "+run_time
 
 
 delete([/fils, f_pres/])
@@ -62,7 +62,7 @@ ResC@mpMinLonF    = min(lon)                      ;
 ResC@mpMinLatF    = min(lat)                     ;
 ResC@mpMaxLatF    = max(lat)                    ;
 ResC@mpDataBaseVersion  = "MediumRes"
-ResC@mpGeophysicalLineThicknessF = 4
+ResC@mpGeophysicalLineThicknessF = 3
 ResC@mpGeophysicalLineColor ="black"
 ResC@mpOutlineBoundarySets = "AllBoundaries"     ; more outlines
 ResC@mpDataSetName         = "Earth..4"     
@@ -75,16 +75,17 @@ ResC2@cnLevelSelectionMode = "ManualLevels"
 ResC2@cnMinLevelValF = round(min(mslp), 0)
 ResC2@cnMaxLevelValF = round(max(mslp), 0)
 ResC2@cnInfoLabelOn = False  
-ResC2@cnLevelSpacingF = 4
+ResC2@cnLevelSpacingF = 5
 ResC2@cnLineThicknessF = 4
 ResC2@cnLineColor = "white"
-ResC2@cnLineLabelFontHeightF = 0.005
+ResC2@cnLineLabelFontHeightF = 0.004
 ResC2@cnLowLabelsOn = True
 ResC2@cnLowLabelBackgroundColor = -1 
-ResC2@cnHighLabelsOn = True
+ResC2@cnHighLabelsOn = False
 ResC2@cnHighLabelBackgroundColor = -1
 ResC2@cnLowLabelFontColor = "white" 
 ResC2@cnHighLabelFontColor = "white" 
+ResC2@cnHighLabelFontHeightF = 0.01
 
 ResC@cnFillPalette = "BkBlAqGrYeOrReViWh200"
 ResC@cnLevelSelectionMode = "ManualLevels"
@@ -98,16 +99,16 @@ ResC@gsnRightString = "Copyright DWD"
 
 ResV@vcRefMagnitudeF           = 10             ; define vector ref mag
 ResV@vcRefLengthF              = 0.04           ; define length of vec ref
-ResV@vcMinDistanceF            = 0.012
+ResV@vcMinDistanceF            = 0.014
 ResV@vcRefAnnoOn = False 
 ResV@vcGlyphStyle            = "CurlyVector"     ; turn on curly vectors
-ResV@vcLineArrowColor        = "gray40"           ; change vector color
-ResV@vcLineArrowThicknessF   = 2.0               ; change vector thickness
+ResV@vcLineArrowColor        = "gray50"           ; change vector color
+ResV@vcLineArrowThicknessF   = 1.5               ; change vector thickness
 
 txres                       = True
 txres@txPerimOn             = True
 txres@txBackgroundFillColor = "White"
-txres@txFontHeightF         = 0.012
+txres@txFontHeightF         = 0.01
 
 amres=True 
 amres@amParallelPosF   = -0.5    ; This is the right edge of the plot.
@@ -121,7 +122,7 @@ amres2@amJust = "TopLeft"
 
 do time_i=0,dimsizes(time)-1
  ResC@gsnCenterString= "Forecast for "+cd_string(time(time_i), "%d %c. %Y")+" at "+cd_string(time(time_i), "%H:%M")+" UTC"
- wks = gsn_open_wks("x11","t_v_pres_"+date_string(time_i))
+ wks = gsn_open_wks("png","t_v_pres_"+date_string(time_i))
  
  plot = gsn_csm_contour_map(wks,t_2m(time_i,0,:,:),ResC)
  over = gsn_csm_contour(wks,mslp(time_i,:,:),ResC2)

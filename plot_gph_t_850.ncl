@@ -85,9 +85,9 @@ ResC2@cnLineLabelDensityF = 1.5
 
 ResC@cnFillPalette = "BkBlAqGrYeOrReViWh200"
 ResC@cnLevelSelectionMode = "ManualLevels"
-ResC@cnMinLevelValF = -25
-ResC@cnMaxLevelValF = 25 
-ResC@cnLevelSpacingF = 1
+ResC@cnMinLevelValF = -30
+ResC@cnMaxLevelValF = 35 
+ResC@cnLevelSpacingF = 2
 ResC@lbOrientation = "Vertical"
 ResC@pmLabelBarWidthF = 0.05
 ResC@gsnLeftString = "ICON-EU"
