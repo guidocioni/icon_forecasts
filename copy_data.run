@@ -47,8 +47,7 @@ ${python} task_parallelism_general.py T FI RELHUM U V
 export TASK_PYTHON_ICON_EU="download_merge_soil_variable_icon_eu"
 ${python} task_parallelism_general.py W_SO
 
-${cdo} merge *.grib2 ICON_${year}${month}${day}${run}_eur.grib2
-${cdo} -f nc copy ICON_${year}${month}${day}${run}_eur.grib2 ICON_${year}${month}${day}${run}_eur.nc
+${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2
 
 #plot with NCL
