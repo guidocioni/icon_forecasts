@@ -1,11 +1,20 @@
 #!/bin/bash
-. ~/functions_download_dwd.sh
 
+##### LOAD functions to download model data
+. ~/functions_download_dwd.sh
+export SHELL=$(type -p bash)
+########################################### 
+
+##### LOAD environmental variables ########
 export NCARG_ROOT=/sw/jessie-x64/ncl-6.4.0-nodap-precompiled 
 export PATH=$NCARG_ROOT/bin:$PATH 
-
 export cdo=/sw/jessie-x64/cdo-1.8.0-gccsys/bin/cdo
-export python=/sw/jessie-x64/python/python-2.7-ve6-gccsys/bin/python
+export python=/home/mpim/m300382/.conda/envs/my_base/bin/python
+export parallel=/client/bin/parallel
+########################################### 
+
+export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
+source /sw/jessie-x64/anaconda2-4.1.1/bin/activate my_base
 
 export year=`date +"%Y"`
 export month=`date +"%m"`
@@ -36,19 +45,18 @@ cp /home/mpim/m300382/icon_forecasts/*.ncl ./
 cp /home/mpim/m300382/icon_forecasts/*.py ./
 
 #2-D variables
-export TASK_PYTHON_ICON_EU="download_merge_2d_variable_icon_eu"
-${python} task_parallelism_general.py T_2M U_10M V_10M PMSL CAPE_ML VMAX_10M TOT_PREC CLCL CLCH SNOWLMT HZEROCL H_SNOW SNOW_GSP SNOW_CON RAIN_GSP RAIN_CON TMAX_2M TMIN_2M
+variables=("T_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M")
+${parallel} -j 16 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 #3-D variables on pressure levels
-export TASK_PYTHON_ICON_EU="download_merge_3d_variable_icon_eu"
-${python} task_parallelism_general.py T FI RELHUM U V
+variables=("T" "FI" "RELHUM" "U" "V")
+${parallel} -j 16 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
 #soil levels
-export TASK_PYTHON_ICON_EU="download_merge_soil_variable_icon_eu"
-${python} task_parallelism_general.py W_SO
+${parallel} -j 16 download_merge_soil_variable_icon_eu ::: "W_SO"
 
 ${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
-rm *.grib2
+rm *.grib2 
 
 #plot with NCL
 ${python} task_parallelism.py plot_gph_t_850.ncl plot_gph_thetae_850.ncl plot_rain_clouds.ncl plot_winds10m.ncl plot_jetstream.ncl plot_vorticity.ncl plot_hsnow.ncl plot_cape.ncl plot_convergence.ncl plot_gph_t_500.ncl plot_rain_acc.ncl plot_soil_moisture.ncl plot_pres_t2m_winds10m.ncl

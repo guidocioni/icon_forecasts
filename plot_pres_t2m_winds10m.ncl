@@ -62,11 +62,11 @@ ResC@mpMinLonF    = min(lon)                      ;
 ResC@mpMinLatF    = min(lat)                     ;
 ResC@mpMaxLatF    = max(lat)                    ;
 ResC@mpDataBaseVersion  = "MediumRes"
-ResC@mpGeophysicalLineThicknessF = 3
+ResC@mpGeophysicalLineThicknessF = 2
 ResC@mpGeophysicalLineColor ="black"
 ResC@mpOutlineBoundarySets = "AllBoundaries"     ; more outlines
 ResC@mpDataSetName         = "Earth..4"     
-ResC@mpNationalLineThicknessF = 3
+ResC@mpNationalLineThicknessF = 2
 
 ; ResC@mpOutlineOn = True
 ResC@tmXBLabelFontHeightF = 0.01

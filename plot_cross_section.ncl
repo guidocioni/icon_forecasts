@@ -1,6 +1,6 @@
 load "$NCARG_ROOT/lib/ncarg/nclscripts/contrib/cd_string.ncl"
 
-wkstype="x11"
+wkstype="png"
 wkstype@wkWidth = 800
 wkstype@wkHeight = 850
 
@@ -11,10 +11,10 @@ if .not.isdefined("rightlat") then
  rightlat =  55.6
 end if
 if .not.isdefined("leftlon") then  
-leftlon  =  3.09
+ leftlon  =  3.09
 end if 
 if .not.isdefined("rightlon") then 
-rightlon =  37.39
+ rightlon =  37.39
 end if
 
 
@@ -29,7 +29,7 @@ begin
 
 folder="/scratch/local1/m300382/icon_forecasts/"
 
-fils = systemfunc ("ls "+folder+"ICON_*") ; file paths
+fils = systemfunc ("ls "+folder+"ICON_*.nc") ; file paths
 f_t    = addfiles (fils, "r")  
 ListSetType (f_t, "cat")
 
@@ -320,13 +320,13 @@ slp_res@tiYAxisSide  = "Right"
 slp_res@tiYAxisOffsetXF = 0.05
 ;-----------------------------------------------------------------------
 
-do time_i=1,dimsizes(time)-1
+do time_i=50,dimsizes(time)-1
   wks = gsn_open_wks(wkstype,"/scratch/local1/m300382/icon_forecasts/cross_section_"+time_i)    ; open a workstation
 
   tt_res@tiMainString= "Forecast for "+cd_string(time(time_i), "%d %c. %Y")+" at "+cd_string(time(time_i), "%H:%M")+" UTC"
-  ttfill    = gsn_csm_contour(wks,trans_t(time_i,{min_pressure:},:),tt_res)
-  rhcont    = gsn_csm_contour(wks, trans_r(time_i,{min_pressure:},:), rh_res)
-  windlayer = gsn_csm_vector(wks,trans_u(time_i,{min_pressure:},:),trans_v(time_i,{min_pressure:},:),uv_res)
+  ttfill    = gsn_csm_contour(wks,trans_t(time_i,{max_pressure:min_pressure},:),tt_res)
+  rhcont    = gsn_csm_contour(wks, trans_r(time_i,{max_pressure:min_pressure},:), rh_res)
+  windlayer = gsn_csm_vector(wks,trans_u(time_i,{max_pressure:min_pressure},:),trans_v(time_i,{max_pressure:min_pressure},:),uv_res)
   overlay(ttfill,windlayer)
   overlay(ttfill,rhcont)
 

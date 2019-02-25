@@ -145,13 +145,15 @@ ResC4@cnLineColor = "grey40"
 ResC4@cnLineLabelFontHeightF = 0.004
 
 cmap5_r              = read_colormap_file("MPL_PuRd")
+cmap5_r(0,:)         = 0.0    ; Fully transparent
 ; cmap5_r(0,4)         = 0.2   
-ResC5@cnFillPalette = cmap5_r(20:,:)
+ResC5@cnFillPalette = cmap5_r
+
 ResC5@pmLabelBarHeightF = 0.04
 ResC5@lbLabelFontHeightF = 0.005
 ResC5@pmLabelBarOrthogonalPosF = 0.05
 ResC5@cnLevelSelectionMode = "ExplicitLevels"
-ResC5@cnLevels = (/1, 1.5, 2, 2.5, 3, 4, 5, 10, 20/)
+ResC5@cnLevels = (/0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 10, 20/)
 ResC5@lbTitleOn = True 
 ResC5@lbTitleString = "Snow [cm]"
 ResC5@lbTitlePosition = "Right"
@@ -198,8 +200,8 @@ amres2@amJust = "TopLeft"
 
  overlay(plot,over_clouds)
  overlay(plot,over)
- ;overlay(plot,over_snow)
  overlay(plot,over_mslp)
+ overlay(plot,over_snow)
  draw(plot)
  frame(wks)
 end do
