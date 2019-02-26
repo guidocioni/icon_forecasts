@@ -12,7 +12,7 @@ folder_images = folder
 chunks_size = 10 
 processes = 10
 figsize_x = 10 
-figsize_y = 10
+figsize_y = 7
 
 # Options for savefig
 options_savefig={
@@ -40,26 +40,36 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     """Create the projection in Basemap and returns the x, y array to use it in a plot"""
     if projection=="euratl":
         m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='i')
+        if labels:
+            m.drawparallels(np.arange(-90.0, 90.0, 10.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
+            m.drawmeridians(np.arange(0.0, 360.0, 10.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
     elif projection=="eur":
         m = Basemap(projection='cyl', llcrnrlon=-15, llcrnrlat=29, urcrnrlon=35, urcrnrlat=71,resolution='i')
     elif projection=="it":
-        m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=18.5, urcrnrlat=48,resolution='i')
+        m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=19, urcrnrlat=48,resolution='i')
         m.readshapefile('/home/mpim/m300382/shapefiles/ITA_adm_shp/ITA_adm1',
-                            'ITA_adm1',linewidth=0.2,color='black')
+                            'ITA_adm1',linewidth=0.2,color='black',zorder=5)
+        if labels:
+            m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
+            m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
     elif projection=="de":
         m = Basemap(projection='cyl', llcrnrlon=5, llcrnrlat=46.5,\
                urcrnrlon=16, urcrnrlat=56,  resolution='i')
         m.readshapefile('/home/mpim/m300382/shapefiles/DEU_adm_shp/DEU_adm1',
-                            'DEU_adm1',linewidth=0.2,color='black')
+                            'DEU_adm1',linewidth=0.2,color='black',zorder=5)
+        if labels:
+            m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
+            m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
+                labels=[True, False, False, True], fontsize=7)
 
     m.drawcoastlines(linewidth=0.5, linestyle='solid', color='black', zorder=5)
     if countries:
         m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=5)
-    if labels:
-        m.drawparallels(np.arange(-90.0, 90.0, 10.), linewidth=0.2, color='white',
-            labels=[True, False, False, True], fontsize=7)
-        m.drawmeridians(np.arange(0.0, 360.0, 10.), linewidth=0.2, color='white',
-            labels=[True, False, False, True], fontsize=7)
 
     x, y = m(lon,lat)
     return(m, x, y)
@@ -94,9 +104,9 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
 def get_colormap(cmap_type):
     """Create a custom colormap."""
     if cmap_type == "winds":
-      colors_tuple = pd.read_csv('cmap_winds.rgba').values 
+      colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_winds.rgba').values 
     elif cmap_type == "temp":
-      colors_tuple = pd.read_csv('cmap_temp.rgba').values
+      colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_temp.rgba').values
          
     cmap = colors.LinearSegmentedColormap.from_list(cmap_type, colors_tuple, colors_tuple.shape[0])
     return(cmap)

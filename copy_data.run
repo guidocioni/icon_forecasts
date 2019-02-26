@@ -45,7 +45,7 @@ cp /home/mpim/m300382/icon_forecasts/*.ncl ./
 cp /home/mpim/m300382/icon_forecasts/*.py ./
 
 #2-D variables
-variables=("T_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M")
+variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M")
 ${parallel} -j 16 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 #3-D variables on pressure levels
@@ -59,10 +59,24 @@ ${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2 
 
 #plot with NCL
-${python} task_parallelism.py plot_gph_t_850.ncl plot_gph_thetae_850.ncl plot_rain_clouds.ncl plot_winds10m.ncl plot_jetstream.ncl plot_vorticity.ncl plot_hsnow.ncl plot_cape.ncl plot_convergence.ncl plot_gph_t_500.ncl plot_rain_acc.ncl plot_soil_moisture.ncl plot_pres_t2m_winds10m.ncl
+#Meteograms 
+ncl lat_point=53.55 lon_point=9.99 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Hamburg"' plot_meteogram.ncl
+ncl lat_point=43.715 lon_point=10.40 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Pisa"' plot_meteogram.ncl
+ncl lat_point=41.9 lon_point=12.50 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Rome"' plot_meteogram.ncl
+ncl lat_point=45.475 lon_point=9.2 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Milano"' plot_meteogram.ncl
+ncl lat_point=40.86 lon_point=14.275 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Naples"' plot_meteogram.ncl
+ncl lat_point=40.625 lon_point=14.38 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Sorrento"' plot_meteogram.ncl
+ncl lat_point=38.11 lon_point=13.36 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Palermo"' plot_meteogram.ncl
+ncl lat_point=51.800556 lon_point=10.6172222 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Brocken"' plot_meteogram.ncl
+ncftpput -R -v altervista icon_italy/meteograms meteogram_*
+
+scripts=("plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py")
+projections=("euratl" "it" "de")
+
+${parallel} -j 16 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 
 # remove white stripes
-for f in *.png; do convert -trim +repage ${f} ${f}; done
+#for f in *.png; do convert -trim +repage ${f} ${f}; done
 
 #create animations
 # convert -delay 15 t_v_pres* animation_t_v_pres_${year}${month}${day}${run}.gif
@@ -79,7 +93,6 @@ ncftpput -R -v altervista icon_forecasts/gph_t_850 gph_t_850_*
 ncftpput -R -v altervista icon_forecasts/gph_t_500 gph_t_500_*
 ncftpput -R -v altervista icon_forecasts/gph_thetae_850 gph_thetae_850_*
 ncftpput -R -v altervista icon_forecasts/precip_clouds precip_clouds_*
-ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
 ncftpput -R -v altervista icon_forecasts/winds10m winds10m_*
 ncftpput -R -v altervista icon_forecasts/winds_jet winds_jet_*
 ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
@@ -89,12 +102,40 @@ ncftpput -R -v altervista icon_forecasts/conv conv_*
 ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
 ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
 
+ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
+ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
+ncftpput -R -v altervista icon_italy/gph_t_500 it/gph_t_500_*
+ncftpput -R -v altervista icon_italy/hsnow it/hsnow_*
+ncftpput -R -v altervista icon_italy/cape it/cape_*
+ncftpput -R -v altervista icon_italy/winds10m it/winds10m_*
+ncftpput -R -v altervista icon_italy/conv it/conv_*
+ncftpput -R -v altervista icon_italy/precip_clouds it/precip_clouds_*
+ncftpput -R -v altervista icon_italy/gph_thetae_850 it/gph_thetae_850_*
+#ncftpput -R -v altervista icon_italy/thetae_winds thetae_winds_*
+#ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
+ncftpput -R -v altervista icon_italy/precip_acc it/precip_acc_*
+#ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
+
+ncftpput -R -v altervista icon_de/precip_clouds de/precip_clouds_*
+ncftpput -R -v altervista icon_de/hsnow de/hsnow_*
+ncftpput -R -v altervista icon_de/t_v_pres de/t_v_pres_*
+ncftpput -R -v altervista icon_de/gph_t_850 de/gph_t_850_*
+ncftpput -R -v altervista icon_de/gph_t_500 de/gph_t_500_*
+ncftpput -R -v altervista icon_de/cape de/cape_*
+ncftpput -R -v altervista icon_de/winds10m de/winds10m_*
+ncftpput -R -v altervista icon_de/gph_thetae_850 de/gph_thetae_850_*
+ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
+ncftpput -R -v altervista icon_de/conv de/conv_*
+ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
+
 # ncftpput -R -v altervista icon_forecasts/gph_t animation_gph_t_*
 # ncftpput -R -v altervista icon_forecasts/t_v_pres animation_t_v_pres_*
 
 #Remove images locally
 rm *.png
 rm *.gif
+rm de/*.png
+rm it/*.png
 
 # archive data on pftp
 

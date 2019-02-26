@@ -17,7 +17,7 @@ from utils import *
 import sys
 
 # The one employed for the figure name when exported 
-variable_name = 'cape'
+variable_name = 'conv'
 
 print('Starting script to plot '+variable_name)
 
@@ -38,9 +38,10 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Select 850 hPa level using metpy
-    cape = dset['CAPE_ML'].squeeze()
-    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
-    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
+    u = dset['10u'].squeeze()
+    v = dset['10v'].squeeze()
+    # Grid increment for the moment is hardcoded
+    conv = -mpcalc.divergence(u, v, 0.0625, 0.0625)
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -48,9 +49,9 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_cape = np.arange(250., 2000., 250.)
+    levels_conv = np.linspace(-100, 100, 51)
 
-    cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.7)
+    cmap = plt.get_cmap('BrBG')
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
@@ -59,7 +60,7 @@ def main():
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
-                 cape=cape, uwind_850=uwind_850, vwind_850=vwind_850, levels_cape=levels_cape,
+                 conv=conv, u=u, v=v, levels_conv=levels_conv,
                  time=time, projection=projection, cum_hour=cum_hour)
         
         print('Pre-processing finished, launching plotting scripts')
@@ -86,8 +87,8 @@ def plot_files(dates, **args):
         #     print('Skipping '+str(filename))
         #     continue 
 
-        cs = args['ax'].contourf(args['x'], args['y'], args['cape'][i], extend='both', cmap=args['cmap'],
-                                    levels=args['levels_cape'])
+        cs = args['ax'].contourf(args['x'], args['y'], args['conv'][i], extend='both', cmap=args['cmap'],
+                                    levels=args['levels_conv'])
 
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
@@ -96,17 +97,17 @@ def plot_files(dates, **args):
             scale = None
         else:
             density = 5
-            scale = 2e3
+            scale = 2e2
         cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
-                     args['uwind_850'][i,::density,::density], args['vwind_850'][i,::density,::density], scale=scale,
+                     args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
                      alpha=0.8, color='gray')
 
         annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Convective Available Potential Energy and Winds' ,loc='lower left', fontsize=6)
+        annotation(args['ax'], 'Convergence '+str(args['conv'].units) ,loc='lower left', fontsize=6)
         annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='CAPE [J/kg]', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Convergence', pad=0.03, fraction=0.04)
         
         if debug:
             plt.show(block=True)
