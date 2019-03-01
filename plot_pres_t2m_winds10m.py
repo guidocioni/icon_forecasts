@@ -50,7 +50,7 @@ def main():
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_t2m = np.arange(t2m.min().astype("int"), t2m.max().astype("int"), 1)
-    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 7.)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
     cmap = get_colormap("temp")
     
@@ -91,8 +91,8 @@ def plot_files(dates, **args):
         cs = args['ax'].contourf(args['x'], args['y'], args['t2m'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_t2m'])
         c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
-                             levels=args['levels_mslp'], colors='gray', linewidths=0.5)
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
+                             levels=args['levels_mslp'], colors='white', linewidths=1.)
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
@@ -106,19 +106,19 @@ def plot_files(dates, **args):
                      args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
                      alpha=0.5, color='gray')
 
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Temperature [C]' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'MSLP [hPa], Winds@10m and Temperature@2m' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Convergence', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Temperature [C]', pad=0.03, fraction=0.04)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs, c, labels])
+        remove_collections([cs, c, labels, an_fc, an_var, an_run])
 
         first = False 
 

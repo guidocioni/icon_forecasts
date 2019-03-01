@@ -1,4 +1,4 @@
-debug = False 
+debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
@@ -61,8 +61,8 @@ def main():
     levels_clouds = np.arange(10, 100, 1)
     levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
-    cmap_rain = plt.get_cmap('Blues')
-    cmap_snow = plt.get_cmap('PuRd')
+    cmap_rain = truncate_colormap(plt.get_cmap('Blues'),0.2, 1.)
+    cmap_snow = truncate_colormap(plt.get_cmap('PuRd'),0.2,1.)
     cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0., 0.5)
     cmap_clouds_high = truncate_colormap(plt.get_cmap('Oranges'), 0., 0.5)
 
@@ -120,16 +120,17 @@ def plot_files(dates, **args):
                          levels=args['levels_clouds'], zorder=1, alpha=0.7)
 
         c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
-                             levels=args['levels_mslp'], colors='red', linewidths=0.5, zorder=5, alpha=0.6)
+                             levels=args['levels_mslp'], colors='red', linewidths=1., zorder=5, alpha=0.6)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Clouds, rain, snow and MSLP' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Clouds, rain, snow and MSLP' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            ax_cbar = plt.gcf().add_axes([0.3, 0.08, 0.2, 0.01])
-            ax_cbar_2 = plt.gcf().add_axes([0.55, 0.08, 0.2, 0.01])
+            ax_cbar = plt.gcf().add_axes([0.3, 0.05, 0.2, 0.01])
+            ax_cbar_2 = plt.gcf().add_axes([0.55, 0.05, 0.2, 0.01])
             cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
              label='Snow')
             cbar_rain = plt.gcf().colorbar(cs_rain, cax=ax_cbar_2, orientation='horizontal',
@@ -142,7 +143,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high, labels])
+        remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high, labels, an_fc, an_var, an_run])
 
         first = False 
 

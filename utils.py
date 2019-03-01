@@ -12,7 +12,7 @@ folder_images = folder
 chunks_size = 10 
 processes = 10
 figsize_x = 10 
-figsize_y = 7
+figsize_y = 8
 
 # Options for savefig
 options_savefig={
@@ -84,22 +84,32 @@ def annotation_run(ax, time, loc='upper right',fontsize=8):
     """Put annotation of the run obtaining it from the
     time array passed to the function."""
     at = AnchoredText('Run %s'% time[0].strftime('%Y%m%d %H UTC'), 
-                      prop=dict(size=fontsize), frameon=True, loc=loc)
+                       prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     ax.add_artist(at)
+    return(at)
+
+def annotation_forecast(ax, time, loc='upper left',fontsize=8):
+    """Put annotation of the forecast time."""
+    at = AnchoredText('Forecast for %s' % time.strftime('%A %d %b %Y at %H UTC'), 
+                       prop=dict(size=fontsize), frameon=True, loc=loc)
+    at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
+    ax.add_artist(at)
+    return(at)    
 
 def annotation(ax, text, loc='upper right',fontsize=8):
     """Put a general annotation in the plot."""
     at = AnchoredText('%s'% text, prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     ax.add_artist(at)
+    return(at)
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
     """Truncate a colormap by specifying the start and endpoint."""
     new_cmap = colors.LinearSegmentedColormap.from_list(
         'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
         cmap(np.linspace(minval, maxval, n)))
-    return new_cmap
+    return(new_cmap)
 
 def get_colormap(cmap_type):
     """Create a custom colormap."""
@@ -124,5 +134,7 @@ def remove_collections(elements):
                     coll.remove()
             except ValueError:
                 print('WARNING: Collection is empty')
+            except TypeError:
+                element.remove() 
         except ValueError:
             print('WARNING: Collection is empty')

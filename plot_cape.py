@@ -101,9 +101,9 @@ def plot_files(dates, **args):
                      args['uwind_850'][i,::density,::density], args['vwind_850'][i,::density,::density], scale=scale,
                      alpha=0.8, color='gray')
 
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Convective Available Potential Energy and Winds' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Convective Available Potential Energy and Winds' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='CAPE [J/kg]', pad=0.03, fraction=0.04)
@@ -113,7 +113,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs])
+        remove_collections([cs, an_fc, an_var, an_run])
 
         first = False 
 

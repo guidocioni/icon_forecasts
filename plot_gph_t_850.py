@@ -91,12 +91,13 @@ def plot_files(dates, **args):
 
         # Unfortunately m.contour with tri = True doesn't work because of a bug 
         c = args['ax'].contour(args['x'], args['y'], args['gph_500'][i], levels=args['levels_gph'],
-                             colors='white', linewidths=0.5)
+                             colors='white', linewidths=1.)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Geopotential height @500hPa [m] and temperature @850hPa [C]' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Geopotential height @500hPa [m] and temperature @850hPa [C]' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Temperature', pad=0.03, fraction=0.04)
@@ -106,7 +107,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run])
 
         first = False 
 

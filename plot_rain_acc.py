@@ -48,7 +48,7 @@ def main():
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200, 250)
-    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 7.)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
     cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.9)
 
@@ -96,22 +96,23 @@ def plot_files(dates, **args):
 
         # Unfortunately m.contour with tri = True doesn't work because of a bug 
         c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
-                             levels=args['levels_mslp'], colors='black', linewidths=0.5)
+                             levels=args['levels_mslp'], colors='black', linewidths=1.)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Accumulated precipitation [mm] and MSLP [hPa]' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]', pad=0.035, fraction=0.035)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run])
 
         first = False 
 

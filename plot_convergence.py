@@ -100,21 +100,21 @@ def plot_files(dates, **args):
             scale = 2e2
         cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
                      args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
-                     alpha=0.8, color='gray')
+                     alpha=0.7, color='gray')
 
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Convergence '+str(args['conv'].units) ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Convergence '+str(args['conv'].units) ,loc='lower left', fontsize=6)
+        an_run =annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Convergence', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Convergence', pad=0.035, fraction=0.035)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs])
+        remove_collections([cs, an_fc, an_var, an_run])
 
         first = False 
 

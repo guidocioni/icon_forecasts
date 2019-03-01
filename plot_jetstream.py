@@ -97,20 +97,21 @@ def plot_files(dates, **args):
         c = args['ax'].contour(args['x'], args['y'], args['gph_300'][i],
                              levels=args['levels_gph'], colors='black', linewidths=0.5)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
-        annotation(args['ax'],'Forecast for %s' % date.strftime('%d %b %Y at %H UTC') ,loc='upper left')
-        annotation(args['ax'], 'Winds [kph] and geopotential [m] @300hPa' ,loc='lower left', fontsize=6)
-        annotation_run(args['ax'], args['time'])
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        
+        an_fc = annotation_forecast(args['ax'],args['time'][i])
+        an_var = annotation(args['ax'], 'Winds and geopotential [m] @300hPa' ,loc='lower left', fontsize=6)
+        an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Wind', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Wind [km/h]', pad=0.035, fraction=0.04)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run])
 
         first = False 
 

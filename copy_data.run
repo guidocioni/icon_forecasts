@@ -75,20 +75,7 @@ projections=("euratl" "it" "de")
 
 ${parallel} -j 16 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 
-# remove white stripes
-#for f in *.png; do convert -trim +repage ${f} ${f}; done
-
-#create animations
-# convert -delay 15 t_v_pres* animation_t_v_pres_${year}${month}${day}${run}.gif
-# convert -delay 15 gph_t_* animation_gph_t_${year}${month}${day}${run}.gif
-
-# upload images on the FTP server but first clean old png and gifs
-
-# Rename all the local images so that they contain the run 
-# this is useful to distinguish the images on the remote server
-# so that HTTP has to load new content every time 
-# for f in *.png; do NEW=${f%.png}_${year}${month}${day}${run}.png; mv ${f} "${NEW}"; done
-
+# Upload to the FTP server
 ncftpput -R -v altervista icon_forecasts/gph_t_850 gph_t_850_*
 ncftpput -R -v altervista icon_forecasts/gph_t_500 gph_t_500_*
 ncftpput -R -v altervista icon_forecasts/gph_thetae_850 gph_thetae_850_*
@@ -101,6 +88,7 @@ ncftpput -R -v altervista icon_forecasts/cape cape_*
 ncftpput -R -v altervista icon_forecasts/conv conv_*
 ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
 ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
+ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
 
 ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
 ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
@@ -127,9 +115,6 @@ ncftpput -R -v altervista icon_de/gph_thetae_850 de/gph_thetae_850_*
 ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
 ncftpput -R -v altervista icon_de/conv de/conv_*
 ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
-
-# ncftpput -R -v altervista icon_forecasts/gph_t animation_gph_t_*
-# ncftpput -R -v altervista icon_forecasts/t_v_pres animation_t_v_pres_*
 
 #Remove images locally
 rm *.png
