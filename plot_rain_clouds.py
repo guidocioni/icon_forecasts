@@ -56,8 +56,8 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_rain   = (1., 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 5, 6, 7, 8, 9, 10, 12, 15, 20)
-    levels_snow   = (1, 1.5, 2, 2.5, 3, 4, 5, 10, 20)
+    levels_rain   = (0.5, 1., 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 5, 6, 7, 8, 9, 10, 12, 15, 20)
+    levels_snow   = (0.5, 1., 1.5, 2, 2.5, 3, 4, 5, 10, 20)
     levels_clouds = np.arange(10, 100, 1)
     levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 

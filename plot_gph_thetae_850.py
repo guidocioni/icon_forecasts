@@ -49,7 +49,7 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_temp = np.arange(-20., 70., .5)
+    levels_temp = np.arange(-10., 50., .5)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 7.)
 
     cmap = plt.get_cmap('nipy_spectral')
