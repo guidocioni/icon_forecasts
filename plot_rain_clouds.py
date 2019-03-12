@@ -61,8 +61,8 @@ def main():
     levels_clouds = np.arange(10, 100, 1)
     levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
-    cmap_rain = truncate_colormap(plt.get_cmap('Blues'),0.2, 1.)
-    cmap_snow = truncate_colormap(plt.get_cmap('PuRd'),0.2,1.)
+    cmap_snow, norm_snow = get_colormap_norm("snow", levels_snow)
+    cmap_rain, norm_rain = get_colormap_norm("rain", levels_rain)
     cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0., 0.5)
     cmap_clouds_high = truncate_colormap(plt.get_cmap('Oranges'), 0., 0.5)
 
@@ -80,7 +80,8 @@ def main():
                  rain=rain, snow=snow, mslp=mslp, clouds_low=clouds_low, clouds_high=clouds_high,
                  levels_mslp=levels_mslp, levels_rain=levels_rain, levels_snow=levels_snow,
                  levels_clouds=levels_clouds, time=time, projection=projection, cum_hour=cum_hour,
-                 cmap_rain=cmap_rain, cmap_snow=cmap_snow, cmap_clouds=cmap_clouds, cmap_clouds_high=cmap_clouds_high)
+                 cmap_rain=cmap_rain, cmap_snow=cmap_snow, cmap_clouds=cmap_clouds, 
+                 cmap_clouds_high=cmap_clouds_high, norm_snow=norm_snow, norm_rain=norm_rain)
         
         print('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -107,10 +108,10 @@ def plot_files(dates, **args):
         #     continue 
 
         cs_rain = args['ax'].contourf(args['x'], args['y'], args['rain'][i],
-                         extend='max', cmap=args['cmap_rain'],
+                         extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
                          levels=args['levels_rain'], zorder=3)
         cs_snow = args['ax'].contourf(args['x'], args['y'], args['snow'][i],
-                         extend='max', cmap=args['cmap_snow'],
+                         extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
                          levels=args['levels_snow'], zorder=4)
         cs_clouds_low = args['ax'].contourf(args['x'], args['y'], args['clouds_low'][i],
                          extend='max', cmap=args['cmap_clouds'],
@@ -129,8 +130,8 @@ def plot_files(dates, **args):
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            ax_cbar = plt.gcf().add_axes([0.3, 0.05, 0.2, 0.01])
-            ax_cbar_2 = plt.gcf().add_axes([0.55, 0.05, 0.2, 0.01])
+            ax_cbar = plt.gcf().add_axes([0.2, 0.05, 0.25, 0.01])
+            ax_cbar_2 = plt.gcf().add_axes([0.55, 0.05, 0.25, 0.01])
             cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
              label='Snow')
             cbar_rain = plt.gcf().colorbar(cs_rain, cax=ax_cbar_2, orientation='horizontal',

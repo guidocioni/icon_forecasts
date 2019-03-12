@@ -5,12 +5,14 @@ import matplotlib.colors as colors
 import metpy.calc as mpcalc
 from metpy.units import units
 import pandas as pd
+from matplotlib.colors import from_levels_and_colors
+import seaborn as sns
 
 folder = '/scratch/local1/m300382/icon_forecasts/'
 input_file=folder+'ICON_*.nc' 
 folder_images = folder 
 chunks_size = 10 
-processes = 10
+processes = 5
 figsize_x = 10 
 figsize_y = 8
 
@@ -120,6 +122,24 @@ def get_colormap(cmap_type):
          
     cmap = colors.LinearSegmentedColormap.from_list(cmap_type, colors_tuple, colors_tuple.shape[0])
     return(cmap)
+
+def get_colormap_norm(cmap_type, levels):
+    """Create a custom colormap."""
+    if cmap_type == "rain":
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette("Blues", n_colors=len(levels)),
+                                                    extend='max')
+    elif cmap_type == "snow":
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette("PuRd", n_colors=len(levels)),
+                                                    extend='max')
+    elif cmap_type == "snow_discrete":    
+        colors = ["#DBF069","#5AE463","#E3BE45","#65F8CA","#32B8EB",
+                    "#1D64DE","#E97BE4","#F4F476","#E78340","#D73782","#702072"]
+        cmap, norm = from_levels_and_colors(levels, colors, extend='max')
+    elif cmap_type == "rain_acc":    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette('gist_stern_r', n_colors=len(levels)),
+                         extend='max')
+
+    return(cmap, norm)
 
 def remove_collections(elements):
     """Remove the collections of an artist to clear the plot without

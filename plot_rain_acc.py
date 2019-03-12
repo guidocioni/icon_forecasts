@@ -51,8 +51,7 @@ def main():
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
     cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.9)
-
-
+    cmap, norm = get_colormap_norm("rain_acc", levels_precip)
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
@@ -64,7 +63,7 @@ def main():
         args=dict(m=m, x=x, y=y, ax=ax,
                  precip_acc=precip_acc, mslp=mslp, levels_precip=levels_precip,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
-                 cmap=cmap)
+                 cmap=cmap, norm=norm)
         
         print('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -91,7 +90,7 @@ def plot_files(dates, **args):
         #     continue 
 
         cs = args['ax'].contourf(args['x'], args['y'], args['precip_acc'][i],
-                         extend='max', cmap=args['cmap'],
+                         extend='max', cmap=args['cmap'], norm=args['norm'],
                          levels=args['levels_precip'])
 
         # Unfortunately m.contour with tri = True doesn't work because of a bug 

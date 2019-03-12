@@ -15,11 +15,9 @@ from functools import partial
 import os 
 from utils import *
 import sys
-from matplotlib.colors import from_levels_and_colors
-import seaborn as sns
 
 # The one employed for the figure name when exported 
-variable_name = 'hsnow'
+variable_name = 'vort_850'
 
 print('Starting script to plot '+variable_name)
 
@@ -39,13 +37,11 @@ def main():
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
-    hsnow_acc = dset['sd']
-    hsnow = hsnow_acc*0.
-    for i, _ in enumerate(hsnow_acc[1:]):
-        hsnow[i] = (hsnow_acc[i] - hsnow_acc[0])*100.
-    hsnow = hsnow.where((hsnow>0.5) | (hsnow<-0.5))
+    u = dset['u'].metpy.sel(vertical=850 * units.hPa).squeeze()
+    v = dset['v'].metpy.sel(vertical=850 * units.hPa).squeeze()
 
-    snowlmt = dset['SNOWLMT'].metpy.unit_array.to('m')
+    # Grid increment for the moment is hardcoded
+    vort = mpcalc.vorticity(u, v, 0.0625, 0.0625)
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -53,11 +49,9 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_hsnow = (-40, -30, -20, -10, -5, -2.5, -2, -1, -0.5, 0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40)
-    levels_snowlmt = np.arange(0., 3000., 500.)
+    levels_vort = np.linspace(-100, 100, 51)
 
-    cmap, norm = from_levels_and_colors(levels_hsnow, sns.color_palette("PuOr", n_colors=len(levels_hsnow)+1),
-                                                    extend='both')
+    cmap = plt.get_cmap('BrBG')
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
@@ -65,9 +59,9 @@ def main():
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap, norm=norm,
-                 hsnow=hsnow, snowlmt=snowlmt, levels_hsnow=levels_hsnow,
-                 levels_snowlmt=levels_snowlmt, time=time, projection=projection, cum_hour=cum_hour)
+        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+                 vort=vort, u=u, v=v, levels_vort=levels_vort,
+                 time=time, projection=projection, cum_hour=cum_hour)
         
         print('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -87,34 +81,36 @@ def plot_files(dates, **args):
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
         filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
 
-        cs = args['ax'].contourf(args['x'], args['y'], args['hsnow'][i], extend='both', cmap=args['cmap'],
-                                    norm=args['norm'], levels=args['levels_hsnow'])
+        cs = args['ax'].contourf(args['x'], args['y'], args['vort'][i], extend='both', cmap=args['cmap'],
+                                    levels=args['levels_vort'])
 
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
-        c = args['ax'].contour(args['x'], args['y'], args['snowlmt'][i], levels=args['levels_snowlmt'],
-                             colors='red', linewidths=0.5)
+        # We need to reduce the number of points before plotting the vectors,
+        # these values work pretty well
+        if args['projection'] == 'euratl':
+            density=25
+            scale = None
+        else:
+            density = 5
+            scale = 2e2
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
-        
+        cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
+                     args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
+                     alpha=0.6, color='gray')
+
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Snow depth change since initialization time' ,loc='lower left', fontsize=6)
-        an_run = annotation_run(args['ax'], args['time'])
+        an_var = annotation(args['ax'], 'Relative vorticity '+str(args['vort'].units) ,loc='lower left', fontsize=6)
+        an_run =annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Snow depth change [m]', pad=0.035, fraction=0.03)
+            plt.colorbar(cs, orientation='horizontal', label='Vorticity', pad=0.035, fraction=0.035)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run])
+        remove_collections([cs, an_fc, an_var, an_run])
 
         first = False 
 
