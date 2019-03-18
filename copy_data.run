@@ -58,19 +58,11 @@ ${parallel} -j 16 download_merge_soil_variable_icon_eu ::: "W_SO"
 ${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2 
 
-#plot with NCL
-#Meteograms 
-ncl lat_point=53.55 lon_point=9.99 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Hamburg"' plot_meteogram.ncl
-ncl lat_point=43.715 lon_point=10.40 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Pisa"' plot_meteogram.ncl
-ncl lat_point=41.9 lon_point=12.50 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Rome"' plot_meteogram.ncl
-ncl lat_point=45.475 lon_point=9.2 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Milano"' plot_meteogram.ncl
-ncl lat_point=40.86 lon_point=14.275 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Naples"' plot_meteogram.ncl
-ncl lat_point=40.625 lon_point=14.38 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Sorrento"' plot_meteogram.ncl
-ncl lat_point=38.11 lon_point=13.36 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Palermo"' plot_meteogram.ncl
-ncl lat_point=51.800556 lon_point=10.6172222 'file_in="/scratch/local1/m300382/icon_forecasts/ICON_*.nc"' 'city="Brocken"' plot_meteogram.ncl
+${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken
+
 ncftpput -R -v altervista icon_italy/meteograms meteogram_*
 
-scripts=("plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py")
+scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py")
 projections=("euratl" "it" "de")
 
 ${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
@@ -90,6 +82,7 @@ ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
 ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
 ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
 ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
+ncftpput -R -v altervista icon_forecasts/winter winter_*
 
 ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
 ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
@@ -106,6 +99,7 @@ ncftpput -R -v altervista icon_italy/precip_acc it/precip_acc_*
 #ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
 ncftpput -R -v altervista icon_italy/winds_jet it/winds_jet_*
 ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
+ncftpput -R -v altervista icon_italy/winter it/winter_*
 
 ncftpput -R -v altervista icon_de/precip_clouds de/precip_clouds_*
 ncftpput -R -v altervista icon_de/hsnow de/hsnow_*
@@ -120,6 +114,7 @@ ncftpput -R -v altervista icon_de/conv de/conv_*
 ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
 ncftpput -R -v altervista icon_de/winds_jet de/winds_jet_*
 ncftpput -R -v altervista icon_de/vort_850 de/vort_850_*
+ncftpput -R -v altervista icon_de/winter de/winter_*
 
 #Remove images locally
 rm *.png

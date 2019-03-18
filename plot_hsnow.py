@@ -53,7 +53,7 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_hsnow = (-40, -30, -20, -10, -5, -2.5, -2, -1, -0.5, 0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40)
+    levels_hsnow = (-50, -40, -30, -20, -10, -5, -2.5, -2, -1, -0.5, 0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40, 50)
     levels_snowlmt = np.arange(0., 3000., 500.)
 
     cmap, norm = from_levels_and_colors(levels_hsnow, sns.color_palette("PuOr", n_colors=len(levels_hsnow)+1),
@@ -63,6 +63,8 @@ def main():
         fig = plt.figure(figsize=(figsize_x, figsize_y))
         ax  = plt.gca()        
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+        img=m.arcgisimage(service='World_Shaded_Relief', xpixels = 1000, verbose=False)
+        img.set_alpha(0.8)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap, norm=norm,

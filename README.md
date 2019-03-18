@@ -40,6 +40,8 @@ projections=("euratl" "it" "de")
 
 ${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 ```
+Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the PNG figure will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backe
+nd, thus easing the process of correcting details.
 
 ## Upload of the pictures
 PNG pictures are uploaded to a FTP server defined in `ncftp` bookmarks.

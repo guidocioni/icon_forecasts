@@ -17,7 +17,7 @@ from utils import *
 import sys
 
 # The one employed for the figure name when exported 
-variable_name = 'precip_clouds'
+variable_name = 'winter'
 
 print('Starting script to plot '+variable_name)
 
@@ -38,17 +38,16 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Compute rain and snow 
-    rain_acc = dset['RAIN_CON'] + dset['RAIN_GSP']
-    snow_acc = dset['SNOW_CON'] + dset['SNOW_GSP']
+    # Note that we have to load since they are Dask arrays
+    rain_acc = dset['RAIN_GSP'].load()
+    snow_acc = dset['SNOW_GSP'].load()
     rain = rain_acc*0.
     snow = snow_acc*0.
     for i in range(1, len(dset.time)):
-        rain[i]=rain_acc[i]-rain_acc[i-1]
-        snow[i]=snow_acc[i]-snow_acc[i-1]
+        rain[i]=rain_acc[i]-rain_acc[0]
+        snow[i]=snow_acc[i]-snow_acc[0]
 
-    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
-    clouds_low = dset['CLCL'].squeeze()
-    clouds_high = dset['CLCH'].squeeze()
+    snowlmt = dset['SNOWLMT'].load().metpy.unit_array.to('m')
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -56,32 +55,25 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_rain   = (0.5, 1., 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 5, 6, 7, 8, 9, 10, 12, 15, 20)
-    levels_snow   = (0.5, 1., 1.5, 2, 2.5, 3, 4, 5, 10, 20)
-    levels_clouds = np.arange(10, 100, 1)
-    levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
+    levels_snow = (1, 5, 10, 15, 20, 30, 40, 50, 70, 90, 120)
+    levels_rain = (10, 15, 25, 35, 50, 75, 100, 125, 150)
+    levels_snowlmt = np.arange(0., 3000., 500.)
 
-    cmap_snow, norm_snow = get_colormap_norm("snow", levels_snow)
+    cmap_snow, norm_snow = get_colormap_norm("snow_discrete", levels_snow)
     cmap_rain, norm_rain = get_colormap_norm("rain", levels_rain)
-    cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0., 0.5)
-    cmap_clouds_high = truncate_colormap(plt.get_cmap('Oranges'), 0., 0.5)
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
         ax  = plt.gca()
         m, x, y =get_projection(lon2d, lat2d, projection)
-
-        #m.shadedrelief(scale=0.4, alpha=0.8)
-        m.drawmapboundary(fill_color='whitesmoke')
-        m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
+        img=m.arcgisimage(service='World_Shaded_Relief', xpixels = 1000, verbose=False)
+        img.set_alpha(0.8)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax,
-                 rain=rain, snow=snow, mslp=mslp, clouds_low=clouds_low, clouds_high=clouds_high,
-                 levels_mslp=levels_mslp, levels_rain=levels_rain, levels_snow=levels_snow,
-                 levels_clouds=levels_clouds, time=time, projection=projection, cum_hour=cum_hour,
-                 cmap_rain=cmap_rain, cmap_snow=cmap_snow, cmap_clouds=cmap_clouds, 
-                 cmap_clouds_high=cmap_clouds_high, norm_snow=norm_snow, norm_rain=norm_rain)
+        args=dict(m=m, x=x, y=y, ax=ax, rain=rain, snow=snow, snowlmt=snowlmt,
+                 levels_snowlmt=levels_snowlmt, levels_rain=levels_rain, levels_snow=levels_snow,
+                 time=time, projection=projection, cum_hour=cum_hour, norm_snow=norm_snow,
+                 cmap_rain=cmap_rain, cmap_snow=cmap_snow, norm_rain=norm_rain)
         
         print('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -104,24 +96,18 @@ def plot_files(dates, **args):
 
         cs_rain = args['ax'].contourf(args['x'], args['y'], args['rain'][i],
                          extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
-                         levels=args['levels_rain'], zorder=3)
+                         levels=args['levels_rain'], alpha=0.8)
         cs_snow = args['ax'].contourf(args['x'], args['y'], args['snow'][i],
                          extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
-                         levels=args['levels_snow'], zorder=4)
-        cs_clouds_low = args['ax'].contourf(args['x'], args['y'], args['clouds_low'][i],
-                         extend='max', cmap=args['cmap_clouds'],
-                         levels=args['levels_clouds'], zorder=2)
-        cs_clouds_high = args['ax'].contourf(args['x'], args['y'], args['clouds_high'][i],
-                         extend='max', cmap=args['cmap_clouds_high'],
-                         levels=args['levels_clouds'], zorder=1, alpha=0.7)
+                         levels=args['levels_snow'], alpha=0.8)
 
-        c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
-                             levels=args['levels_mslp'], colors='red', linewidths=1., zorder=5, alpha=0.6)
+        c = args['ax'].contour(args['x'], args['y'], args['snowlmt'][i], levels=args['levels_snowlmt'],
+                             colors='red', linewidths=0.5)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
-        
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)  
+
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Clouds, rain, snow and MSLP' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Snow and rain accumulated' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:
@@ -134,6 +120,7 @@ def plot_files(dates, **args):
             elif args['projection'] == "it":
                 x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size     = 0.18, 0.05, 0.3, 0.02
                 x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.3, 0.02 
+            
             ax_cbar = plt.gcf().add_axes([x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size])
             ax_cbar_2 = plt.gcf().add_axes([x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size])
             cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
@@ -148,7 +135,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high, labels, an_fc, an_var, an_run])
+        remove_collections([cs_rain, cs_snow, c, labels, an_fc, an_var, an_run])
 
         first = False 
 

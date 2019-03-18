@@ -40,6 +40,8 @@ def main():
     # Select 850 hPa level using metpy
     winds_10m = dset['10fg3'].squeeze().metpy.unit_array.to('kph')
     mslp = dset['prmsl'].metpy.unit_array.to('hPa')
+    u = dset['10u'].squeeze()
+    v = dset['10v'].squeeze()
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -64,7 +66,7 @@ def main():
         args=dict(m=m, x=x, y=y, ax=ax,
                  winds_10m=winds_10m, mslp=mslp, levels_winds_10m=levels_winds_10m,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
-                 cmap=cmap)
+                 cmap=cmap, u=u, v=v)
         
         print('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -83,22 +85,28 @@ def plot_files(dates, **args):
         # Find index in the original array to subset when plotting
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
-        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
+        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]
 
         cs = args['ax'].contourf(args['x'], args['y'], args['winds_10m'][i],
                          extend='max', cmap=args['cmap'], levels=args['levels_winds_10m'])
 
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
         c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
                              levels=args['levels_mslp'], colors='red', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
         
+        # We need to reduce the number of points before plotting the vectors,
+        # these values work pretty well
+        if args['projection'] == 'euratl':
+            density=25
+            scale = None
+        else:
+            density = 5
+            scale = 2e2
+        cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
+                     args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
+                     alpha=0.5, color='gray')
+
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Accumulated precipitation [mm] and MSLP [hPa]' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])

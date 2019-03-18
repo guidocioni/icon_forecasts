@@ -38,19 +38,26 @@ def get_coordinates(dataset):
     # will complain
     return(dataset['lon'].values, dataset['lat'].values)
 
+def get_city_coordinates(city):
+    """Get the lat/lon coordinates of a city given its name using geopy."""
+    from geopy.geocoders import Nominatim
+    geolocator =Nominatim(user_agent='meteogram')
+    loc = geolocator.geocode(city)
+    return(loc.longitude, loc.latitude)
+
 def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     """Create the projection in Basemap and returns the x, y array to use it in a plot"""
     if projection=="euratl":
-        m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='i')
+        m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='i',epsg=4269)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 10.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
             m.drawmeridians(np.arange(0.0, 360.0, 10.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
     elif projection=="eur":
-        m = Basemap(projection='cyl', llcrnrlon=-15, llcrnrlat=29, urcrnrlon=35, urcrnrlat=71,resolution='i')
+        m = Basemap(projection='cyl', llcrnrlon=-15, llcrnrlat=29, urcrnrlon=35, urcrnrlat=71,resolution='i',epsg=4269)
     elif projection=="it":
-        m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=19, urcrnrlat=48,resolution='i')
+        m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=19, urcrnrlat=48,resolution='i',epsg=4269)
         m.readshapefile('/home/mpim/m300382/shapefiles/ITA_adm_shp/ITA_adm1',
                             'ITA_adm1',linewidth=0.2,color='black',zorder=5)
         if labels:
@@ -60,7 +67,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
                 labels=[True, False, False, True], fontsize=7)
     elif projection=="de":
         m = Basemap(projection='cyl', llcrnrlon=5, llcrnrlat=46.5,\
-               urcrnrlon=16, urcrnrlat=56,  resolution='i')
+               urcrnrlon=16, urcrnrlat=56,  resolution='i',epsg=4269)
         m.readshapefile('/home/mpim/m300382/shapefiles/DEU_adm_shp/DEU_adm1',
                             'DEU_adm1',linewidth=0.2,color='black',zorder=5)
         if labels:

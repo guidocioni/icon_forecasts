@@ -91,7 +91,7 @@ def plot_files(dates, **args):
             density=25
             scale = None
         else:
-            density = 5
+            density = 6
             scale = 2e2
 
         cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],

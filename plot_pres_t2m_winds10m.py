@@ -37,7 +37,6 @@ def main():
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
-    # Select 850 hPa level using metpy
     u = dset['10u'].squeeze()
     v = dset['10v'].squeeze()
     t2m = dset['2t'].squeeze().metpy.unit_array.to('degC')
@@ -81,12 +80,7 @@ def plot_files(dates, **args):
         # Find index in the original array to subset when plotting
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
-        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
+        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]
 
         cs = args['ax'].contourf(args['x'], args['y'], args['t2m'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_t2m'])
