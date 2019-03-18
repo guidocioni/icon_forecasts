@@ -62,7 +62,7 @@ ${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken
 
 ncftpput -R -v altervista icon_italy/meteograms meteogram_*
 
-scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py")
+scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py")
 projections=("euratl" "it" "de")
 
 ${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
@@ -83,6 +83,7 @@ ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
 ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
 ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
 ncftpput -R -v altervista icon_forecasts/winter winter_*
+ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
 
 ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
 ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
@@ -96,10 +97,10 @@ ncftpput -R -v altervista icon_italy/gph_thetae_850 it/gph_thetae_850_*
 #ncftpput -R -v altervista icon_italy/thetae_winds thetae_winds_*
 #ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
 ncftpput -R -v altervista icon_italy/precip_acc it/precip_acc_*
-#ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
 ncftpput -R -v altervista icon_italy/winds_jet it/winds_jet_*
 ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
 ncftpput -R -v altervista icon_italy/winter it/winter_*
+ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
 
 ncftpput -R -v altervista icon_de/precip_clouds de/precip_clouds_*
 ncftpput -R -v altervista icon_de/hsnow de/hsnow_*
@@ -115,6 +116,8 @@ ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
 ncftpput -R -v altervista icon_de/winds_jet de/winds_jet_*
 ncftpput -R -v altervista icon_de/vort_850 de/vort_850_*
 ncftpput -R -v altervista icon_de/winter de/winter_*
+ncftpput -R -v altervista icon_de/soil_moisture de/soil_moisture_*
+
 
 #Remove images locally
 rm *.png

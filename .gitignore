@@ -20,3 +20,4 @@ plot_winds10m.ncl
 test.run
 utils.pyc
 plot_meteogram.ncl
+plot_soil_moisture.ncl
