@@ -46,8 +46,8 @@ for city in cities:# This works regardless if cities is either single value or a
 	dset_city['10fg3'].metpy.convert_units('kph')
 	dset_city['prmsl'].metpy.convert_units('hPa')
 
-	rain_acc = dset_city['RAIN_GSP']
-	snow_acc = dset_city['SNOW_GSP']
+	rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']
+	snow_acc = dset_city['SNOW_GSP'] + dset_city['SNOW_CON']
 	rain = rain_acc*0.
 	snow = snow_acc*0.
 	for i in range(1, len(dset.time)):
@@ -69,12 +69,14 @@ for city in cities:# This works regardless if cities is either single value or a
 	cs2 = ax0.contour(time, dset_city['t'].metpy.vertical.values, dset_city['r'].T,
 			 		  levels=np.linspace(0, 100, 5), colors='white', alpha=0.7)
 	plt.clabel(cs2, fmt='%i', inline=True)
-	v = ax0.barbs(time, dset_city['t'].metpy.vertical.values, dset_city['u'].T, dset_city['v'].T,
-	              alpha=0.3, length=6)
-	ax0.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+	dset_winds = dset_city.sel(time=pd.date_range(dset_city.time[0].values, dset_city.time[-1].values, freq='6H'))
+	v = ax0.barbs(pd.to_datetime(dset_winds.time.values),
+						 			dset_winds['t'].metpy.vertical.values, dset_winds['u'].T, dset_winds['v'].T,
+	              					alpha=0.3, length=5.5)
+	ax0.xaxis.set_major_locator(mdates.HourLocator(interval=6))
 	ax0.grid(True, alpha=0.5)
 	an_fc = annotation_run(ax0, time)
-	an_var = annotation(ax0, 'RH, Temp. and Winds @(%3.1fN,%3.1fE)' % (dset_city.lat,dset_city.lon) ,
+	an_var = annotation(ax0, 'RH, Temp. and Winds @(%3.1fN, %3.1fE)' % (dset_city.lat,dset_city.lon) ,
 	                    loc='upper left')
 
 	ax1 = plt.subplot(gs[1])
@@ -83,8 +85,8 @@ for city in cities:# This works regardless if cities is either single value or a
 	ts1 = ax1.plot(time, dset_city['2d'], label='2m $T_d$', color='darkcyan', linestyle='dashed')
 	ax1.axes.get_xaxis().set_ticklabels([])
 	plt.legend(fontsize=7)
-	ax1.set_ylabel('2m $T$/$T_d$ [deg C]')
-	ax1.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+	ax1.set_ylabel('2m $T$, $T_d$ [$^{\circ}$C]')
+	ax1.xaxis.set_major_locator(mdates.HourLocator(interval=6))
 	ax1.grid(True, alpha=0.5)
 
 	ax2 = plt.subplot(gs[2])
@@ -95,7 +97,7 @@ for city in cities:# This works regardless if cities is either single value or a
 	ts1 = ax22.plot(time, dset_city['prmsl'], label='MSLP', color='m')
 	ax2.axes.get_xaxis().set_ticklabels([])
 	ax22.set_ylabel('MSLP [hPa]')
-	ax2.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+	ax2.xaxis.set_major_locator(mdates.HourLocator(interval=6))
 	ax2.grid(True, alpha=0.5)
 
 	# Collect all the elements for the legend
@@ -108,19 +110,21 @@ for city in cities:# This works regardless if cities is either single value or a
 
 	ax3 = plt.subplot(gs[3])
 	ax3.set_xlim(time[0], time[-1])
-	ts = ax3.plot(time, rain_acc, label='Rain (acc.)', color='dodgerblue', linestyle='dashed')
-	ts1 = ax3.plot(time, snow_acc, label='Snow (acc.)', color='orchid', linestyle='dashed')
+	ts = ax3.plot(time, rain_acc, label='Rain (acc.)', color='dodgerblue', linewidth=0.1)
+	ts1 = ax3.plot(time, snow_acc, label='Snow (acc.)', color='orchid', linewidth=0.1)
+	ax3.fill_between(time,rain_acc, y2=0, facecolor='dodgerblue', alpha=0.2)
+	ax3.fill_between(time,snow_acc, y2=0, facecolor='orchid', alpha=0.2)
 	ax3.set_ylim(bottom=0)
-	ax3.legend(fontsize=7)
 	ax3.set_ylabel('Accum. [mm]')
 	ax33=ax3.twinx()
 	ts2 = ax33.plot(time, rain, label='Rain', color='dodgerblue')
 	ts3 = ax33.plot(time, snow, label='Snow', color='orchid')
 	ax33.set_ylim(bottom=0)
 	ax33.set_ylabel('Inst. [mm h$^{-1}$]')
+	ax33.legend(fontsize=7)
 
 	ax3.grid(True, alpha=0.5)
-	ax3.xaxis.set_major_locator(mdates.HourLocator(interval=2))
+	ax3.xaxis.set_major_locator(mdates.HourLocator(interval=6))
 	ax3.xaxis.set_major_formatter(DateFormatter('%d %b %HZ'))
 	for tick in ax3.get_xticklabels():
 	    tick.set_rotation(45)
