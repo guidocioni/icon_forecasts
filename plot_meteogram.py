@@ -31,6 +31,7 @@ file = glob(input_file)
 print('Using file '+file[0])
 dset = xr.open_dataset(file[0])
 dset = dset.metpy.parse_cf()
+hsurf = xr.open_dataset('/home/mpim/m300382/icon_forecasts/ICON_EU_invariant.nc')['HSURF']
 
 time = pd.to_datetime(dset.time.values)
 cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
@@ -39,6 +40,7 @@ for city in cities:# This works regardless if cities is either single value or a
 	print('Producing meteogram for %s' % city)
 	lon, lat = get_city_coordinates(city)
 	dset_city =  dset.sel(lon=lon, lat=lat, method='nearest')
+	height = hsurf.sel(lon=lon, lat=lat, method='nearest')
 	dset_city['t'].metpy.convert_units('degC')
 	dset_city['t'].metpy.vertical.metpy.convert_units('hPa')
 	dset_city['2t'].metpy.convert_units('degC')
@@ -76,7 +78,7 @@ for city in cities:# This works regardless if cities is either single value or a
 	ax0.xaxis.set_major_locator(mdates.HourLocator(interval=6))
 	ax0.grid(True, alpha=0.5)
 	an_fc = annotation_run(ax0, time)
-	an_var = annotation(ax0, 'RH, Temp. and Winds @(%3.1fN, %3.1fE)' % (dset_city.lat,dset_city.lon) ,
+	an_var = annotation(ax0, 'RH, $T$ and $u,v$ @(%3.1fN, %3.1fE, %d m)' % (dset_city.lat,dset_city.lon,height.values) ,
 	                    loc='upper left')
 
 	ax1 = plt.subplot(gs[1])

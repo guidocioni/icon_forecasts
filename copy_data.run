@@ -6,11 +6,9 @@ export SHELL=$(type -p bash)
 ########################################### 
 
 ##### LOAD environmental variables ########
-export NCARG_ROOT=/sw/jessie-x64/ncl-6.4.0-nodap-precompiled 
-export PATH=$NCARG_ROOT/bin:$PATH 
 export cdo=/sw/jessie-x64/cdo-1.8.0-gccsys/bin/cdo
 export python=/home/mpim/m300382/.conda/envs/my_base/bin/python
-export parallel=/client/bin/parallel
+export parallel=/home/mpim/m300382/.conda/envs/my_base/bin/parallel
 ########################################### 
 
 export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
@@ -41,7 +39,6 @@ export run
 
 cd /scratch/local1/m300382/icon_forecasts/
 rm *.nc
-cp /home/mpim/m300382/icon_forecasts/*.ncl ./ 
 cp /home/mpim/m300382/icon_forecasts/*.py ./
 
 #2-D variables
@@ -137,7 +134,6 @@ rm it/*.png
 #EOF
 
 rm *.tar
-rm *.ncl 
 rm *.py
 
 cd 
