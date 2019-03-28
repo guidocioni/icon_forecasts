@@ -71,9 +71,7 @@ def main():
         ax  = plt.gca()
         m, x, y =get_projection(lon2d, lat2d, projection)
 
-        #m.shadedrelief(scale=0.4, alpha=0.8)
-        m.drawmapboundary(fill_color='whitesmoke')
-        m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
+        m.shadedrelief(scale=1., alpha=0.8)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax,
@@ -121,7 +119,7 @@ def plot_files(dates, **args):
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
         
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Clouds, rain, snow and MSLP' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Clouds (grey-low, orange-high), rain, snow and MSLP' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:

@@ -55,7 +55,7 @@ def main():
     w_so_sat = (w_so / saturation)*100.
 
     # Fix weird points with ice/rock
-    w_so_sat = w_so_sat.where(w_so!=0,0.)
+    w_so_sat = w_so_sat.where(w_so!=0,0.)[:,0,:,:]
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -96,7 +96,7 @@ def plot_files(dates, **args):
         # Build the name of the output image
         filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
 
-        cs = args['ax'].contourf(args['x'], args['y'], args['w_so_sat'][i,0], extend='both', cmap=args['cmap'],
+        cs = args['ax'].contourf(args['x'], args['y'], args['w_so_sat'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_sm'])
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])

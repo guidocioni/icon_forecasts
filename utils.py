@@ -98,13 +98,25 @@ def annotation_run(ax, time, loc='upper right',fontsize=8):
     ax.add_artist(at)
     return(at)
 
-def annotation_forecast(ax, time, loc='upper left',fontsize=8):
+def annotation_forecast(ax, time, loc='upper left',fontsize=8, local=True):
     """Put annotation of the forecast time."""
-    at = AnchoredText('Forecast for %s' % time.strftime('%A %d %b %Y at %H UTC'), 
+    if local: # convert to local time
+        time = convert_timezone(time)
+        at = AnchoredText('Valid %s' % time.strftime('%A %d %b %Y at %H (Berlin)'), 
+                       prop=dict(size=fontsize), frameon=True, loc=loc)
+    else:
+        at = AnchoredText('Forecast for %s' % time.strftime('%A %d %b %Y at %H UTC'), 
                        prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     ax.add_artist(at)
-    return(at)    
+    return(at) 
+
+def convert_timezone(dt_from, from_tz='utc', to_tz='Europe/Berlin'):
+    """Convert between two timezones. dt_from needs to be a Timestamp 
+    object, don't know if it works otherwise."""
+    dt_to = dt_from.tz_localize(from_tz).tz_convert(to_tz)
+    # remove again the timezone information
+    return dt_to.tz_localize(None)   
 
 def annotation(ax, text, loc='upper right',fontsize=8):
     """Put a general annotation in the plot."""

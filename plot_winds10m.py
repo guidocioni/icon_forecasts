@@ -108,7 +108,7 @@ def plot_files(dates, **args):
                      alpha=0.5, color='gray')
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Accumulated precipitation [mm] and MSLP [hPa]' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], '10m Winds (intensity and direction)' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:

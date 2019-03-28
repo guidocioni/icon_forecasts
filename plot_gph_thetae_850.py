@@ -98,7 +98,7 @@ def plot_files(dates, **args):
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
         
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Geopotential height @500hPa [m] and temperature @850hPa [C]' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Geopotential height @500hPa [m] and $\theta_e$ @850hPa [C]' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:

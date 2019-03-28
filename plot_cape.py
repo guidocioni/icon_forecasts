@@ -102,7 +102,7 @@ def plot_files(dates, **args):
                      alpha=0.8, color='gray')
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Convective Available Potential Energy and Winds' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Convective Available Potential Energy and Winds @ 850 hPa' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:
