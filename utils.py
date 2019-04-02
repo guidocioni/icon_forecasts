@@ -134,10 +134,7 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
 
 def get_colormap(cmap_type):
     """Create a custom colormap."""
-    if cmap_type == "winds":
-      colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_winds.rgba').values 
-    elif cmap_type == "temp":
-      colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_temp.rgba').values
+    colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_%s.rgba' % cmap_type).values 
          
     cmap = colors.LinearSegmentedColormap.from_list(cmap_type, colors_tuple, colors_tuple.shape[0])
     return(cmap)
@@ -156,6 +153,10 @@ def get_colormap_norm(cmap_type, levels):
         cmap, norm = from_levels_and_colors(levels, colors, extend='max')
     elif cmap_type == "rain_acc":    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette('gist_stern_r', n_colors=len(levels)),
+                         extend='max')
+    elif cmap_type == "rain_new":
+        colors_tuple = pd.read_csv('/home/mpim/m300382/icon_forecasts/cmap_prec.rgba').values    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
 
     return(cmap, norm)

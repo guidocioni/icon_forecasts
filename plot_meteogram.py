@@ -34,6 +34,7 @@ dset = dset.metpy.parse_cf()
 hsurf = xr.open_dataset('/home/mpim/m300382/icon_forecasts/ICON_EU_invariant.nc')['HSURF']
 
 time = pd.to_datetime(dset.time.values)
+increments = (time[1:] - time[:-1]) / pd.Timedelta('1 hour') 
 cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
 for city in cities:# This works regardless if cities is either single value or array
@@ -50,11 +51,10 @@ for city in cities:# This works regardless if cities is either single value or a
 
 	rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']
 	snow_acc = dset_city['SNOW_GSP'] + dset_city['SNOW_CON']
-	rain = rain_acc*0.
-	snow = snow_acc*0.
-	for i in range(1, len(dset.time)):
-	    rain[i]=rain_acc[i]-rain_acc[i-1]
-	    snow[i]=snow_acc[i]-snow_acc[i-1]
+	rain = rain_acc.diff(dim='time', n=1) / increments
+	snow = snow_acc.diff(dim='time', n=1) / increments
+	rain = np.insert(rain, 0, 0)
+	snow = np.insert(snow, 0, 0) 
 
 	fig = plt.figure(figsize=(10, 10))
 	gs = gridspec.GridSpec(4, 1, height_ratios=[3, 1, 1, 1]) 
