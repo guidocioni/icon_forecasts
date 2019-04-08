@@ -81,11 +81,6 @@ def plot_files(dates, **args):
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
         filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
 
         cs = args['ax'].contourf(args['x'], args['y'], args['conv'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_conv'])
@@ -114,7 +109,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs, an_fc, an_var, an_run])
+        remove_collections([cs, an_fc, an_var, an_run, cv])
 
         first = False 
 

@@ -1,4 +1,3 @@
-from mpl_toolkits.basemap import Basemap  # import Basemap matplotlib toolkit
 import numpy as np
 from matplotlib.offsetbox import AnchoredText
 import matplotlib.colors as colors
@@ -8,11 +7,17 @@ import pandas as pd
 from matplotlib.colors import from_levels_and_colors
 import seaborn as sns
 
+import warnings
+warnings.filterwarnings(
+    action='ignore',
+    message='The unit of the quantity is stripped.'
+)
+
 folder = '/scratch/local1/m300382/icon_forecasts/'
 input_file=folder+'ICON_*.nc' 
 folder_images = folder 
 chunks_size = 10 
-processes = 5
+processes = 8
 figsize_x = 10 
 figsize_y = 8
 
@@ -46,9 +51,10 @@ def get_city_coordinates(city):
     return(loc.longitude, loc.latitude)
 
 def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
+    from mpl_toolkits.basemap import Basemap  # import Basemap matplotlib toolkit
     """Create the projection in Basemap and returns the x, y array to use it in a plot"""
     if projection=="euratl":
-        m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='i',epsg=4269)
+        m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='l',epsg=4269)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 10.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
@@ -83,9 +89,47 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     x, y = m(lon,lat)
     return(m, x, y)
 
+def get_projection_cartopy(plt, projection="euratl"):
+    '''Retrieve the projection using cartopy'''
+    print('projection = %s' % projection)
+    import cartopy.crs as ccrs
+    import cartopy.feature as cfeature
+    import cartopy.io.shapereader as shpreader
+
+    # If projection is "euratl" we don't have to do anything,
+    # the correct extents will be set automatically 
+
+    ax = plt.axes(projection=ccrs.PlateCarree())
+        
+    if projection=="it":
+        ax.set_extent([6, 19, 36, 48], ccrs.PlateCarree())
+        adm1_shapes = shpreader.Reader('/home/mpim/m300382/shapefiles/ITA_adm_shp/ITA_adm1.shp').geometries()
+        ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None", linewidth=0.5)
+        ax.coastlines(resolution='10m')
+        ax.add_feature(cfeature.BORDERS.with_scale('10m'))
+    elif projection=="de":
+        ax.set_extent([5, 16, 46.5, 56], ccrs.PlateCarree())
+        adm1_shapes = shpreader.Reader('/home/mpim/m300382/shapefiles/DEU_adm_shp/DEU_adm1.shp').geometries()
+        ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None")
+        ax.coastlines(resolution='10m')
+        ax.add_feature(cfeature.BORDERS.with_scale('10m'))
+    elif projection=="euratl":
+        ax.coastlines(resolution='50m')
+        ax.add_feature(cfeature.BORDERS.with_scale('50m'))
+
+    return(ax)
+
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
+        yield l[i:i + n]
+
+def chunks_array(l, n):
+    """Same as 'chunks' but for the time dimension in
+    an array, and we assume that's always the first 
+    dimension for now."""
+    #ind = l.dims.index('time')
+    for i in range(0, l.shape[0], n):
         yield l[i:i + n]
 
 # Annotation run, models 

@@ -108,19 +108,19 @@ def plot_files(dates, **args):
 
         cs_rain = args['ax'].contourf(args['x'], args['y'], args['rain'][i],
                          extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
-                         levels=args['levels_rain'], zorder=3)
+                         levels=args['levels_rain'], zorder=4)
         cs_snow = args['ax'].contourf(args['x'], args['y'], args['snow'][i],
                          extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
-                         levels=args['levels_snow'], zorder=4)
+                         levels=args['levels_snow'], zorder=5)
         cs_clouds_low = args['ax'].contourf(args['x'], args['y'], args['clouds_low'][i],
                          extend='max', cmap=args['cmap_clouds'],
-                         levels=args['levels_clouds'], zorder=2)
+                         levels=args['levels_clouds'], zorder=3)
         cs_clouds_high = args['ax'].contourf(args['x'], args['y'], args['clouds_high'][i],
                          extend='max', cmap=args['cmap_clouds_high'],
-                         levels=args['levels_clouds'], zorder=1, alpha=0.7)
+                         levels=args['levels_clouds'], zorder=2, alpha=0.7)
 
         c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
-                             levels=args['levels_mslp'], colors='red', linewidths=1., zorder=5, alpha=0.6)
+                             levels=args['levels_mslp'], colors='red', linewidths=1., zorder=6, alpha=0.6)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
         

@@ -17,7 +17,7 @@ from utils import *
 import sys
 
 # The one employed for the figure name when exported 
-variable_name = 'cape'
+variable_name = 't_v_pres'
 
 print('Starting script to plot '+variable_name)
 
@@ -37,29 +37,28 @@ def main():
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
-    # Select 850 hPa level using metpy
-    cape = dset['CAPE_ML'].squeeze()
-    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
-    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
+    u = dset['10v'].squeeze()
+    v = dset['10v'].squeeze()
+    t2m = dset['2t'].squeeze().metpy.unit_array.to('degC')
+    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
 
     lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
 
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_cape = np.arange(250., 2000., 250.)
+    levels_t2m = np.arange(-25, 35, 1)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
 
-    cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.7)
+    cmap = get_colormap("temp")
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+        ax  = get_projection_cartopy(plt, projection=projection)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
-                 cape=cape, uwind_850=uwind_850, vwind_850=vwind_850, levels_cape=levels_cape,
+        args=dict(x=lon, y=lat, ax=ax, cmap=cmap,
+                 t2m=t2m, u=u, v=v, mslp=mslp, levels_t2m=levels_t2m, levels_mslp=levels_mslp,
                  time=time, projection=projection, cum_hour=cum_hour)
         
         print('Pre-processing finished, launching plotting scripts')
@@ -79,10 +78,13 @@ def plot_files(dates, **args):
         # Find index in the original array to subset when plotting
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
-        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
+        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]
 
-        cs = args['ax'].contourf(args['x'], args['y'], args['cape'][i], extend='both', cmap=args['cmap'],
-                                    levels=args['levels_cape'])
+        cs = args['ax'].contourf(args['x'], args['y'], args['t2m'][i], extend='both', cmap=args['cmap'],
+                                    levels=args['levels_t2m'])
+        c = args['ax'].contour(args['x'], args['y'], args['mslp'][i],
+                             levels=args['levels_mslp'], colors='white', linewidths=1.)
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
@@ -91,24 +93,24 @@ def plot_files(dates, **args):
             scale = None
         else:
             density = 5
-            scale = 2e3
-        cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
-                     args['uwind_850'][i,::density,::density], args['vwind_850'][i,::density,::density], scale=scale,
-                     alpha=0.8, color='gray')
+            scale = 2e2
+        cv = args['ax'].quiver(args['x'][::density], args['y'][::density],
+                     args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
+                     alpha=0.5, color='gray')
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Convective Available Potential Energy and Winds @ 850 hPa' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'MSLP [hPa], Winds@10m and Temperature@2m' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='CAPE [J/kg]', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Temperature [C]', pad=0.03, fraction=0.04)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs, an_fc, an_var, an_run, cv])
+        remove_collections([cs, c, labels, an_fc, an_var, an_run])
 
         first = False 
 

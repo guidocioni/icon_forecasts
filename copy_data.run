@@ -21,10 +21,10 @@ export hour=`date +"%H"`
 export hour_no_zero=`date -u +"%-H"`
 # note that this date is in UTC which is needed for retrieving the correct run!
 
-if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 10 ] 
+if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 9 ] 
 then 
  run="00"
-elif [ "$hour_no_zero" -ge 10 ] && [ "$hour_no_zero" -lt 16 ] 
+elif [ "$hour_no_zero" -ge 9 ] && [ "$hour_no_zero" -lt 16 ] 
 then
  run="06"
 elif [ "$hour_no_zero" -ge 16 ] && [ "$hour_no_zero" -lt 21 ] 
