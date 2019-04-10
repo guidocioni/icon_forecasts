@@ -19,12 +19,12 @@ import sys
 # The one employed for the figure name when exported 
 variable_name = 'gph_t_500'
 
-print('Starting script to plot '+variable_name)
+print_message('Starting script to plot '+variable_name)
 
 # Get the projection as system argument from the call so that we can 
 # span multiple instances of this script outside
 if not sys.argv[1:]:
-    print('Projection not defined, falling back to default (euratl, it, de)')
+    print_message('Projection not defined, falling back to default (euratl, it, de)')
     projections = ['euratl','it','de']
 else:    
     projections=sys.argv[1:]
@@ -33,7 +33,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     file = glob(input_file)
-    print('Using file '+file[0])
+    print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
@@ -47,8 +47,8 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_temp = np.arange(-50., 35., 2.)
-    levels_gph = np.arange(4800., 5800., 70.)
+    levels_temp = np.arange(-50., 10., 2.5)
+    levels_gph = np.arange(4800., 5800., 50.)
 
     cmap = get_colormap('temp')
     
@@ -62,7 +62,7 @@ def main():
                  temp_500=temp_500, gph_500=gph_500, levels_temp=levels_temp,
                  levels_gph=levels_gph, time=time, projection=projection, cum_hour=cum_hour)
         
-        print('Pre-processing finished, launching plotting scripts')
+        print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[1:2], **args)
         else:
@@ -79,12 +79,7 @@ def plot_files(dates, **args):
         # Find index in the original array to subset when plotting
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
-        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
+        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]
 
         cs = args['ax'].contourf(args['x'], args['y'], args['temp_500'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_temp'])
@@ -94,6 +89,11 @@ def plot_files(dates, **args):
                              colors='white', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['gph_500'][i],
+                                        'max', 80, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['gph_500'][i],
+                                        'min', 80, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Geopotential height @500hPa [m] and temperature @500hPa' ,loc='lower left', fontsize=6)
@@ -107,7 +107,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
 
         first = False 
 

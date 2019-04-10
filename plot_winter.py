@@ -19,12 +19,12 @@ import sys
 # The one employed for the figure name when exported 
 variable_name = 'winter'
 
-print('Starting script to plot '+variable_name)
+print_message('Starting script to plot '+variable_name)
 
 # Get the projection as system argument from the call so that we can 
 # span multiple instances of this script outside
 if not sys.argv[1:]:
-    print('Projection not defined, falling back to default (euratl, it, de)')
+    print_message('Projection not defined, falling back to default (euratl, it, de)')
     projections = ['euratl','it','de']
 else:    
     projections=sys.argv[1:]
@@ -33,7 +33,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     file = glob(input_file)
-    print('Using file '+file[0])
+    print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
@@ -75,7 +75,7 @@ def main():
                  time=time, projection=projection, cum_hour=cum_hour, norm_snow=norm_snow,
                  cmap_rain=cmap_rain, cmap_snow=cmap_snow, norm_rain=norm_rain)
         
-        print('Pre-processing finished, launching plotting scripts')
+        print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[1:2], **args)
         else:

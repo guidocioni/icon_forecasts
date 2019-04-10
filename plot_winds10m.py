@@ -19,12 +19,12 @@ import sys
 # The one employed for the figure name when exported 
 variable_name = 'winds10m'
 
-print('Starting script to plot '+variable_name)
+print_message('Starting script to plot '+variable_name)
 
 # Get the projection as system argument from the call so that we can 
 # span multiple instances of this script outside
 if not sys.argv[1:]:
-    print('Projection not defined, falling back to default (euratl, it, de)')
+    print_message('Projection not defined, falling back to default (euratl, it, de)')
     projections = ['euratl','it','de']
 else:    
     projections=sys.argv[1:]
@@ -33,7 +33,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     file = glob(input_file)
-    print('Using file '+file[0])
+    print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
@@ -50,7 +50,7 @@ def main():
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_winds_10m = np.arange(20., 150., 5.)
-    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 7.)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
     cmap = get_colormap("winds")
 
@@ -68,7 +68,7 @@ def main():
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap, u=u, v=v)
         
-        print('Pre-processing finished, launching plotting scripts')
+        print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[1:2], **args)
         else:
@@ -94,6 +94,11 @@ def plot_files(dates, **args):
                              levels=args['levels_mslp'], colors='red', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'max', 100, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'min', 100, symbol='L', color='coral', random=True)
         
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
@@ -119,7 +124,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, cv])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, cv, maxlabels, minlabels])
 
         first = False 
 

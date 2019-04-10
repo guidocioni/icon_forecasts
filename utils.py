@@ -6,6 +6,7 @@ from metpy.units import units
 import pandas as pd
 from matplotlib.colors import from_levels_and_colors
 import seaborn as sns
+import __main__ as main
 
 import warnings
 warnings.filterwarnings(
@@ -34,6 +35,10 @@ subfolder_images={
     'it' : folder_images+'it',
     'de' : folder_images+'de'    
 }
+
+def print_message(message):
+    """Formatted print"""
+    print(main.__file__+' : '+message)
 
 def get_coordinates(dataset):
     """Get the lat/lon coordinates from the dataset and convert them to degrees."""
@@ -139,6 +144,7 @@ def annotation_run(ax, time, loc='upper right',fontsize=8):
     at = AnchoredText('Run %s'% time[0].strftime('%Y%m%d %H UTC'), 
                        prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
+    at.zorder = 10
     ax.add_artist(at)
     return(at)
 
@@ -152,6 +158,7 @@ def annotation_forecast(ax, time, loc='upper left',fontsize=8, local=True):
         at = AnchoredText('Forecast for %s' % time.strftime('%A %d %b %Y at %H UTC'), 
                        prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
+    at.zorder = 10
     ax.add_artist(at)
     return(at) 
 
@@ -166,6 +173,7 @@ def annotation(ax, text, loc='upper right',fontsize=8):
     """Put a general annotation in the plot."""
     at = AnchoredText('%s'% text, prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
+    at.zorder = 10
     ax.add_artist(at)
     return(at)
 
@@ -222,3 +230,51 @@ def remove_collections(elements):
                 element.remove() 
         except ValueError:
             print('WARNING: Collection is empty')
+
+def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
+                       random=False):
+    """
+    This function will find and plot relative maximum and minimum for a 2D grid. The function
+    can be used to plot an H for maximum values (e.g., High pressure) and an L for minimum
+    values (e.g., low pressue). It is best to used filetered data to obtain  a synoptic scale
+    max/min value. The symbol text can be set to a string value and optionally the color of the
+    symbol and any plotted value can be set with the parameter color
+    lon = plotting longitude values (2D)
+    lat = plotting latitude values (2D)
+    data = 2D data that you wish to plot the max/min symbol placement
+    extrema = Either a value of max for Maximum Values or min for Minimum Values
+    nsize = Size of the grid box to filter the max and min values to plot a reasonable number
+    symbol = String to be placed at location of max/min value
+    color = String matplotlib colorname to plot the symbol (and numerica value, if plotted)
+    plot_value = Boolean (True/False) of whether to plot the numeric value of max/min point
+    The max/min symbol will be plotted on the current axes within the bounding frame
+    (e.g., clip_on=True)
+    """
+    from scipy.ndimage.filters import maximum_filter, minimum_filter
+    import matplotlib.patheffects as path_effects
+
+    # We have to first add some random noise to the field, otherwise it will find many maxima
+    # close to each other. This is not the best solution, though...
+    if random:
+        data = np.random.normal(data, 0.2)
+
+    if (extrema == 'max'):
+        data_ext = maximum_filter(data, nsize, mode='nearest')
+    elif (extrema == 'min'):
+        data_ext = minimum_filter(data, nsize, mode='nearest')
+    else:
+        raise ValueError('Value for hilo must be either max or min')
+
+    mxy, mxx = np.where(data_ext == data)
+    # Filter out points on the border 
+    mxx, mxy = mxx[(mxy != 0) & (mxx != 0)], mxy[(mxy != 0) & (mxx != 0)]
+
+    texts = []
+    for i in range(len(mxy)):
+        texts.append( ax.text(lon[mxy[i], mxx[i]], lat[mxy[i], mxx[i]], symbol, color=color, size=15,
+                clip_on=True, horizontalalignment='center', verticalalignment='center',
+                path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=6) )
+        texts.append( ax.text(lon[mxy[i], mxx[i]], lat[mxy[i], mxx[i]], '\n' + str(data[mxy[i], mxx[i]].astype('int')),
+                color="gray", size=10, clip_on=True, fontweight='bold',
+                horizontalalignment='center', verticalalignment='top', zorder=6) )
+    return(texts)

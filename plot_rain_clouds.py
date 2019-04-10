@@ -19,12 +19,12 @@ import sys
 # The one employed for the figure name when exported 
 variable_name = 'precip_clouds'
 
-print('Starting script to plot '+variable_name)
+print_message('Starting script to plot '+variable_name)
 
 # Get the projection as system argument from the call so that we can 
 # span multiple instances of this script outside
 if not sys.argv[1:]:
-    print('Projection not defined, falling back to default (euratl, it, de)')
+    print_message('Projection not defined, falling back to default (euratl, it, de)')
     projections = ['euratl','it','de']
 else:    
     projections=sys.argv[1:]
@@ -33,7 +33,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     file = glob(input_file)
-    print('Using file '+file[0])
+    print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
@@ -64,7 +64,7 @@ def main():
     levels_snow   = (0.1, 0.2, 0.4, 0.6, 0.8, 1., 1.5, 2., 2.5, 3.0, 4.,
                      5, 7.5, 10., 15.)
     levels_clouds = np.arange(30, 100, 1)
-    levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
+    levels_mslp   = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
     cmap_snow, norm_snow = get_colormap_norm("snow", levels_snow)
     cmap_rain, norm_rain = get_colormap_norm("rain_new", levels_rain)
@@ -87,7 +87,7 @@ def main():
                  cmap_rain=cmap_rain, cmap_snow=cmap_snow, cmap_clouds=cmap_clouds, 
                  cmap_clouds_high=cmap_clouds_high, norm_snow=norm_snow, norm_rain=norm_rain)
         
-        print('Pre-processing finished, launching plotting scripts')
+        print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[1:2], **args)
         else:
@@ -123,6 +123,11 @@ def plot_files(dates, **args):
                              levels=args['levels_mslp'], colors='red', linewidths=1., zorder=6, alpha=0.6)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'max', 100, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'min', 100, symbol='L', color='coral', random=True)
         
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Clouds (grey-low, orange-high), rain, snow and MSLP' ,loc='lower left', fontsize=6)
@@ -152,7 +157,8 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high, labels, an_fc, an_var, an_run])
+        remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high,
+                             labels, an_fc, an_var, an_run, maxlabels, minlabels])
 
         first = False 
 

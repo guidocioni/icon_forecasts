@@ -19,12 +19,12 @@ import sys
 # The one employed for the figure name when exported 
 variable_name = 'precip_acc'
 
-print('Starting script to plot '+variable_name)
+print_message('Starting script to plot '+variable_name)
 
 # Get the projection as system argument from the call so that we can 
 # span multiple instances of this script outside
 if not sys.argv[1:]:
-    print('Projection not defined, falling back to default (euratl, it, de)')
+    print_message('Projection not defined, falling back to default (euratl, it, de)')
     projections = ['euratl','it','de']
 else:    
     projections=sys.argv[1:]
@@ -33,7 +33,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     file = glob(input_file)
-    print('Using file '+file[0])
+    print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
@@ -48,7 +48,7 @@ def main():
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200, 250)
-    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 5.)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
     cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.9)
     cmap, norm = get_colormap_norm("rain_acc", levels_precip)
@@ -65,7 +65,7 @@ def main():
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap, norm=norm)
         
-        print('Pre-processing finished, launching plotting scripts')
+        print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[1:2], **args)
         else:
@@ -83,11 +83,6 @@ def plot_files(dates, **args):
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
         filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
-        # Test if the image already exists, although this behaviour should be removed in the future
-        # since we always want to overwrite old files.
-        # if os.path.isfile(filename):
-        #     print('Skipping '+str(filename))
-        #     continue 
 
         cs = args['ax'].contourf(args['x'], args['y'], args['precip_acc'][i],
                          extend='max', cmap=args['cmap'], norm=args['norm'],
@@ -98,7 +93,12 @@ def plot_files(dates, **args):
                              levels=args['levels_mslp'], colors='black', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
-        
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'max', 100, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['mslp'][i],
+                                        'min', 100, symbol='L', color='coral', random=True)
+
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
@@ -111,7 +111,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
 
         first = False 
 
