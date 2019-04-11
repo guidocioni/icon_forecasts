@@ -5,8 +5,8 @@ if not debug:
 
 import matplotlib.pyplot as plt
 import xarray as xr 
-import metpy.calc as mpcalc
-from metpy.units import units
+# import metpy.calc as mpcalc
+# from metpy.units import units
 from glob import glob
 import numpy as np
 import pandas as pd
@@ -17,7 +17,7 @@ from utils import *
 import sys
 
 # The one employed for the figure name when exported 
-variable_name = 'gph_t_850'
+variable_name = 'tmax'
 
 print_message('Starting script to plot '+variable_name)
 
@@ -35,11 +35,9 @@ def main():
     file = glob(input_file)
     print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    #dset = dset.metpy.parse_cf()
 
-    # Select 850 hPa level using metpy
-    temp_850 = dset['t'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to('degC')
-    gph_500 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=500 * units.hPa))
+    tmax2m = dset['mx2t6'].squeeze() - 273.15
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -47,20 +45,20 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_temp = np.arange(-30., 30., 1.)
-    levels_gph = np.arange(4800., 5800., 70.)
+    levels_t2m = np.arange(-25, 35, 1)
 
-    cmap = get_colormap('temp')
+    cmap = get_colormap("temp")
     
     for projection in projections:# This works regardless if projections is either single value or array
+        print_message('Projection = %s' % projection)
         fig = plt.figure(figsize=(figsize_x, figsize_y))
         ax  = plt.gca()        
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
-                 temp_850=temp_850, gph_500=gph_500, levels_temp=levels_temp,
-                 levels_gph=levels_gph, time=time, projection=projection, cum_hour=cum_hour)
+                 tmax2m=tmax2m, levels_t2m=levels_t2m,
+                 time=time, projection=projection, cum_hour=cum_hour)
         
         print_message('Pre-processing finished, launching plotting scripts')
         if debug:
@@ -79,38 +77,37 @@ def plot_files(dates, **args):
         # Find index in the original array to subset when plotting
         i = np.argmin(np.abs(date - args['time'])) 
         # Build the name of the output image
-        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]#date.strftime('%Y%m%d%H')#
+        filename = subfolder_images[args['projection']]+'/'+variable_name+'_%s.png' % args['cum_hour'][i]
 
-        cs = args['ax'].contourf(args['x'], args['y'], args['temp_850'][i], extend='both', cmap=args['cmap'],
-                                    levels=args['levels_temp'])
-
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
-        c = args['ax'].contour(args['x'], args['y'], args['gph_500'][i], levels=args['levels_gph'],
-                             colors='white', linewidths=1.)
-
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
-
-        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['gph_500'][i],
-                                        'max', 80, symbol='H', color='royalblue', random=True)
-        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], args['gph_500'][i],
-                                        'min', 80, symbol='L', color='coral', random=True)
+        cs = args['ax'].contourf(args['x'], args['y'], args['tmax2m'][i], extend='both', cmap=args['cmap'],
+                                    levels=args['levels_t2m'])
         
+        # plot every -th element
+        if args['projection']=="euratl":
+            density = 33
+        elif args['projection']=="it":
+            density = 7
+        elif args['projection']=="de":
+            density = 5
+        
+        vals = add_vals_on_map(args['ax'], args['m'], args['tmax2m'][i], args['levels_t2m'], cmap=args['cmap'],
+                                density=density)
+
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Geopotential height @500hPa [m] and temperature @850hPa [C]' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Maximum 2m Temperature in last 6 hours' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Temperature', pad=0.03, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Temperature [C]', pad=0.03, fraction=0.04)
         
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
+        remove_collections([cs, an_fc, an_var, an_run, vals])
 
         first = False 
-
 
 if __name__ == "__main__":
     import time
@@ -118,4 +115,3 @@ if __name__ == "__main__":
     main()
     elapsed_time=time.time()-start_time
     print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-

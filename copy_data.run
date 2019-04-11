@@ -42,7 +42,7 @@ rm *.nc
 cp /home/mpim/m300382/icon_forecasts/*.py ./
 
 #2-D variables
-variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M")
+variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
 ${parallel} -j 8 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 #3-D variables on pressure levels
@@ -59,7 +59,7 @@ ${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo
 
 ncftpput -R -v altervista icon_italy/meteograms meteogram_*
 
-scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py")
+scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
 projections=("euratl" "it" "de")
 
 ${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
@@ -80,7 +80,8 @@ ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
 ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
 ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
 ncftpput -R -v altervista icon_forecasts/winter winter_*
-ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
+ncftpput -R -v altervista icon_forecasts/tmax tmax_*
+ncftpput -R -v altervista icon_forecasts/tmin tmin_*
 
 ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
 ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
@@ -98,6 +99,8 @@ ncftpput -R -v altervista icon_italy/winds_jet it/winds_jet_*
 ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
 ncftpput -R -v altervista icon_italy/winter it/winter_*
 ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
+ncftpput -R -v altervista icon_italy/tmax it/tmax_*
+ncftpput -R -v altervista icon_italy/tmin it/tmin_*
 
 ncftpput -R -v altervista icon_de/precip_clouds de/precip_clouds_*
 ncftpput -R -v altervista icon_de/hsnow de/hsnow_*
@@ -114,6 +117,8 @@ ncftpput -R -v altervista icon_de/winds_jet de/winds_jet_*
 ncftpput -R -v altervista icon_de/vort_850 de/vort_850_*
 ncftpput -R -v altervista icon_de/winter de/winter_*
 ncftpput -R -v altervista icon_de/soil_moisture de/soil_moisture_*
+ncftpput -R -v altervista icon_de/tmax de/tmax_*
+ncftpput -R -v altervista icon_de/tmin de/tmin_*
 
 
 #Remove images locally

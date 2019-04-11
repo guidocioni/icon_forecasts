@@ -7,6 +7,9 @@ import pandas as pd
 from matplotlib.colors import from_levels_and_colors
 import seaborn as sns
 import __main__ as main
+import os
+import matplotlib.patheffects as path_effects
+import matplotlib.cm as mplcm
 
 import warnings
 warnings.filterwarnings(
@@ -35,6 +38,77 @@ subfolder_images={
     'it' : folder_images+'it',
     'de' : folder_images+'de'    
 }
+
+folder_glyph = '/home/mpim/m300382/icons_weather/yrno_png/'
+WMO_GLYPH_LOOKUP_PNG={
+        '0' : '01',
+        '1' : '02',
+        '2' : '02',
+        '3' : '04',
+        '5' : '15',
+        '10': '15',
+        '14': '15',
+        '30': '15',
+        '40': '15',
+        '41': '15',
+        '42': '15',
+        '43': '15',
+        '44': '15',
+        '45': '15',
+        '46': '15',
+        '47': '15',
+        '50': '46',
+        '60': '09',
+        '61': '09',
+        '63': '10',
+        '64': '41',
+        '65': '12',
+        '68': '47',
+        '69': '48',
+        '70': '13',
+        '71': '49',
+        '73': '50',
+        '74': '45',
+        '75': '48',
+        '80': '05',
+        '81': '05',
+        '83': '41',
+        '84': '32',
+        '85': '08',
+        '86': '34',
+        '87': '45',
+        '89': '43',
+        '90': '30',
+        '91': '30',
+        '92': '25',
+        '93': '33',
+        '94': '34',
+        '95': '25',
+}
+
+def get_weather_icons(ww, time):
+    from matplotlib._png import read_png
+    """
+    Get the path to a png given the weather representation 
+    """
+    weather = [WMO_GLYPH_LOOKUP_PNG[w.astype(int).astype(str)] for w in ww.values]
+    weather_icons=[]
+    for date, weath in zip(time, weather):
+        if date.hour >= 6 and date.hour <= 18:
+            add_string='d'
+        elif date.hour >=0 and date.hour < 6:
+            add_string='n'
+        elif date.hour >18 and date.hour < 24:
+            add_string='n'
+
+        pngfile=folder_glyph+'%s.png' % (weath+add_string)
+        if os.path.isfile(pngfile):
+            weather_icons.append(read_png(pngfile))
+        else:
+            pngfile=folder_glyph+'%s.png' % weath
+            weather_icons.append(read_png(pngfile))
+
+    return(weather_icons)
 
 def print_message(message):
     """Formatted print"""
@@ -225,11 +299,11 @@ def remove_collections(elements):
                 for coll in element:
                     coll.remove()
             except ValueError:
-                print('WARNING: Collection is empty')
+                print_message('WARNING: Element is empty')
             except TypeError:
-                element.remove() 
+                element.remove()
         except ValueError:
-            print('WARNING: Collection is empty')
+            print_message('WARNING: Collection is empty')
 
 def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
                        random=False):
@@ -251,7 +325,6 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
     (e.g., clip_on=True)
     """
     from scipy.ndimage.filters import maximum_filter, minimum_filter
-    import matplotlib.patheffects as path_effects
 
     # We have to first add some random noise to the field, otherwise it will find many maxima
     # close to each other. This is not the best solution, though...
@@ -278,3 +351,34 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
                 color="gray", size=10, clip_on=True, fontweight='bold',
                 horizontalalignment='center', verticalalignment='top', zorder=6) )
     return(texts)
+
+def add_vals_on_map(ax, bmap, var, levels, density=50,
+                     cmap='rainbow', shift_x=0., shift_y=0., fontsize=9, lcolors=True):
+    '''Given an input projection, a variable containing the values and a plot put
+    the values on a map exlcuing NaNs and taking care of not going
+    outside of the map boundaries, which can happen.
+    - shift_x and shift_y apply a shifting offset to all text labels
+    - colors indicate whether the colorscale cmap should be used to map the values of the array'''
+
+    norm = colors.Normalize(vmin=levels.min(), vmax=levels.max())
+    m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
+    
+    lon_min, lon_max, lat_min, lat_max = bmap.llcrnrlon, bmap.urcrnrlon, bmap.llcrnrlat, bmap.urcrnrlat
+
+    # Remove values outside of the extents
+    var = var.sel(lat=slice(lat_min+0.5, lat_max-0.5), lon=slice(lon_min+0.5, lon_max-0.5))[::density, ::density]
+    lons = var.lon
+    lats = var.lat
+
+    at = []
+    for ilat, ilon in np.ndindex(var.shape):
+        if lcolors:
+            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon]+shift_x, lats[ilat]+shift_y),
+                             color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
+                              path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+        else:
+            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[i]+shift_x, lats[i]+shift_y),
+                             color = 'white', weight='bold', fontsize=fontsize,
+                              path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+
+    return at
