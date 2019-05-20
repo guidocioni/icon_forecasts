@@ -37,7 +37,7 @@ def main():
     dset = xr.open_dataset(file[0])
     #dset = dset.metpy.parse_cf()
 
-    tmax2m = dset['mx2t6'].squeeze() - 273.15
+    tmax2m = dset['TMAX_2M'].squeeze() - 273.15
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)

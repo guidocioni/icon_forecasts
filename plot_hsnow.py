@@ -39,7 +39,7 @@ def main():
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
-    hsnow_acc = dset['sd']
+    hsnow_acc = dset['sde']
     hsnow = hsnow_acc*0.
     for i, _ in enumerate(hsnow_acc[1:]):
         hsnow[i] = (hsnow_acc[i] - hsnow_acc[0])*100.

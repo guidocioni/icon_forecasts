@@ -1,4 +1,4 @@
-debug = False 
+debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
@@ -47,7 +47,7 @@ for city in cities:# This works regardless if cities is either single value or a
     dset_city['t'].metpy.vertical.metpy.convert_units('hPa')
     dset_city['2t'].metpy.convert_units('degC')
     dset_city['2d'].metpy.convert_units('degC')
-    dset_city['10fg3'].metpy.convert_units('kph')
+    dset_city['VMAX_10M']=dset_city['VMAX_10M']*3.6
     dset_city['prmsl'].metpy.convert_units('hPa')
 
     rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']
@@ -104,7 +104,7 @@ for city in cities:# This works regardless if cities is either single value or a
 
     ax2 = plt.subplot(gs[2])
     ax2.set_xlim(time[0],time[-1])
-    ts = ax2.plot(time, dset_city['10fg3'], label='Gusts', color='lightcoral')
+    ts = ax2.plot(time, dset_city['VMAX_10M'], label='Gusts', color='lightcoral')
     ax2.set_ylabel('Wind gust [km/h]')
     ax22=ax2.twinx()
     ts1 = ax22.plot(time, dset_city['prmsl'], label='MSLP', color='m')

@@ -38,7 +38,8 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Select 850 hPa level using metpy
-    winds_10m = dset['10fg3'].squeeze().metpy.unit_array.to('kph')
+    #winds_10m = dset['VMAX_10M'].squeeze().metpy.unit_array.to('kph')
+    winds_10m = dset['VMAX_10M'].squeeze()*3.6
     mslp = dset['prmsl'].metpy.unit_array.to('hPa')
     u = dset['10u'].squeeze()
     v = dset['10v'].squeeze()
