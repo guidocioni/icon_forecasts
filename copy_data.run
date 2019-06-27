@@ -6,13 +6,13 @@ export SHELL=$(type -p bash)
 ########################################### 
 
 ##### LOAD environmental variables ########
-export cdo=/sw/jessie-x64/cdo/cdo-1.9.6-gccsys/bin/cdo
+export cdo=/sw/stretch-x64/cdo/cdo-1.9.6-gccsys/bin/cdo
 export python=/home/mpim/m300382/.conda/envs/my_base/bin/python
 export parallel=/home/mpim/m300382/.conda/envs/my_base/bin/parallel
 ########################################### 
 
 export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
-source /sw/jessie-x64/anaconda2-4.1.1/bin/activate my_base
+source /sw/stretch-x64/conda/anaconda3-5.3.0-python-3.7/bin/activate my_base
 
 export year=`date +"%Y"`
 export month=`date +"%m"`
@@ -55,7 +55,7 @@ ${parallel} -j 16 download_merge_soil_variable_icon_eu ::: "W_SO"
 ${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2 
 
-${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Ischia
+${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht
 
 ncftpput -R -v altervista icon_italy/meteograms meteogram_*
 
