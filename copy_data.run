@@ -55,7 +55,7 @@ ${parallel} -j 16 download_merge_soil_variable_icon_eu ::: "W_SO"
 ${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
 rm *.grib2 
 
-${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht
+${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
 
 ncftpput -R -v altervista icon_italy/meteograms meteogram_*
 

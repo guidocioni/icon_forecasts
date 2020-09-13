@@ -50,7 +50,7 @@ export -f download_merge_3d_variable_icon_eu
 ################################################
 download_merge_soil_variable_icon_eu()
 {
-	filename="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_*_${1}.grib2"
+	filename="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_*_0_${1}.grib2"
 	wget -r -nH -np -nv -nd --reject "index.html*" --cut-dirs=3 -A "${filename}.bz2" "https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
 	echo 'Extracting files'
 	bzip2 -d ${filename}.bz2
@@ -58,20 +58,6 @@ download_merge_soil_variable_icon_eu()
 	rm ${filename}
 }
 export -f download_merge_soil_variable_icon_eu
-################################################
-download_merge_soil_variable_icon_it_de()
-{
-	filename="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_*_${1}.grib2"
-	wget -r -nH -np -nv -nd --reject "index.html*" --cut-dirs=3 -A "${filename}.bz2" "https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
-	echo 'Extracting files'
-	bzip2 -d ${filename}.bz2
-	${cdo} mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.grib2
-	${cdo} sellonlatbox,${min_lon_it},${max_lon_it},${min_lat_it},${max_lat_it} ${1}_${year}${month}${day}${run}_eur.grib2 ${1}_${year}${month}${day}${run}_it.grib2
-	${cdo} sellonlatbox,${min_lon_de},${max_lon_de},${min_lat_de},${max_lat_de} ${1}_${year}${month}${day}${run}_eur.grib2 ${1}_${year}${month}${day}${run}_de.grib2
-	rm ${1}_${year}${month}${day}${run}_eur.grib2
-	rm ${filename}
-}
-export -f download_merge_soil_variable_icon_it_de
 ################################################
 download_merge_2d_variable_icon_globe()
 {

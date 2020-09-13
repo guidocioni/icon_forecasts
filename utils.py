@@ -39,7 +39,7 @@ subfolder_images={
     'de' : folder_images+'de'    
 }
 
-folder_glyph = '/home/mpim/m300382/icons_weather/yrno_png/'
+folder_glyph = './yrno_png/'
 WMO_GLYPH_LOOKUP_PNG={
         '0' : '01',
         '1' : '02',
@@ -146,7 +146,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     elif projection=="it":
         m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=19, urcrnrlat=48,resolution='i',epsg=4269)
         m.readshapefile('/home/mpim/m300382/shapefiles/ITA_adm_shp/ITA_adm1',
-                            'ITA_adm1',linewidth=0.2,color='black',zorder=5)
+                            'ITA_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
@@ -156,16 +156,16 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
         m = Basemap(projection='cyl', llcrnrlon=5, llcrnrlat=46.5,\
                urcrnrlon=16, urcrnrlat=56,  resolution='i',epsg=4269)
         m.readshapefile('/home/mpim/m300382/shapefiles/DEU_adm_shp/DEU_adm1',
-                            'DEU_adm1',linewidth=0.2,color='black',zorder=5)
+                            'DEU_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
             m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
 
-    m.drawcoastlines(linewidth=0.5, linestyle='solid', color='black', zorder=5)
+    m.drawcoastlines(linewidth=0.5, linestyle='solid', color='black', zorder=7)
     if countries:
-        m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=5)
+        m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=7)
 
     x, y = m(lon,lat)
     return(m, x, y)

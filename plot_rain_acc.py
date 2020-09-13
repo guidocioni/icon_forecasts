@@ -47,11 +47,12 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200, 250)
+    levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 400, 500)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
-    cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.9)
-    cmap, norm = get_colormap_norm("rain_acc", levels_precip)
+    # cmap = truncate_colormap(plt.get_cmap('gist_stern_r'), 0., 0.9)
+    # cmap, norm = get_colormap_norm("rain_acc", levels_precip)
+    cmap, norm = get_colormap_norm("rain_new", levels_precip)
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
