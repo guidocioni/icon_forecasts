@@ -7,15 +7,19 @@ which is freely available at https://opendata.dwd.de/weather/.
 
 The main script to be called (possibly through cronjob) is `copy_data.run`. 
 There, the current run version is determined, and files are downloaded from the DWD server.
-CDO is used to merge the files. At the end of the process one NETCDF file with all the variables and timesteps is created.
+CDO is used to merge the files. At the end of the process one single NETCDF file with all the variables and timesteps is created.
+
+## Inputs to be defined 
+Most of the inputs needed to run the code are contained at the beginning of the main bash script `copy_data.run`. In particular `MODEL_DATA_FOLDER` where the processing is done (downloading of files and creation of pictures). 
+`NCFTP_BOOKMARK` is the FTP bookmark to be defined in `ncftp` so that user and password don't need to be entered every time.
+We use a conda environment with all the packages needed to run the download/processing of the data so that we can easily run into `crontab` without the need to load any additional packages.
 
 ## Parallelized donwload of data 
 Downloading and merging the data is one of the process that can take more time depending on the connection.
 For this reason this is fully parallelized making use of the GNU `parallel` utility.
 ```bash
 #2-D variables
-variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" 
-	   "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M")
+variables=("T_2M" "TD_2M" "U_10M")
 ${parallel} -j 8 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 #3-D variables on pressure levels
@@ -33,18 +37,16 @@ This is make especially easier by the
 fact that the plotting scripts can be given as argument the projection so we can parallelize across multiple projections
 and script files, for example:
 ```bash
-scripts=("plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" 
-"plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py")
+scripts=("plot_cape.py" "plot_convergence.py")
 
 projections=("euratl" "it" "de")
 
 ${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 ```
-Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the PNG figure will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backe
-nd, thus easing the process of correcting details.
+Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the PNG figure will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backend, thus easing the process of correcting details.
 
 ## Upload of the pictures
-PNG pictures are uploaded to a FTP server defined in `ncftp` bookmarks.
+PNG pictures are uploaded to a FTP server defined in `ncftp` bookmarks. This operation is NOT parallelized because the FTP server may not allow concurrent connections.
 
 ## Additional files
-ICON-EU invariant data are required by some NCL scripts. You can download them here: https://opendata.dwd.de/weather/icon/eu_nest/grib/00/invariant_data/
+ICON-EU invariant data are automatically download by `download_invariant_icon_eu`. Shapefiles are included in the repository but can be replaced. The file `soil_saturation.nc` is used to produce the map of soil moisture saturation and can be produced (if there is any need) with the Jupyter notebook, but in the future it will probably be created automatically.
