@@ -1,0 +1,23 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","TYPE_1","ENGTYPE_1","NL_NAME_1","VARNAME_1"
+1,79,"FRA","France",1,"Alsace","Région","Region",NA,"Alsacia|Elsaß"
+2,79,"FRA","France",2,"Aquitaine","Région","Region",NA,NA
+3,79,"FRA","France",3,"Auvergne","Région","Region",NA,NA
+4,79,"FRA","France",4,"Île-de-France","Région","Region",NA,NA
+5,79,"FRA","France",5,"Basse-Normandie","Région","Region",NA,"Baja Normandía|Lower Normandy"
+6,79,"FRA","France",6,"Bourgogne","Région","Region",NA,"Borgoña|Burgundy"
+7,79,"FRA","France",7,"Bretagne","Région","Region",NA,"Bretaña|Brittany"
+8,79,"FRA","France",8,"Centre","Région","Region",NA,NA
+9,79,"FRA","France",9,"Champagne-Ardenne","Région","Region",NA,"Champaña-Ardenne"
+10,79,"FRA","France",10,"Corse","Région","Region",NA,"Còrsica|Córcega|Corsica"
+11,79,"FRA","France",11,"Franche-Comté","Région","Region",NA,"Franco-Condado"
+12,79,"FRA","France",12,"Haute-Normandie","Région","Region",NA,"Alta Normandía|Upper Normandy"
+13,79,"FRA","France",13,"Languedoc-Roussillon","Région","Region",NA,"Languedoc-Rosellon"
+14,79,"FRA","France",14,"Limousin","Région","Region",NA,"Lemosin"
+15,79,"FRA","France",15,"Lorraine","Région","Region",NA,"Lorena"
+16,79,"FRA","France",16,"Midi-Pyrénées","Région","Region",NA,NA
+17,79,"FRA","France",17,"Nord-Pas-de-Calais","Région","Region",NA,NA
+18,79,"FRA","France",18,"Pays de la Loire","Région","Region",NA,NA
+19,79,"FRA","France",19,"Picardie","Région","Region",NA,NA
+20,79,"FRA","France",20,"Poitou-Charentes","Région","Region",NA,NA
+21,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur","Région","Region",NA,NA
+22,79,"FRA","France",22,"Rhône-Alpes","Région","Region",NA,NA

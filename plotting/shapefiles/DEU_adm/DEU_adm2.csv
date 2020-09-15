@@ -1,0 +1,43 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","ID_2","NAME_2","TYPE_2","ENGTYPE_2","NL_NAME_2","VARNAME_2"
+1,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg","Regierungsbezirk","Administrative Region",NA,"Friburgo|Fribourg"
+2,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe","Regierungsbezirk","Administrative Region",NA,NA
+3,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart","Regierungsbezirk","Administrative Region",NA,"Estugarda"
+4,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen","Regierungsbezirk","Administrative Region",NA,"Tubinga"
+5,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken","Regierungsbezirk","Administrative Region",NA,"Franconia Central|Middle Franconia|Média Francónia| Moyenne-Franconie"
+6,86,"DEU","Germany",2,"Bayern",6,"Niederbayern","Regierungsbezirk","Administrative Region",NA,"Lower Bavaria|Baixa Baviera|Baja Baviera|Basse-Bavière"
+7,86,"DEU","Germany",2,"Bayern",7,"Oberbayern","Regierungsbezirk","Administrative Region",NA,"Upper Bavaria|Alta Baviera|Haute-Bavière"
+8,86,"DEU","Germany",2,"Bayern",8,"Oberfranken","Regierungsbezirk","Administrative Region",NA,"Upper Franconia|Alta Franconia|Alta Francónia |Haute-Franconie"
+9,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz","Regierungsbezirk","Administrative Region",NA,"Upper Palatinate|Alto Palatinado|Haut-Palatinat"
+10,86,"DEU","Germany",2,"Bayern",10,"Schwaben","Regierungsbezirk","Administrative Region",NA,"Swabia|Suabia|Suábia|Souabe"
+11,86,"DEU","Germany",2,"Bayern",11,"Unterfranken","Regierungsbezirk","Administrative Region",NA,"Lower Franconia|Baixa Francónia|Baja Franconia|Basse-Franconie"
+12,86,"DEU","Germany",3,"Berlin",12,"Berlin","Kreisfreie Städte","City",NA,NA
+13,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg","Land|Bundesland","State|Federal State",NA,NA
+14,86,"DEU","Germany",5,"Bremen",14,"Bremen","Kreisfreie Städte","City",NA,"Brema|Brême"
+15,86,"DEU","Germany",5,"Bremen",15,"Bremerhaven","Kreisfreie Stadt","City","<Null>","<Null>"
+16,86,"DEU","Germany",6,"Hamburg",16,"Hamburg","Kreisfreie Städte","City",NA,"Hamburgo|Hambourg"
+17,86,"DEU","Germany",7,"Hessen",17,"Darmstadt","Regierungsbezirk","Administrative Region",NA,NA
+18,86,"DEU","Germany",7,"Hessen",18,"Gießen","Regierungsbezirk","Administrative Region",NA,NA
+19,86,"DEU","Germany",7,"Hessen",19,"Kassel","Regierungsbezirk","Administrative Region",NA,NA
+20,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern","Land|Bundesland","State|Federal State",NA,"Mecklemburgo-Pomerania Occidental|Mecklenburg-West Pomerania|Meclemburgo-Pomerânia Ocidental|Mecklembourg-Pom*"
+21,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig","Regierungsbezirk","Administrative Region",NA,"Brunswick"
+22,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover","Regierungsbezirk","Administrative Region",NA,"Hanover|Hanôver|Hanovre"
+23,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg","Regierungsbezirk","Administrative Region",NA,"Lunebourg|Luneburgo"
+24,86,"DEU","Germany",9,"Niedersachsen",24,"Luneburg","Regierungsbezirk","Administrative Region",NA,"Lunebourg|Luneburgo"
+25,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems","Regierungsbezirk","Administrative Region",NA,NA
+26,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg","Regierungsbezirk","Administrative Region",NA,NA
+27,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf","Regierungsbezirk","Administrative Region",NA,"Dusseldórfia"
+28,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold","Regierungsbezirk","Administrative Region",NA,NA
+29,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln","Regierungsbezirk","Administrative Region",NA,"Cologne|Colonia|Colónia"
+30,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster","Regierungsbezirk","Administrative Region",NA,NA
+31,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz","Regierungsbezirk","Administrative Region",NA,"Coblença|Coblence |Coblenza"
+32,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz","Regierungsbezirk","Administrative Region",NA,"Hesse Renano-Palatinado|Rhenish Hesse-Palatinate|Rheinhessen-Palatinado|Hesse Rhénane-Palatinat"
+33,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier","Regierungsbezirk","Administrative Region",NA,"Tréveris|Trèves"
+34,86,"DEU","Germany",12,"Saarland",34,"Saarland","Regierungsbezirk","Administrative Region",NA,"Sarre"
+35,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau","Regierungsbezirk","Administrative Region",NA,NA
+36,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle","Regierungsbezirk","Administrative Region",NA,NA
+37,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg","Regierungsbezirk","Administrative Region",NA,"Magdeburgo|Magdebourg"
+38,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz","Regierungsbezirk","Administrative Region",NA,NA
+39,86,"DEU","Germany",14,"Sachsen",39,"Dresden","Regierungsbezirk","Administrative Region",NA,"Dresda|Dresde"
+40,86,"DEU","Germany",14,"Sachsen",40,"Leipzig","Regierungsbezirk","Administrative Region",NA,NA
+41,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein","Land|Bundesland","State|Federal State",NA,NA
+42,86,"DEU","Germany",16,"Thüringen",42,"Thüringen","Land|Bundesland","State|Federal State",NA,"Thuringia|Turingia|Turíngia|Thuringe"

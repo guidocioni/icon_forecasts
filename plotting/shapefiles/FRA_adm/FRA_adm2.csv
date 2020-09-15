@@ -1,0 +1,97 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","ID_2","NAME_2","TYPE_2","ENGTYPE_2","NL_NAME_2","VARNAME_2"
+1,79,"FRA","France",1,"Alsace",1,"Bas-Rhin","Département","Department",NA,"Unterelsaá"
+2,79,"FRA","France",1,"Alsace",2,"Haut-Rhin","Département","Department",NA,"Oberelsaá"
+3,79,"FRA","France",2,"Aquitaine",3,"Dordogne","Département","Department",NA,NA
+4,79,"FRA","France",2,"Aquitaine",4,"Gironde","Département","Department",NA,"Bec-D'Ambes"
+5,79,"FRA","France",2,"Aquitaine",5,"Landes","Département","Department",NA,"Landas"
+6,79,"FRA","France",2,"Aquitaine",6,"Lot-et-Garonne","Département","Department",NA,NA
+7,79,"FRA","France",2,"Aquitaine",7,"Pyrénées-Atlantiques","Département","Department",NA,"Basses-Pyrénées|Pirinio Atlantiarrak"
+8,79,"FRA","France",3,"Auvergne",8,"Allier","Département","Department",NA,"Basses-Alpes"
+9,79,"FRA","France",3,"Auvergne",9,"Cantal","Département","Department",NA,NA
+10,79,"FRA","France",3,"Auvergne",10,"Haute-Loire","Département","Department",NA,NA
+11,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme","Département","Department",NA,NA
+12,79,"FRA","France",4,"Île-de-France",12,"Essonne","Département","Department",NA,NA
+13,79,"FRA","France",4,"Île-de-France",13,"Hauts-de-Seine","Département","Department",NA,NA
+14,79,"FRA","France",4,"Île-de-France",14,"Paris","Département","Department",NA,NA
+15,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne","Département","Department",NA,NA
+16,79,"FRA","France",4,"Île-de-France",16,"Seine-Saint-Denis","Département","Department",NA,NA
+17,79,"FRA","France",4,"Île-de-France",17,"Val-d'Oise","Département","Department",NA,NA
+18,79,"FRA","France",4,"Île-de-France",18,"Val-de-Marne","Département","Department",NA,NA
+19,79,"FRA","France",4,"Île-de-France",19,"Yvelines","Département","Department",NA,NA
+20,79,"FRA","France",5,"Basse-Normandie",20,"Calvados","Département","Department",NA,NA
+21,79,"FRA","France",5,"Basse-Normandie",21,"Manche","Département","Department",NA,NA
+22,79,"FRA","France",5,"Basse-Normandie",22,"Orne","Département","Department",NA,NA
+23,79,"FRA","France",6,"Bourgogne",23,"Côte-d'Or","Département","Department",NA,NA
+24,79,"FRA","France",6,"Bourgogne",24,"Nièvre","Département","Department",NA,NA
+25,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire","Département","Department",NA,NA
+26,79,"FRA","France",6,"Bourgogne",26,"Yonne","Département","Department",NA,NA
+27,79,"FRA","France",7,"Bretagne",27,"Côtes-d'Armor","Département","Department",NA,"Cotes-Du-Nord"
+28,79,"FRA","France",7,"Bretagne",28,"Finistère","Département","Department",NA,NA
+29,79,"FRA","France",7,"Bretagne",29,"Ille-et-Vilaine","Département","Department",NA,NA
+30,79,"FRA","France",7,"Bretagne",30,"Morbihan","Département","Department",NA,NA
+31,79,"FRA","France",8,"Centre",31,"Cher","Département","Department",NA,NA
+32,79,"FRA","France",8,"Centre",32,"Eure-et-Loir","Département","Department",NA,NA
+33,79,"FRA","France",8,"Centre",33,"Indre-et-Loire","Département","Department",NA,NA
+34,79,"FRA","France",8,"Centre",34,"Indre","Département","Department",NA,NA
+35,79,"FRA","France",8,"Centre",35,"Loir-et-Cher","Département","Department",NA,NA
+36,79,"FRA","France",8,"Centre",36,"Loiret","Département","Department",NA,NA
+37,79,"FRA","France",9,"Champagne-Ardenne",37,"Ardennes","Département","Department",NA,NA
+38,79,"FRA","France",9,"Champagne-Ardenne",38,"Aube","Département","Department",NA,NA
+39,79,"FRA","France",9,"Champagne-Ardenne",39,"Haute-Marne","Département","Department",NA,NA
+40,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne","Département","Department",NA,NA
+41,79,"FRA","France",10,"Corse",41,"Corse-du-Sud","Département","Department",NA,NA
+42,79,"FRA","France",10,"Corse",42,"Haute-Corse","Département","Department",NA,NA
+43,79,"FRA","France",11,"Franche-Comté",43,"Doubs","Département","Department",NA,NA
+44,79,"FRA","France",11,"Franche-Comté",44,"Haute-Saône","Département","Department",NA,NA
+45,79,"FRA","France",11,"Franche-Comté",45,"Jura","Département","Department",NA,NA
+46,79,"FRA","France",11,"Franche-Comté",46,"Territoire de Belfort","Département","Department",NA,NA
+47,79,"FRA","France",12,"Haute-Normandie",47,"Eure","Département","Department",NA,NA
+48,79,"FRA","France",12,"Haute-Normandie",48,"Seine-Maritime","Département","Department",NA,"Seine-Inférieure"
+49,79,"FRA","France",13,"Languedoc-Roussillon",49,"Aude","Département","Department",NA,NA
+50,79,"FRA","France",13,"Languedoc-Roussillon",50,"Gard","Département","Department",NA,NA
+51,79,"FRA","France",13,"Languedoc-Roussillon",51,"Hérault","Département","Department",NA,NA
+52,79,"FRA","France",13,"Languedoc-Roussillon",52,"Lozère","Département","Department",NA,NA
+53,79,"FRA","France",13,"Languedoc-Roussillon",53,"Pyrénées-Orientales","Département","Department",NA,NA
+54,79,"FRA","France",14,"Limousin",54,"Corrèze","Département","Department",NA,NA
+55,79,"FRA","France",14,"Limousin",55,"Creuse","Département","Department",NA,NA
+56,79,"FRA","France",14,"Limousin",56,"Haute-Vienne","Département","Department",NA,NA
+57,79,"FRA","France",15,"Lorraine",57,"Meurthe-et-Moselle","Département","Department",NA,NA
+58,79,"FRA","France",15,"Lorraine",58,"Meuse","Département","Department",NA,NA
+59,79,"FRA","France",15,"Lorraine",59,"Moselle","Département","Department",NA,"Lothringen"
+60,79,"FRA","France",15,"Lorraine",60,"Vosges","Département","Department",NA,NA
+61,79,"FRA","France",16,"Midi-Pyrénées",61,"Ariège","Département","Department",NA,NA
+62,79,"FRA","France",16,"Midi-Pyrénées",62,"Aveyron","Département","Department",NA,NA
+63,79,"FRA","France",16,"Midi-Pyrénées",63,"Gers","Département","Department",NA,NA
+64,79,"FRA","France",16,"Midi-Pyrénées",64,"Haute-Garonne","Département","Department",NA,"Alto Garona"
+65,79,"FRA","France",16,"Midi-Pyrénées",65,"Hautes-Pyrénées","Département","Department",NA,"Altos Pirineos"
+66,79,"FRA","France",16,"Midi-Pyrénées",66,"Lot","Département","Department",NA,NA
+67,79,"FRA","France",16,"Midi-Pyrénées",67,"Tarn-et-Garonne","Département","Department",NA,NA
+68,79,"FRA","France",16,"Midi-Pyrénées",68,"Tarn","Département","Department",NA,NA
+69,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord","Département","Department",NA,NA
+70,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais","Département","Department",NA,NA
+71,79,"FRA","France",18,"Pays de la Loire",71,"Loire-Atlantique","Département","Department",NA,"Loire-Inferieure"
+72,79,"FRA","France",18,"Pays de la Loire",72,"Maine-et-Loire","Département","Department",NA,NA
+73,79,"FRA","France",18,"Pays de la Loire",73,"Mayenne","Département","Department",NA,NA
+74,79,"FRA","France",18,"Pays de la Loire",74,"Sarthe","Département","Department",NA,NA
+75,79,"FRA","France",18,"Pays de la Loire",75,"Vendée","Département","Department",NA,"Vendéia"
+76,79,"FRA","France",19,"Picardie",76,"Aisne","Département","Department",NA,NA
+77,79,"FRA","France",19,"Picardie",77,"Oise","Département","Department",NA,NA
+78,79,"FRA","France",19,"Picardie",78,"Somme","Département","Department",NA,NA
+79,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime","Département","Department",NA,"Charente-Inférieure"
+80,79,"FRA","France",20,"Poitou-Charentes",80,"Charente","Département","Department",NA,NA
+81,79,"FRA","France",20,"Poitou-Charentes",81,"Deux-Sèvres","Département","Department",NA,NA
+82,79,"FRA","France",20,"Poitou-Charentes",82,"Vienne","Département","Department",NA,NA
+83,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",83,"Alpes-de-Haute-Provence","Département","Department",NA,NA
+84,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",84,"Alpes-Maritimes","Département","Department",NA,NA
+85,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",85,"Bouches-du-Rhône","Département","Department",NA,NA
+86,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",86,"Hautes-Alpes","Département","Department",NA,NA
+87,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",87,"Var","Département","Department",NA,NA
+88,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",88,"Vaucluse","Département","Department",NA,NA
+89,79,"FRA","France",22,"Rhône-Alpes",89,"Ain","Département","Department",NA,NA
+90,79,"FRA","France",22,"Rhône-Alpes",90,"Ardèche","Département","Department",NA,NA
+91,79,"FRA","France",22,"Rhône-Alpes",91,"Drôme","Département","Department",NA,NA
+92,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie","Département","Department",NA,NA
+93,79,"FRA","France",22,"Rhône-Alpes",93,"Isère","Département","Department",NA,NA
+94,79,"FRA","France",22,"Rhône-Alpes",94,"Loire","Département","Department",NA,NA
+95,79,"FRA","France",22,"Rhône-Alpes",95,"Rhône","Département","Department",NA,NA
+96,79,"FRA","France",22,"Rhône-Alpes",96,"Savoie","Département","Department",NA,"Sabóia|Savoia"

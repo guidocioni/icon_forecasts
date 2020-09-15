@@ -2,6 +2,4 @@
 test
 .DS*
 *.swo
-copy_data_test.run
-test.run
-utils.pyc
+./plotting/__pycache__/

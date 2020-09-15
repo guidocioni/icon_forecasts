@@ -1,0 +1,351 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","ID_2","NAME_2","ID_3","NAME_3","TYPE_3","ENGTYPE_3","NL_NAME_3","VARNAME_3"
+1,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",1,"Haguenau","Arrondissement","Districts",NA,NA
+2,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",2,"Molsheim","Arrondissement","Districts",NA,NA
+3,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",3,"Sélestat-Erstein","Arrondissement","Districts",NA,NA
+4,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",4,"Saverne","Arrondissement","Districts",NA,NA
+5,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",5,"Strasbourg-Campagne","Arrondissement","Districts",NA,NA
+6,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",6,"Strasbourg-Ville","Arrondissement","Districts",NA,NA
+7,79,"FRA","France",1,"Alsace",1,"Bas-Rhin",7,"Wissembourg","Arrondissement","Districts",NA,NA
+8,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",8,"Altkirch","Arrondissement","Districts",NA,NA
+9,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",9,"Colmar","Arrondissement","Districts",NA,NA
+10,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",10,"Guebwiller","Arrondissement","Districts",NA,NA
+11,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",11,"Mulhouse","Arrondissement","Districts",NA,NA
+12,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",12,"Ribeauvillé","Arrondissement","Districts",NA,NA
+13,79,"FRA","France",1,"Alsace",2,"Haut-Rhin",13,"Thann","Arrondissement","Districts",NA,NA
+14,79,"FRA","France",2,"Aquitaine",3,"Dordogne",14,"Bergerac","Arrondissement","Districts",NA,NA
+15,79,"FRA","France",2,"Aquitaine",3,"Dordogne",15,"Nontron","Arrondissement","Districts",NA,NA
+16,79,"FRA","France",2,"Aquitaine",3,"Dordogne",16,"Périgueux","Arrondissement","Districts",NA,NA
+17,79,"FRA","France",2,"Aquitaine",3,"Dordogne",17,"Sarlat-la-Canéda","Arrondissement","Districts",NA,NA
+18,79,"FRA","France",2,"Aquitaine",4,"Gironde",18,"Arcachon","Arrondissement","Districts",NA,NA
+19,79,"FRA","France",2,"Aquitaine",4,"Gironde",19,"Blaye","Arrondissement","Districts",NA,NA
+20,79,"FRA","France",2,"Aquitaine",4,"Gironde",20,"Bordeaux","Arrondissement","Districts",NA,NA
+21,79,"FRA","France",2,"Aquitaine",4,"Gironde",21,"Langon","Arrondissement","Districts",NA,NA
+22,79,"FRA","France",2,"Aquitaine",4,"Gironde",22,"Lesparre-Médoc","Arrondissement","Districts",NA,NA
+23,79,"FRA","France",2,"Aquitaine",4,"Gironde",23,"Libourne","Arrondissement","Districts",NA,NA
+24,79,"FRA","France",2,"Aquitaine",5,"Landes",24,"Dax","Arrondissement","Districts",NA,NA
+25,79,"FRA","France",2,"Aquitaine",5,"Landes",25,"Mont-de-Marsan","Arrondissement","Districts",NA,NA
+26,79,"FRA","France",2,"Aquitaine",6,"Lot-et-Garonne",26,"Agen","Arrondissement","Districts",NA,NA
+27,79,"FRA","France",2,"Aquitaine",6,"Lot-et-Garonne",27,"Marmande","Arrondissement","Districts",NA,NA
+28,79,"FRA","France",2,"Aquitaine",6,"Lot-et-Garonne",28,"Nérac","Arrondissement","Districts",NA,NA
+29,79,"FRA","France",2,"Aquitaine",6,"Lot-et-Garonne",29,"Villeneuve-sur-Lot","Arrondissement","Districts",NA,NA
+30,79,"FRA","France",2,"Aquitaine",7,"Pyrénées-Atlantiques",30,"Bayonne","Arrondissement","Districts",NA,NA
+31,79,"FRA","France",2,"Aquitaine",7,"Pyrénées-Atlantiques",31,"Oloron-Sainte-Marie","Arrondissement","Districts",NA,NA
+32,79,"FRA","France",2,"Aquitaine",7,"Pyrénées-Atlantiques",32,"Pau","Arrondissement","Districts",NA,NA
+33,79,"FRA","France",3,"Auvergne",8,"Allier",33,"Montluçon","Arrondissement","Districts",NA,NA
+34,79,"FRA","France",3,"Auvergne",8,"Allier",34,"Moulins","Arrondissement","Districts",NA,NA
+35,79,"FRA","France",3,"Auvergne",8,"Allier",35,"Vichy","Arrondissement","Districts",NA,NA
+36,79,"FRA","France",3,"Auvergne",9,"Cantal",36,"Aurillac","Arrondissement","Districts",NA,NA
+37,79,"FRA","France",3,"Auvergne",9,"Cantal",37,"Mauriac","Arrondissement","Districts",NA,NA
+38,79,"FRA","France",3,"Auvergne",9,"Cantal",38,"Saint-Flour","Arrondissement","Districts",NA,NA
+39,79,"FRA","France",3,"Auvergne",10,"Haute-Loire",39,"Brioude","Arrondissement","Districts",NA,NA
+40,79,"FRA","France",3,"Auvergne",10,"Haute-Loire",40,"Le Puy-en-Velay","Arrondissement","Districts",NA,NA
+41,79,"FRA","France",3,"Auvergne",10,"Haute-Loire",41,"Yssingeaux","Arrondissement","Districts",NA,NA
+42,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme",42,"Ambert","Arrondissement","Districts",NA,NA
+43,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme",43,"Clermont-Ferrand","Arrondissement","Districts",NA,NA
+44,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme",44,"Issoire","Arrondissement","Districts",NA,NA
+45,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme",45,"Riom","Arrondissement","Districts",NA,NA
+46,79,"FRA","France",3,"Auvergne",11,"Puy-de-Dôme",46,"Thiers","Arrondissement","Districts",NA,NA
+47,79,"FRA","France",4,"Île-de-France",12,"Essonne",47,"Étampes","Arrondissement","Districts",NA,NA
+48,79,"FRA","France",4,"Île-de-France",12,"Essonne",48,"Évry","Arrondissement","Districts",NA,NA
+49,79,"FRA","France",4,"Île-de-France",12,"Essonne",49,"Palaiseau","Arrondissement","Districts",NA,NA
+50,79,"FRA","France",4,"Île-de-France",13,"Hauts-de-Seine",50,"Antony","Arrondissement","Districts",NA,NA
+51,79,"FRA","France",4,"Île-de-France",13,"Hauts-de-Seine",51,"Boulogne-Billancourt","Arrondissement","Districts",NA,NA
+52,79,"FRA","France",4,"Île-de-France",13,"Hauts-de-Seine",52,"Nanterre","Arrondissement","Districts",NA,NA
+53,79,"FRA","France",4,"Île-de-France",14,"Paris",53,"Paris, 11e arrondissement","Arrondissement","Districts",NA,NA
+54,79,"FRA","France",4,"Île-de-France",14,"Paris",54,"Paris, 12e arrondissement","Arrondissement","Districts",NA,NA
+55,79,"FRA","France",4,"Île-de-France",14,"Paris",55,"Paris, 12e arronissement","Arrondissement","Districts",NA,NA
+56,79,"FRA","France",4,"Île-de-France",14,"Paris",56,"Paris, 13e arrondissement","Arrondissement","Districts",NA,NA
+57,79,"FRA","France",4,"Île-de-France",14,"Paris",57,"Paris, 14e arrondissement","Arrondissement","Districts",NA,NA
+58,79,"FRA","France",4,"Île-de-France",14,"Paris",58,"Paris, 15e arrondissement","Arrondissement","Districts",NA,NA
+59,79,"FRA","France",4,"Île-de-France",14,"Paris",59,"Paris, 16e arrondissement","Arrondissement","Districts",NA,NA
+60,79,"FRA","France",4,"Île-de-France",14,"Paris",60,"Paris, 17e arrondissement","Arrondissement","Districts",NA,NA
+61,79,"FRA","France",4,"Île-de-France",14,"Paris",61,"Paris, 18e arrondissement","Arrondissement","Districts",NA,NA
+62,79,"FRA","France",4,"Île-de-France",14,"Paris",62,"Paris, 19e arrondissement","Arrondissement","Districts",NA,NA
+63,79,"FRA","France",4,"Île-de-France",14,"Paris",63,"Paris, 1er arrondissement","Arrondissement","Districts",NA,NA
+64,79,"FRA","France",4,"Île-de-France",14,"Paris",64,"Paris, 20e arrondissement","Arrondissement","Districts",NA,NA
+65,79,"FRA","France",4,"Île-de-France",14,"Paris",65,"Paris, 2e arrondissement","Arrondissement","Districts",NA,NA
+66,79,"FRA","France",4,"Île-de-France",14,"Paris",66,"Paris, 3e arrondissement","Arrondissement","Districts",NA,NA
+67,79,"FRA","France",4,"Île-de-France",14,"Paris",67,"Paris, 4e arrondissement","Arrondissement","Districts",NA,NA
+68,79,"FRA","France",4,"Île-de-France",14,"Paris",68,"Paris, 5e arrondissement","Arrondissement","Districts",NA,NA
+69,79,"FRA","France",4,"Île-de-France",14,"Paris",69,"Paris, 6e arrondissement","Arrondissement","Districts",NA,NA
+70,79,"FRA","France",4,"Île-de-France",14,"Paris",70,"Paris, 7e arrondissement","Arrondissement","Districts",NA,NA
+71,79,"FRA","France",4,"Île-de-France",14,"Paris",71,"Paris, 8e arrondissement","Arrondissement","Districts",NA,NA
+72,79,"FRA","France",4,"Île-de-France",14,"Paris",72,"Paris, 9e arrondissement","Arrondissement","Districts",NA,NA
+73,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne",73,"Fontainebleau","Arrondissement","Districts",NA,NA
+74,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne",74,"Meaux","Arrondissement","Districts",NA,NA
+75,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne",75,"Melun","Arrondissement","Districts",NA,NA
+76,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne",76,"Provins","Arrondissement","Districts",NA,NA
+77,79,"FRA","France",4,"Île-de-France",15,"Seine-et-Marne",77,"Torcy","Arrondissement","Districts",NA,NA
+78,79,"FRA","France",4,"Île-de-France",16,"Seine-Saint-Denis",78,"Bobigny","Arrondissement","Districts",NA,NA
+79,79,"FRA","France",4,"Île-de-France",16,"Seine-Saint-Denis",79,"Le Raincy","Arrondissement","Districts",NA,NA
+80,79,"FRA","France",4,"Île-de-France",16,"Seine-Saint-Denis",80,"Saint-Denis","Arrondissement","Districts",NA,NA
+81,79,"FRA","France",4,"Île-de-France",17,"Val-d'Oise",81,"Argenteuil","Arrondissement","Districts",NA,NA
+82,79,"FRA","France",4,"Île-de-France",17,"Val-d'Oise",82,"Pontoise","Arrondissement","Districts",NA,NA
+83,79,"FRA","France",4,"Île-de-France",17,"Val-d'Oise",83,"Sarcelles","Arrondissement","Districts",NA,NA
+84,79,"FRA","France",4,"Île-de-France",18,"Val-de-Marne",84,"Créteil","Arrondissement","Districts",NA,NA
+85,79,"FRA","France",4,"Île-de-France",18,"Val-de-Marne",85,"L'Haÿ-les-Roses","Arrondissement","Districts",NA,NA
+86,79,"FRA","France",4,"Île-de-France",18,"Val-de-Marne",86,"Nogent-sur-Marne","Arrondissement","Districts",NA,NA
+87,79,"FRA","France",4,"Île-de-France",19,"Yvelines",87,"Mantes-la-Jolie","Arrondissement","Districts",NA,NA
+88,79,"FRA","France",4,"Île-de-France",19,"Yvelines",88,"Rambouillet","Arrondissement","Districts",NA,NA
+89,79,"FRA","France",4,"Île-de-France",19,"Yvelines",89,"Saint-Germain-en-Laye","Arrondissement","Districts",NA,NA
+90,79,"FRA","France",4,"Île-de-France",19,"Yvelines",90,"Versailles","Arrondissement","Districts",NA,NA
+91,79,"FRA","France",5,"Basse-Normandie",20,"Calvados",91,"Bayeux","Arrondissement","Districts",NA,NA
+92,79,"FRA","France",5,"Basse-Normandie",20,"Calvados",92,"Caen","Arrondissement","Districts",NA,NA
+93,79,"FRA","France",5,"Basse-Normandie",20,"Calvados",93,"Lisieux","Arrondissement","Districts",NA,NA
+94,79,"FRA","France",5,"Basse-Normandie",20,"Calvados",94,"Vire","Arrondissement","Districts",NA,NA
+95,79,"FRA","France",5,"Basse-Normandie",21,"Manche",95,"Avranches","Arrondissement","Districts",NA,NA
+96,79,"FRA","France",5,"Basse-Normandie",21,"Manche",96,"Cherbourg","Arrondissement","Districts",NA,NA
+97,79,"FRA","France",5,"Basse-Normandie",21,"Manche",97,"Coutances","Arrondissement","Districts",NA,NA
+98,79,"FRA","France",5,"Basse-Normandie",21,"Manche",98,"Saint-Lô","Arrondissement","Districts",NA,NA
+99,79,"FRA","France",5,"Basse-Normandie",22,"Orne",99,"Alençon","Arrondissement","Districts",NA,NA
+100,79,"FRA","France",5,"Basse-Normandie",22,"Orne",100,"Argentan","Arrondissement","Districts",NA,NA
+101,79,"FRA","France",5,"Basse-Normandie",22,"Orne",101,"Mortagne-au-Perche","Arrondissement","Districts",NA,NA
+102,79,"FRA","France",6,"Bourgogne",23,"Côte-d'Or",102,"Beaune","Arrondissement","Districts",NA,NA
+103,79,"FRA","France",6,"Bourgogne",23,"Côte-d'Or",103,"Dijon","Arrondissement","Districts",NA,NA
+104,79,"FRA","France",6,"Bourgogne",23,"Côte-d'Or",104,"Montbard","Arrondissement","Districts",NA,NA
+105,79,"FRA","France",6,"Bourgogne",24,"Nièvre",105,"Château-Chinon (Ville)","Arrondissement","Districts",NA,NA
+106,79,"FRA","France",6,"Bourgogne",24,"Nièvre",106,"Clamecy","Arrondissement","Districts",NA,NA
+107,79,"FRA","France",6,"Bourgogne",24,"Nièvre",107,"Cosne-Cours-sur-Loire","Arrondissement","Districts",NA,NA
+108,79,"FRA","France",6,"Bourgogne",24,"Nièvre",108,"Nevers","Arrondissement","Districts",NA,NA
+109,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire",109,"Autun","Arrondissement","Districts",NA,NA
+110,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire",110,"Chalon-sur-Saône","Arrondissement","Districts",NA,NA
+111,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire",111,"Charolles","Arrondissement","Districts",NA,NA
+112,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire",112,"Louhans","Arrondissement","Districts",NA,NA
+113,79,"FRA","France",6,"Bourgogne",25,"Saône-et-Loire",113,"Mâcon","Arrondissement","Districts",NA,NA
+114,79,"FRA","France",6,"Bourgogne",26,"Yonne",114,"Auxerre","Arrondissement","Districts",NA,NA
+115,79,"FRA","France",6,"Bourgogne",26,"Yonne",115,"Avallon","Arrondissement","Districts",NA,NA
+116,79,"FRA","France",6,"Bourgogne",26,"Yonne",116,"Sens","Arrondissement","Districts",NA,NA
+117,79,"FRA","France",7,"Bretagne",27,"Côtes-d'Armor",117,"Dinan","Arrondissement","Districts",NA,NA
+118,79,"FRA","France",7,"Bretagne",27,"Côtes-d'Armor",118,"Guingamp","Arrondissement","Districts",NA,NA
+119,79,"FRA","France",7,"Bretagne",27,"Côtes-d'Armor",119,"Lannion","Arrondissement","Districts",NA,NA
+120,79,"FRA","France",7,"Bretagne",27,"Côtes-d'Armor",120,"Saint-Brieuc","Arrondissement","Districts",NA,NA
+121,79,"FRA","France",7,"Bretagne",28,"Finistère",121,"Brest","Arrondissement","Districts",NA,NA
+122,79,"FRA","France",7,"Bretagne",28,"Finistère",122,"Châteaulin","Arrondissement","Districts",NA,NA
+123,79,"FRA","France",7,"Bretagne",28,"Finistère",123,"Morlaix","Arrondissement","Districts",NA,NA
+124,79,"FRA","France",7,"Bretagne",28,"Finistère",124,"Quimper","Arrondissement","Districts",NA,NA
+125,79,"FRA","France",7,"Bretagne",29,"Ille-et-Vilaine",125,"Fougères-Vitré","Arrondissement","Districts",NA,NA
+126,79,"FRA","France",7,"Bretagne",29,"Ille-et-Vilaine",126,"Redon","Arrondissement","Districts",NA,NA
+127,79,"FRA","France",7,"Bretagne",29,"Ille-et-Vilaine",127,"Rennes","Arrondissement","Districts",NA,NA
+128,79,"FRA","France",7,"Bretagne",29,"Ille-et-Vilaine",128,"Saint-Malo","Arrondissement","Districts",NA,NA
+129,79,"FRA","France",7,"Bretagne",30,"Morbihan",129,"Lorient","Arrondissement","Districts",NA,NA
+130,79,"FRA","France",7,"Bretagne",30,"Morbihan",130,"Pontivy","Arrondissement","Districts",NA,NA
+131,79,"FRA","France",7,"Bretagne",30,"Morbihan",131,"Vannes","Arrondissement","Districts",NA,NA
+132,79,"FRA","France",8,"Centre",31,"Cher",132,"Bourges","Arrondissement","Districts",NA,NA
+133,79,"FRA","France",8,"Centre",31,"Cher",133,"Saint-Amand-Montrond","Arrondissement","Districts",NA,NA
+134,79,"FRA","France",8,"Centre",31,"Cher",134,"Vierzon","Arrondissement","Districts",NA,NA
+135,79,"FRA","France",8,"Centre",32,"Eure-et-Loir",135,"Châteaudun","Arrondissement","Districts",NA,NA
+136,79,"FRA","France",8,"Centre",32,"Eure-et-Loir",136,"Chartres","Arrondissement","Districts",NA,NA
+137,79,"FRA","France",8,"Centre",32,"Eure-et-Loir",137,"Dreux","Arrondissement","Districts",NA,NA
+138,79,"FRA","France",8,"Centre",32,"Eure-et-Loir",138,"Nogent-le-Rotrou","Arrondissement","Districts",NA,NA
+139,79,"FRA","France",8,"Centre",33,"Indre-et-Loire",139,"Chinon","Arrondissement","Districts",NA,NA
+140,79,"FRA","France",8,"Centre",33,"Indre-et-Loire",140,"Loches","Arrondissement","Districts",NA,NA
+141,79,"FRA","France",8,"Centre",33,"Indre-et-Loire",141,"Tours","Arrondissement","Districts",NA,NA
+142,79,"FRA","France",8,"Centre",34,"Indre",142,"Châteauroux","Arrondissement","Districts",NA,NA
+143,79,"FRA","France",8,"Centre",34,"Indre",143,"Issoudun","Arrondissement","Districts",NA,NA
+144,79,"FRA","France",8,"Centre",34,"Indre",144,"La Châtre","Arrondissement","Districts",NA,NA
+145,79,"FRA","France",8,"Centre",34,"Indre",145,"Le Blanc","Arrondissement","Districts",NA,NA
+146,79,"FRA","France",8,"Centre",35,"Loir-et-Cher",146,"Blois","Arrondissement","Districts",NA,NA
+147,79,"FRA","France",8,"Centre",35,"Loir-et-Cher",147,"Romorantin-Lanthenay","Arrondissement","Districts",NA,NA
+148,79,"FRA","France",8,"Centre",35,"Loir-et-Cher",148,"Vendôme","Arrondissement","Districts",NA,NA
+149,79,"FRA","France",8,"Centre",36,"Loiret",149,"Montargis","Arrondissement","Districts",NA,NA
+150,79,"FRA","France",8,"Centre",36,"Loiret",150,"Orléans","Arrondissement","Districts",NA,NA
+151,79,"FRA","France",8,"Centre",36,"Loiret",151,"Pithiviers","Arrondissement","Districts",NA,NA
+152,79,"FRA","France",9,"Champagne-Ardenne",37,"Ardennes",152,"Charleville-Mézières","Arrondissement","Districts",NA,NA
+153,79,"FRA","France",9,"Champagne-Ardenne",37,"Ardennes",153,"Rethel","Arrondissement","Districts",NA,NA
+154,79,"FRA","France",9,"Champagne-Ardenne",37,"Ardennes",154,"Sedan","Arrondissement","Districts",NA,NA
+155,79,"FRA","France",9,"Champagne-Ardenne",37,"Ardennes",155,"Vouziers","Arrondissement","Districts",NA,NA
+156,79,"FRA","France",9,"Champagne-Ardenne",38,"Aube",156,"Bar-sur-Aube","Arrondissement","Districts",NA,NA
+157,79,"FRA","France",9,"Champagne-Ardenne",38,"Aube",157,"Nogent-sur-Seine","Arrondissement","Districts",NA,NA
+158,79,"FRA","France",9,"Champagne-Ardenne",38,"Aube",158,"Troyes","Arrondissement","Districts",NA,NA
+159,79,"FRA","France",9,"Champagne-Ardenne",39,"Haute-Marne",159,"Chaumont","Arrondissement","Districts",NA,NA
+160,79,"FRA","France",9,"Champagne-Ardenne",39,"Haute-Marne",160,"Langres","Arrondissement","Districts",NA,NA
+161,79,"FRA","France",9,"Champagne-Ardenne",39,"Haute-Marne",161,"Saint-Dizier","Arrondissement","Districts",NA,NA
+162,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne",162,"Épernay","Arrondissement","Districts",NA,NA
+163,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne",163,"Châlons-en-Champagne","Arrondissement","Districts",NA,NA
+164,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne",164,"Reims","Arrondissement","Districts",NA,NA
+165,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne",165,"Sainte-Menehould","Arrondissement","Districts",NA,NA
+166,79,"FRA","France",9,"Champagne-Ardenne",40,"Marne",166,"Vitry-le-François","Arrondissement","Districts",NA,NA
+167,79,"FRA","France",10,"Corse",41,"Corse-du-Sud",167,"Ajaccio","Arrondissement","Districts",NA,NA
+168,79,"FRA","France",10,"Corse",41,"Corse-du-Sud",168,"Sartène","Arrondissement","Districts",NA,NA
+169,79,"FRA","France",10,"Corse",42,"Haute-Corse",169,"Bastia","Arrondissement","Districts",NA,NA
+170,79,"FRA","France",10,"Corse",42,"Haute-Corse",170,"Calvi","Arrondissement","Districts",NA,NA
+171,79,"FRA","France",10,"Corse",42,"Haute-Corse",171,"Corte","Arrondissement","Districts",NA,NA
+172,79,"FRA","France",11,"Franche-Comté",43,"Doubs",172,"Besançon","Arrondissement","Districts",NA,NA
+173,79,"FRA","France",11,"Franche-Comté",43,"Doubs",173,"Montbéliard","Arrondissement","Districts",NA,NA
+174,79,"FRA","France",11,"Franche-Comté",43,"Doubs",174,"Pontarlier","Arrondissement","Districts",NA,NA
+175,79,"FRA","France",11,"Franche-Comté",44,"Haute-Saône",175,"Lure","Arrondissement","Districts",NA,NA
+176,79,"FRA","France",11,"Franche-Comté",44,"Haute-Saône",176,"Vesoul","Arrondissement","Districts",NA,NA
+177,79,"FRA","France",11,"Franche-Comté",45,"Jura",177,"Dole","Arrondissement","Districts",NA,NA
+178,79,"FRA","France",11,"Franche-Comté",45,"Jura",178,"Lons-le-Saunier","Arrondissement","Districts",NA,NA
+179,79,"FRA","France",11,"Franche-Comté",45,"Jura",179,"Saint-Claude","Arrondissement","Districts",NA,NA
+180,79,"FRA","France",11,"Franche-Comté",46,"Territoire de Belfort",180,"Belfort","Arrondissement","Districts",NA,NA
+181,79,"FRA","France",12,"Haute-Normandie",47,"Eure",181,"Évreux","Arrondissement","Districts",NA,NA
+182,79,"FRA","France",12,"Haute-Normandie",47,"Eure",182,"Bernay","Arrondissement","Districts",NA,NA
+183,79,"FRA","France",12,"Haute-Normandie",47,"Eure",183,"Les Andelys","Arrondissement","Districts",NA,NA
+184,79,"FRA","France",12,"Haute-Normandie",48,"Seine-Maritime",184,"Dieppe","Arrondissement","Districts",NA,NA
+185,79,"FRA","France",12,"Haute-Normandie",48,"Seine-Maritime",185,"Le Havre","Arrondissement","Districts",NA,NA
+186,79,"FRA","France",12,"Haute-Normandie",48,"Seine-Maritime",186,"Rouen","Arrondissement","Districts",NA,NA
+187,79,"FRA","France",13,"Languedoc-Roussillon",49,"Aude",187,"Carcassonne","Arrondissement","Districts",NA,NA
+188,79,"FRA","France",13,"Languedoc-Roussillon",49,"Aude",188,"Limoux","Arrondissement","Districts",NA,NA
+189,79,"FRA","France",13,"Languedoc-Roussillon",49,"Aude",189,"Narbonne","Arrondissement","Districts",NA,NA
+190,79,"FRA","France",13,"Languedoc-Roussillon",50,"Gard",190,"Alès","Arrondissement","Districts",NA,NA
+191,79,"FRA","France",13,"Languedoc-Roussillon",50,"Gard",191,"Le Vigan","Arrondissement","Districts",NA,NA
+192,79,"FRA","France",13,"Languedoc-Roussillon",50,"Gard",192,"Nîmes","Arrondissement","Districts",NA,NA
+193,79,"FRA","France",13,"Languedoc-Roussillon",51,"Hérault",193,"Béziers","Arrondissement","Districts",NA,NA
+194,79,"FRA","France",13,"Languedoc-Roussillon",51,"Hérault",194,"Lodève","Arrondissement","Districts",NA,NA
+195,79,"FRA","France",13,"Languedoc-Roussillon",51,"Hérault",195,"Montpellier","Arrondissement","Districts",NA,NA
+196,79,"FRA","France",13,"Languedoc-Roussillon",52,"Lozère",196,"Florac","Arrondissement","Districts",NA,NA
+197,79,"FRA","France",13,"Languedoc-Roussillon",52,"Lozère",197,"Mende","Arrondissement","Districts",NA,NA
+198,79,"FRA","France",13,"Languedoc-Roussillon",53,"Pyrénées-Orientales",198,"Céret","Arrondissement","Districts",NA,NA
+199,79,"FRA","France",13,"Languedoc-Roussillon",53,"Pyrénées-Orientales",199,"Perpignan","Arrondissement","Districts",NA,NA
+200,79,"FRA","France",13,"Languedoc-Roussillon",53,"Pyrénées-Orientales",200,"Prades","Arrondissement","Districts",NA,NA
+201,79,"FRA","France",14,"Limousin",54,"Corrèze",201,"Brive-la-Gaillarde","Arrondissement","Districts",NA,NA
+202,79,"FRA","France",14,"Limousin",54,"Corrèze",202,"Tulle","Arrondissement","Districts",NA,NA
+203,79,"FRA","France",14,"Limousin",54,"Corrèze",203,"Ussel","Arrondissement","Districts",NA,NA
+204,79,"FRA","France",14,"Limousin",55,"Creuse",204,"Aubusson","Arrondissement","Districts",NA,NA
+205,79,"FRA","France",14,"Limousin",55,"Creuse",205,"Guéret","Arrondissement","Districts",NA,NA
+206,79,"FRA","France",14,"Limousin",56,"Haute-Vienne",206,"Bellac","Arrondissement","Districts",NA,NA
+207,79,"FRA","France",14,"Limousin",56,"Haute-Vienne",207,"Limoges","Arrondissement","Districts",NA,NA
+208,79,"FRA","France",14,"Limousin",56,"Haute-Vienne",208,"Rochechouart","Arrondissement","Districts",NA,NA
+209,79,"FRA","France",15,"Lorraine",57,"Meurthe-et-Moselle",209,"Briey","Arrondissement","Districts",NA,NA
+210,79,"FRA","France",15,"Lorraine",57,"Meurthe-et-Moselle",210,"Lunéville","Arrondissement","Districts",NA,NA
+211,79,"FRA","France",15,"Lorraine",57,"Meurthe-et-Moselle",211,"Nancy","Arrondissement","Districts",NA,NA
+212,79,"FRA","France",15,"Lorraine",57,"Meurthe-et-Moselle",212,"Toul","Arrondissement","Districts",NA,NA
+213,79,"FRA","France",15,"Lorraine",58,"Meuse",213,"Bar-le-Duc","Arrondissement","Districts",NA,NA
+214,79,"FRA","France",15,"Lorraine",58,"Meuse",214,"Commercy","Arrondissement","Districts",NA,NA
+215,79,"FRA","France",15,"Lorraine",58,"Meuse",215,"Verdun","Arrondissement","Districts",NA,NA
+216,79,"FRA","France",15,"Lorraine",59,"Moselle",216,"Boulay-Moselle","Arrondissement","Districts",NA,NA
+217,79,"FRA","France",15,"Lorraine",59,"Moselle",217,"Château-Salins","Arrondissement","Districts",NA,NA
+218,79,"FRA","France",15,"Lorraine",59,"Moselle",218,"Forbach","Arrondissement","Districts",NA,NA
+219,79,"FRA","France",15,"Lorraine",59,"Moselle",219,"Metz-Campagne","Arrondissement","Districts",NA,NA
+220,79,"FRA","France",15,"Lorraine",59,"Moselle",220,"Metz-Ville","Arrondissement","Districts",NA,NA
+221,79,"FRA","France",15,"Lorraine",59,"Moselle",221,"Sarrebourg","Arrondissement","Districts",NA,NA
+222,79,"FRA","France",15,"Lorraine",59,"Moselle",222,"Sarreguemines","Arrondissement","Districts",NA,NA
+223,79,"FRA","France",15,"Lorraine",59,"Moselle",223,"Thionville-Est","Arrondissement","Districts",NA,NA
+224,79,"FRA","France",15,"Lorraine",59,"Moselle",224,"Thionville-Ouest","Arrondissement","Districts",NA,NA
+225,79,"FRA","France",15,"Lorraine",60,"Vosges",225,"Épinal","Arrondissement","Districts",NA,NA
+226,79,"FRA","France",15,"Lorraine",60,"Vosges",226,"Neufchâteau","Arrondissement","Districts",NA,NA
+227,79,"FRA","France",15,"Lorraine",60,"Vosges",227,"Saint-Dié-des-Vosges","Arrondissement","Districts",NA,NA
+228,79,"FRA","France",16,"Midi-Pyrénées",61,"Ariège",228,"Foix","Arrondissement","Districts",NA,NA
+229,79,"FRA","France",16,"Midi-Pyrénées",61,"Ariège",229,"Pamiers","Arrondissement","Districts",NA,NA
+230,79,"FRA","France",16,"Midi-Pyrénées",61,"Ariège",230,"Saint-Girons","Arrondissement","Districts",NA,NA
+231,79,"FRA","France",16,"Midi-Pyrénées",62,"Aveyron",231,"Millau","Arrondissement","Districts",NA,NA
+232,79,"FRA","France",16,"Midi-Pyrénées",62,"Aveyron",232,"Rodez","Arrondissement","Districts",NA,NA
+233,79,"FRA","France",16,"Midi-Pyrénées",62,"Aveyron",233,"Villefranche-de-Rouergue","Arrondissement","Districts",NA,NA
+234,79,"FRA","France",16,"Midi-Pyrénées",63,"Gers",234,"Auch","Arrondissement","Districts",NA,NA
+235,79,"FRA","France",16,"Midi-Pyrénées",63,"Gers",235,"Condom","Arrondissement","Districts",NA,NA
+236,79,"FRA","France",16,"Midi-Pyrénées",63,"Gers",236,"Mirande","Arrondissement","Districts",NA,NA
+237,79,"FRA","France",16,"Midi-Pyrénées",64,"Haute-Garonne",237,"Muret","Arrondissement","Districts",NA,NA
+238,79,"FRA","France",16,"Midi-Pyrénées",64,"Haute-Garonne",238,"Saint-Gaudens","Arrondissement","Districts",NA,NA
+239,79,"FRA","France",16,"Midi-Pyrénées",64,"Haute-Garonne",239,"Toulouse","Arrondissement","Districts",NA,NA
+240,79,"FRA","France",16,"Midi-Pyrénées",65,"Hautes-Pyrénées",240,"Argelès-Gazost","Arrondissement","Districts",NA,NA
+241,79,"FRA","France",16,"Midi-Pyrénées",65,"Hautes-Pyrénées",241,"Bagnères-de-Bigorre","Arrondissement","Districts",NA,NA
+242,79,"FRA","France",16,"Midi-Pyrénées",65,"Hautes-Pyrénées",242,"Tarbes","Arrondissement","Districts",NA,NA
+243,79,"FRA","France",16,"Midi-Pyrénées",66,"Lot",243,"Cahors","Arrondissement","Districts",NA,NA
+244,79,"FRA","France",16,"Midi-Pyrénées",66,"Lot",244,"Figeac","Arrondissement","Districts",NA,NA
+245,79,"FRA","France",16,"Midi-Pyrénées",66,"Lot",245,"Gourdon","Arrondissement","Districts",NA,NA
+246,79,"FRA","France",16,"Midi-Pyrénées",67,"Tarn-et-Garonne",246,"Castelsarrasin","Arrondissement","Districts",NA,NA
+247,79,"FRA","France",16,"Midi-Pyrénées",67,"Tarn-et-Garonne",247,"Montauban","Arrondissement","Districts",NA,NA
+248,79,"FRA","France",16,"Midi-Pyrénées",68,"Tarn",248,"Albi","Arrondissement","Districts",NA,NA
+249,79,"FRA","France",16,"Midi-Pyrénées",68,"Tarn",249,"Castres","Arrondissement","Districts",NA,NA
+250,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",250,"Avesnes-sur-Helpe","Arrondissement","Districts",NA,NA
+251,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",251,"Cambrai","Arrondissement","Districts",NA,NA
+252,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",252,"Douai","Arrondissement","Districts",NA,NA
+253,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",253,"Dunkerque","Arrondissement","Districts",NA,NA
+254,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",254,"Lille","Arrondissement","Districts",NA,NA
+255,79,"FRA","France",17,"Nord-Pas-de-Calais",69,"Nord",255,"Valenciennes","Arrondissement","Districts",NA,NA
+256,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",256,"Arras","Arrondissement","Districts",NA,NA
+257,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",257,"Béthune","Arrondissement","Districts",NA,NA
+258,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",258,"Boulogne-sur-Mer","Arrondissement","Districts",NA,NA
+259,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",259,"Calais","Arrondissement","Districts",NA,NA
+260,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",260,"Lens","Arrondissement","Districts",NA,NA
+261,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",261,"Montreuil","Arrondissement","Districts",NA,NA
+262,79,"FRA","France",17,"Nord-Pas-de-Calais",70,"Pas-de-Calais",262,"Saint-Omer","Arrondissement","Districts",NA,NA
+263,79,"FRA","France",18,"Pays de la Loire",71,"Loire-Atlantique",263,"Ancenis","Arrondissement","Districts",NA,NA
+264,79,"FRA","France",18,"Pays de la Loire",71,"Loire-Atlantique",264,"Châteaubriant","Arrondissement","Districts",NA,NA
+265,79,"FRA","France",18,"Pays de la Loire",71,"Loire-Atlantique",265,"Nantes","Arrondissement","Districts",NA,NA
+266,79,"FRA","France",18,"Pays de la Loire",71,"Loire-Atlantique",266,"Saint-Nazaire","Arrondissement","Districts",NA,NA
+267,79,"FRA","France",18,"Pays de la Loire",72,"Maine-et-Loire",267,"Angers","Arrondissement","Districts",NA,NA
+268,79,"FRA","France",18,"Pays de la Loire",72,"Maine-et-Loire",268,"Cholet","Arrondissement","Districts",NA,NA
+269,79,"FRA","France",18,"Pays de la Loire",72,"Maine-et-Loire",269,"Saumur","Arrondissement","Districts",NA,NA
+270,79,"FRA","France",18,"Pays de la Loire",72,"Maine-et-Loire",270,"Segré","Arrondissement","Districts",NA,NA
+271,79,"FRA","France",18,"Pays de la Loire",73,"Mayenne",271,"Château-Gontier","Arrondissement","Districts",NA,NA
+272,79,"FRA","France",18,"Pays de la Loire",73,"Mayenne",272,"Laval","Arrondissement","Districts",NA,NA
+273,79,"FRA","France",18,"Pays de la Loire",73,"Mayenne",273,"Mayenne","Arrondissement","Districts",NA,NA
+274,79,"FRA","France",18,"Pays de la Loire",74,"Sarthe",274,"La Flèche","Arrondissement","Districts",NA,NA
+275,79,"FRA","France",18,"Pays de la Loire",74,"Sarthe",275,"Le Mans","Arrondissement","Districts",NA,NA
+276,79,"FRA","France",18,"Pays de la Loire",74,"Sarthe",276,"Mamers","Arrondissement","Districts",NA,NA
+277,79,"FRA","France",18,"Pays de la Loire",75,"Vendée",277,"Fontenay-le-Comte","Arrondissement","Districts",NA,NA
+278,79,"FRA","France",18,"Pays de la Loire",75,"Vendée",278,"La Roche-sur-Yon","Arrondissement","Districts",NA,NA
+279,79,"FRA","France",18,"Pays de la Loire",75,"Vendée",279,"Les Sables-d'Olonne","Arrondissement","Districts",NA,NA
+280,79,"FRA","France",19,"Picardie",76,"Aisne",280,"Château-Thierry","Arrondissement","Districts",NA,NA
+281,79,"FRA","France",19,"Picardie",76,"Aisne",281,"Laon","Arrondissement","Districts",NA,NA
+282,79,"FRA","France",19,"Picardie",76,"Aisne",282,"Saint-Quentin","Arrondissement","Districts",NA,NA
+283,79,"FRA","France",19,"Picardie",76,"Aisne",283,"Soissons","Arrondissement","Districts",NA,NA
+284,79,"FRA","France",19,"Picardie",76,"Aisne",284,"Vervins","Arrondissement","Districts",NA,NA
+285,79,"FRA","France",19,"Picardie",77,"Oise",285,"Beauvais","Arrondissement","Districts",NA,NA
+286,79,"FRA","France",19,"Picardie",77,"Oise",286,"Clermont","Arrondissement","Districts",NA,NA
+287,79,"FRA","France",19,"Picardie",77,"Oise",287,"Compiègne","Arrondissement","Districts",NA,NA
+288,79,"FRA","France",19,"Picardie",77,"Oise",288,"Senlis","Arrondissement","Districts",NA,NA
+289,79,"FRA","France",19,"Picardie",78,"Somme",289,"Abbeville","Arrondissement","Districts",NA,NA
+290,79,"FRA","France",19,"Picardie",78,"Somme",290,"Amiens","Arrondissement","Districts",NA,NA
+291,79,"FRA","France",19,"Picardie",78,"Somme",291,"Montdidier","Arrondissement","Districts",NA,NA
+292,79,"FRA","France",19,"Picardie",78,"Somme",292,"Péronne","Arrondissement","Districts",NA,NA
+293,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime",293,"Jonzac","Arrondissement","Districts",NA,NA
+294,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime",294,"La Rochelle","Arrondissement","Districts",NA,NA
+295,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime",295,"Rochefort","Arrondissement","Districts",NA,NA
+296,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime",296,"Saint-Jean-d'Angély","Arrondissement","Districts",NA,NA
+297,79,"FRA","France",20,"Poitou-Charentes",79,"Charente-Maritime",297,"Saintes","Arrondissement","Districts",NA,NA
+298,79,"FRA","France",20,"Poitou-Charentes",80,"Charente",298,"Angoulême","Arrondissement","Districts",NA,NA
+299,79,"FRA","France",20,"Poitou-Charentes",80,"Charente",299,"Cognac","Arrondissement","Districts",NA,NA
+300,79,"FRA","France",20,"Poitou-Charentes",80,"Charente",300,"Confolens","Arrondissement","Districts",NA,NA
+301,79,"FRA","France",20,"Poitou-Charentes",81,"Deux-Sèvres",301,"Bressuire","Arrondissement","Districts",NA,NA
+302,79,"FRA","France",20,"Poitou-Charentes",81,"Deux-Sèvres",302,"Niort","Arrondissement","Districts",NA,NA
+303,79,"FRA","France",20,"Poitou-Charentes",81,"Deux-Sèvres",303,"Parthenay","Arrondissement","Districts",NA,NA
+304,79,"FRA","France",20,"Poitou-Charentes",82,"Vienne",304,"Châtellerault","Arrondissement","Districts",NA,NA
+305,79,"FRA","France",20,"Poitou-Charentes",82,"Vienne",305,"Montmorillon","Arrondissement","Districts",NA,NA
+306,79,"FRA","France",20,"Poitou-Charentes",82,"Vienne",306,"Poitiers","Arrondissement","Districts",NA,NA
+307,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",83,"Alpes-de-Haute-Provence",307,"Barcelonnette","Arrondissement","Districts",NA,NA
+308,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",83,"Alpes-de-Haute-Provence",308,"Castellane","Arrondissement","Districts",NA,NA
+309,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",83,"Alpes-de-Haute-Provence",309,"Digne-les-Bains","Arrondissement","Districts",NA,NA
+310,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",83,"Alpes-de-Haute-Provence",310,"Forcalquier","Arrondissement","Districts",NA,NA
+311,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",84,"Alpes-Maritimes",311,"Grasse","Arrondissement","Districts",NA,NA
+312,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",84,"Alpes-Maritimes",312,"Nice","Arrondissement","Districts",NA,NA
+313,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",85,"Bouches-du-Rhône",313,"Aix-en-Provence","Arrondissement","Districts",NA,NA
+314,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",85,"Bouches-du-Rhône",314,"Arles","Arrondissement","Districts",NA,NA
+315,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",85,"Bouches-du-Rhône",315,"Istres","Arrondissement","Districts",NA,NA
+316,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",85,"Bouches-du-Rhône",316,"Marseille","Arrondissement","Districts",NA,NA
+317,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",86,"Hautes-Alpes",317,"Briançon","Arrondissement","Districts",NA,NA
+318,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",86,"Hautes-Alpes",318,"Gap","Arrondissement","Districts",NA,NA
+319,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",87,"Var",319,"Brignoles","Arrondissement","Districts",NA,NA
+320,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",87,"Var",320,"Draguignan","Arrondissement","Districts",NA,NA
+321,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",87,"Var",321,"Toulon","Arrondissement","Districts",NA,NA
+322,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",88,"Vaucluse",322,"Apt","Arrondissement","Districts",NA,NA
+323,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",88,"Vaucluse",323,"Avignon","Arrondissement","Districts",NA,NA
+324,79,"FRA","France",21,"Provence-Alpes-Côte d'Azur",88,"Vaucluse",324,"Carpentras","Arrondissement","Districts",NA,NA
+325,79,"FRA","France",22,"Rhône-Alpes",89,"Ain",325,"Belley","Arrondissement","Districts",NA,NA
+326,79,"FRA","France",22,"Rhône-Alpes",89,"Ain",326,"Bourg-en-Bresse","Arrondissement","Districts",NA,NA
+327,79,"FRA","France",22,"Rhône-Alpes",89,"Ain",327,"Gex","Arrondissement","Districts",NA,NA
+328,79,"FRA","France",22,"Rhône-Alpes",89,"Ain",328,"Nantua","Arrondissement","Districts",NA,NA
+329,79,"FRA","France",22,"Rhône-Alpes",90,"Ardèche",329,"Largentière","Arrondissement","Districts",NA,NA
+330,79,"FRA","France",22,"Rhône-Alpes",90,"Ardèche",330,"Privas","Arrondissement","Districts",NA,NA
+331,79,"FRA","France",22,"Rhône-Alpes",90,"Ardèche",331,"Tournon-sur-Rhône","Arrondissement","Districts",NA,NA
+332,79,"FRA","France",22,"Rhône-Alpes",91,"Drôme",332,"Die","Arrondissement","Districts",NA,NA
+333,79,"FRA","France",22,"Rhône-Alpes",91,"Drôme",333,"Nyons","Arrondissement","Districts",NA,NA
+334,79,"FRA","France",22,"Rhône-Alpes",91,"Drôme",334,"Valence","Arrondissement","Districts",NA,NA
+335,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie",335,"Annecy","Arrondissement","Districts",NA,NA
+336,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie",336,"Bonneville","Arrondissement","Districts",NA,NA
+337,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie",337,"Lac Léman","Water body","Water body",NA,NA
+338,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie",338,"Saint-Julien-en-Genevois","Arrondissement","Districts",NA,NA
+339,79,"FRA","France",22,"Rhône-Alpes",92,"Haute-Savoie",339,"Thonon-les-Bains","Arrondissement","Districts",NA,NA
+340,79,"FRA","France",22,"Rhône-Alpes",93,"Isère",340,"Grenoble","Arrondissement","Districts",NA,NA
+341,79,"FRA","France",22,"Rhône-Alpes",93,"Isère",341,"La Tour-du-Pin","Arrondissement","Districts",NA,NA
+342,79,"FRA","France",22,"Rhône-Alpes",93,"Isère",342,"Vienne","Arrondissement","Districts",NA,NA
+343,79,"FRA","France",22,"Rhône-Alpes",94,"Loire",343,"Montbrison","Arrondissement","Districts",NA,NA
+344,79,"FRA","France",22,"Rhône-Alpes",94,"Loire",344,"Roanne","Arrondissement","Districts",NA,NA
+345,79,"FRA","France",22,"Rhône-Alpes",94,"Loire",345,"Saint-Étienne","Arrondissement","Districts",NA,NA
+346,79,"FRA","France",22,"Rhône-Alpes",95,"Rhône",346,"Lyon","Arrondissement","Districts",NA,NA
+347,79,"FRA","France",22,"Rhône-Alpes",95,"Rhône",347,"Villefranche-sur-Saône","Arrondissement","Districts",NA,NA
+348,79,"FRA","France",22,"Rhône-Alpes",96,"Savoie",348,"Albertville","Arrondissement","Districts",NA,NA
+349,79,"FRA","France",22,"Rhône-Alpes",96,"Savoie",349,"Chambéry","Arrondissement","Districts",NA,NA
+350,79,"FRA","France",22,"Rhône-Alpes",96,"Savoie",350,"Saint-Jean-de-Maurienne","Arrondissement","Districts",NA,NA

@@ -1,19 +1,29 @@
 #!/bin/bash
 
+# Folder to be used to download and process data
+export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
+export HOME_FOLDER=$(pwd)
+export N_CONCUR_PROCESSES=4 
+export NCFTP_BOOKMARK="altervista"
+DATA_DOWNLOAD=false
+DATA_PLOTTING=true
+DATA_UPLOAD=false
+
 ##### LOAD functions to download model data
-. ~/functions_download_dwd.sh
+. ./functions_download_dwd.sh
 export SHELL=$(type -p bash)
-########################################### 
+# We need to open many files at the same time
+ulimit -Sn 4096
+# 
+source ~/.bash_profile
+# acivate our environment 
+conda activate nwp
+###########################################
 
-##### LOAD environmental variables ########
-export cdo=/sw/stretch-x64/cdo/cdo-1.9.6-gccsys/bin/cdo
-export python=/home/mpim/m300382/.conda/envs/my_base/bin/python
-export parallel=/home/mpim/m300382/.conda/envs/my_base/bin/parallel
-########################################### 
+mkdir -p ${MODEL_DATA_FOLDER}it
+mkdir -p ${MODEL_DATA_FOLDER}de
 
-export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
-source /sw/stretch-x64/conda/anaconda3-5.3.0-python-3.7/bin/activate my_base
-
+# Retrieve run ##########################
 export year=`date +"%Y"`
 export month=`date +"%m"`
 export day=`date +"%d"`
@@ -37,108 +47,108 @@ fi
 
 export run
 
-cd /scratch/local1/m300382/icon_forecasts/
-rm *.nc
-cp /home/mpim/m300382/icon_forecasts/*.py ./
+###########################################
 
-#2-D variables
-variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" "CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP" "SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
-${parallel} -j 8 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
+# Move to the data folder to do processing
+cd ${MODEL_DATA_FOLDER} || { echo 'Cannot change to DATA folder' ; exit 1; }
 
-#3-D variables on pressure levels
-variables=("T" "FI" "RELHUM" "U" "V" "CLC")
-${parallel} -j 8 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
+# SECTION 1 - DATA DOWNLOAD ############################################################
 
-#soil levels
-${parallel} -j 16 download_merge_soil_variable_icon_eu ::: "W_SO"
+if [ "$DATA_DOWNLOAD" = true ]; then
+	# Remove older files
+	rm ${MODEL_DATA_FOLDER}*.nc
+	rm ${MODEL_DATA_FOLDER}*.grib2
 
-${cdo} -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc
-rm *.grib2 
+	# Invariant
+	download_invariant_icon_eu
 
-${python} plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
+	#2-D variables
+	variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" \
+	"CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP"\
+	"SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
+	parallel -j ${N_CONCUR_PROCESSES} download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
-ncftpput -R -v altervista icon_italy/meteograms meteogram_*
+	#3-D variables on pressure levels
+	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
+	parallel -j ${N_CONCUR_PROCESSES} download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
-scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" "plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py" "plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
-projections=("euratl" "it" "de")
+	#soil levels
+	parallel -j ${N_CONCUR_PROCESSES} download_merge_soil_variable_icon_eu ::: "W_SO"
 
-${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
+	cdo -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc || { exit 1; }
+	rm ${MODEL_DATA_FOLDER}*.grib2 
+fi 
 
-# Upload to the FTP server
-ncftpput -R -v altervista icon_forecasts/gph_t_850 gph_t_850_*
-ncftpput -R -v altervista icon_forecasts/gph_t_500 gph_t_500_*
-ncftpput -R -v altervista icon_forecasts/gph_thetae_850 gph_thetae_850_*
-ncftpput -R -v altervista icon_forecasts/precip_clouds precip_clouds_*
-ncftpput -R -v altervista icon_forecasts/winds10m winds10m_*
-ncftpput -R -v altervista icon_forecasts/winds_jet winds_jet_*
-ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
-ncftpput -R -v altervista icon_forecasts/hsnow hsnow_*
-ncftpput -R -v altervista icon_forecasts/cape cape_*
-ncftpput -R -v altervista icon_forecasts/conv conv_*
-ncftpput -R -v altervista icon_forecasts/soil_moisture soil_moisture_*
-ncftpput -R -v altervista icon_forecasts/t_v_pres t_v_pres_*
-ncftpput -R -v altervista icon_forecasts/precip_acc precip_acc_*
-ncftpput -R -v altervista icon_forecasts/vort_850 vort_850_*
-ncftpput -R -v altervista icon_forecasts/winter winter_*
-ncftpput -R -v altervista icon_forecasts/tmax tmax_*
-ncftpput -R -v altervista icon_forecasts/tmin tmin_*
+############################################################
 
-ncftpput -R -v altervista icon_italy/t_v_pres it/t_v_pres_*
-ncftpput -R -v altervista icon_italy/gph_t_850 it/gph_t_850_*
-ncftpput -R -v altervista icon_italy/gph_t_500 it/gph_t_500_*
-ncftpput -R -v altervista icon_italy/hsnow it/hsnow_*
-ncftpput -R -v altervista icon_italy/cape it/cape_*
-ncftpput -R -v altervista icon_italy/winds10m it/winds10m_*
-ncftpput -R -v altervista icon_italy/conv it/conv_*
-ncftpput -R -v altervista icon_italy/precip_clouds it/precip_clouds_*
-ncftpput -R -v altervista icon_italy/gph_thetae_850 it/gph_thetae_850_*
-#ncftpput -R -v altervista icon_italy/thetae_winds thetae_winds_*
-#ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
-ncftpput -R -v altervista icon_italy/precip_acc it/precip_acc_*
-ncftpput -R -v altervista icon_italy/winds_jet it/winds_jet_*
-ncftpput -R -v altervista icon_italy/vort_850 it/vort_850_*
-ncftpput -R -v altervista icon_italy/winter it/winter_*
-ncftpput -R -v altervista icon_italy/soil_moisture it/soil_moisture_*
-ncftpput -R -v altervista icon_italy/tmax it/tmax_*
-ncftpput -R -v altervista icon_italy/tmin it/tmin_*
 
-ncftpput -R -v altervista icon_de/precip_clouds de/precip_clouds_*
-ncftpput -R -v altervista icon_de/hsnow de/hsnow_*
-ncftpput -R -v altervista icon_de/t_v_pres de/t_v_pres_*
-ncftpput -R -v altervista icon_de/gph_t_850 de/gph_t_850_*
-ncftpput -R -v altervista icon_de/gph_t_500 de/gph_t_500_*
-ncftpput -R -v altervista icon_de/cape de/cape_*
-ncftpput -R -v altervista icon_de/winds10m de/winds10m_*
-ncftpput -R -v altervista icon_de/gph_thetae_850 de/gph_thetae_850_*
-ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
-ncftpput -R -v altervista icon_de/conv de/conv_*
-ncftpput -R -v altervista icon_de/precip_acc de/precip_acc_*
-ncftpput -R -v altervista icon_de/winds_jet de/winds_jet_*
-ncftpput -R -v altervista icon_de/vort_850 de/vort_850_*
-ncftpput -R -v altervista icon_de/winter de/winter_*
-ncftpput -R -v altervista icon_de/soil_moisture de/soil_moisture_*
-ncftpput -R -v altervista icon_de/tmax de/tmax_*
-ncftpput -R -v altervista icon_de/tmin de/tmin_*
+# SECTION 2 - DATA PLOTTING ############################################################
 
+if [ "$DATA_PLOTTING" = true ]; then
+	python --version
+	cp ${HOME_FOLDER}/plotting/*.py ${MODEL_DATA_FOLDER}
+
+	export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
+
+	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
+
+	# scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
+	# 	"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
+	# 	"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
+
+	# projections=("euratl" "it" "de")
+
+	# parallel -j 8 python ::: "${scripts[@]}" ::: "${projections[@]}"
+fi
+
+############################################################
+
+
+# SECTION 3 - IMAGES UPLOAD ############################################################
+# Use ncftpbookmarks to add a new FTP server with credentials
+if [ "$DATA_UPLOAD" = true ]; then
+	# First upload meteograms
+	ncftpput -R -v ${NCFTP_BOOKMARK} icon_italy/meteograms meteogram_*
+	#
+	# Then upload the other pictures
+	#
+	images_output=("gph_t_850" "gph_t_500" "gph_thetae_850" "precip_clouds" "winds10m" "winds_jet" "vort_850" "hsnow" "cape"\
+		"conv" "soil_moisture" "t_v_pres" "precip_acc" "vort_850" "winter" "tmax" "tmin")
+
+	# suffix for naming
+	projections_output=("" "it/" "de/")
+	# remote folder on server
+	projections_output_folder=("icon_forecasts" "icon_italy" "icon_de")
+
+	# Create a lisf of all the images to upload 
+	upload_elements=()
+	for i in "${!projections_output[@]}"; do
+		for j in "${images_output[@]}"; do
+			upload_elements+=("${projections_output_folder[$i]}/${j} ./${projections_output[$i]}${j}_*")
+		done
+	done
+
+	# Finally upload the images 
+	for k in "${upload_elements[@]}"; do
+		ncftpput -R -v ${NCFTP_BOOKMARK} ${k}
+	done
+
+	# To be parallelized in the future if the FTP server accepts multiple connections
+	# this doesn't work 
+	# parallel -j 2 ncftpput -R -v ${NCFTP_BOOKMARK} ::: "${upload_elements[@]}"
+
+fi 
+
+############################################################
+
+# SECTION 4 - CLEANING ############################################################
 
 #Remove images locally
-rm *.png
-rm *.gif
-rm de/*.png
-rm it/*.png
+rm ${MODEL_DATA_FOLDER}*.png
+rm ${MODEL_DATA_FOLDER}de/*.png
+rm ${MODEL_DATA_FOLDER}it/*.png
+rm ${MODEL_DATA_FOLDER}*.py
 
-# archive data on pftp
+############################################################
 
-#tar -cvf ${year}${month}${day}${run}.tar *.nc
-#
-#/client/bin/pftp <<EOF
-#user m300382 password
-#cd bm0682/m300382/icon_forecasts
-#mput *.tar
-#bye
-#EOF
-
-rm *.tar
-rm *.py
-
-cd 
+cd -

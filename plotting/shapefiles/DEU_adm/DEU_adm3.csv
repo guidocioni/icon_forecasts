@@ -1,0 +1,438 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","ID_2","NAME_2","ID_3","NAME_3","TYPE_3","ENGTYPE_3","NL_NAME_3","VARNAME_3"
+1,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",1,"Breisgau-Hochschwarzwald","Landkreise","Rural district",NA,NA
+2,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",2,"Emmendingen","Landkreise","Rural district",NA,NA
+3,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",3,"Freiburg",NA,NA,NA,NA
+4,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",4,"Konstanz","Landkreise","Rural district",NA,"Constance"
+5,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",5,"Lörrach 
+Lörrach 
+","Landkreise","Rural district",NA,"Lörrach"
+6,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",6,"Ortenaukreis","Landkreise","Rural district",NA,NA
+7,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",7,"Rottweil","Landkreise","Rural district",NA,NA
+8,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",8,"Schwarzwald-Baar-Kreis","Landkreise","Rural district",NA,NA
+9,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",9,"Tuttlingen","Landkreise","Rural district",NA,NA
+10,86,"DEU","Germany",1,"Baden-Württemberg",1,"Freiburg",10,"Waldshut","Landkreise","Rural district",NA,NA
+11,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",11,"Baden-Baden Städte","Kreisfreie Städte","Urban district",NA,NA
+12,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",12,"Calw","Landkreise","Rural district",NA,NA
+13,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",13,"Enz","Landkreise","Rural district",NA,NA
+14,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",14,"Freudenstadt","Landkreise","Rural district",NA,NA
+15,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",15,"Heidelberg Städte","Kreisfreie Städte","Urban district",NA,NA
+16,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",16,"Karlsruhe Städte","Kreisfreie Städte","Urban district",NA,NA
+17,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",17,"Karlsruhe","Landkreise","Rural district",NA,NA
+18,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",18,"Mannheim Städte","Kreisfreie Städte","Urban district",NA,NA
+19,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",19,"Neckar-Odenwald-Kreis","Landkreise","Rural district",NA,NA
+20,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",20,"Pforzheim Städte","Kreisfreie Städte","Urban district",NA,NA
+21,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",21,"Rastatt","Landkreise","Rural district",NA,NA
+22,86,"DEU","Germany",1,"Baden-Württemberg",2,"Karlsruhe",22,"Rhein-Neckar-Kreis","Landkreise","Rural district",NA,NA
+23,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",23,"Böblingen","Landkreise","Rural district",NA,NA
+24,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",24,"Esslingen","Landkreise","Rural district",NA,NA
+25,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",25,"Göppingen","Landkreise","Rural district",NA,NA
+26,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",26,"Heidenheim","Landkreise","Rural district",NA,NA
+27,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",27,"Heilbronn city Städte","Kreisfreie Städte","Urban district",NA,"Heilbronn"
+28,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",28,"Heilbronn","Landkreise","Rural district",NA,NA
+29,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",29,"Hohenlohe","Landkreise","Rural district",NA,NA
+30,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",30,"Ludwigsburg","Landkreise","Rural district",NA,NA
+31,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",31,"Main-Tauber","Landkreise","Rural district",NA,NA
+32,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",32,"Ostalbkreis","Landkreise","Rural district",NA,NA
+33,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",33,"Rems-Murr-Kreis","Landkreise","Rural district",NA,NA
+34,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",34,"Schwäbisch Hall","Landkreise","Rural district",NA,NA
+35,86,"DEU","Germany",1,"Baden-Württemberg",3,"Stuttgart",35,"Stuttgart Städte","Kreisfreie Städte","Urban district",NA,NA
+36,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",36,"Alb-Donau","Landkreise","Rural district",NA,NA
+37,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",37,"Biberach","Landkreise","Rural district",NA,NA
+38,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",38,"Bodensee","Landkreise","Rural district",NA,NA
+39,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",39,"Ravensburg","Landkreise","Rural district",NA,NA
+40,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",40,"Reutlingen","Landkreise","Rural district",NA,NA
+41,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",41,"Sigmaringen","Landkreise","Rural district",NA,NA
+42,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",42,"Tübingen","Landkreise","Rural district",NA,NA
+43,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",43,"Ulm Städte","Kreisfreie Städte","Urban district",NA,NA
+44,86,"DEU","Germany",1,"Baden-Württemberg",4,"Tübingen",44,"Zollernalbkreis","Landkreise","Rural district",NA,NA
+45,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",45,"Ansbach Städte","Kreisfreie Städte","Urban district",NA,NA
+46,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",46,"Ansbach","Landkreise","Rural district",NA,NA
+47,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",47,"Erlangen-Höchstadt","Landkreise","Rural district",NA,NA
+48,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",48,"Erlangen Städte","Kreisfreie Städte","Urban district",NA,NA
+49,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",49,"Fürth Städte","Kreisfreie Städte","Urban district",NA,NA
+50,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",50,"Fürth","Landkreise","Rural district",NA,NA
+51,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",51,"Nürnberger Land","Landkreise","Rural district",NA,NA
+52,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",52,"Neustadt-Bad Windsheim","Landkreise","Rural district",NA,"Neustadt a.d.Aisch-Bad Windsheim|"
+53,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",53,"Nuremberg Städte","Kreisfreie Städte","Urban district",NA,"Nürnberg"
+54,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",54,"Roth","Landkreise","Rural district",NA,NA
+55,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",55,"Schwabach Städte","Kreisfreie Städte","Urban district",NA,NA
+56,86,"DEU","Germany",2,"Bayern",5,"Mittelfranken",56,"Weißenburg-Gunzenhausen","Landkreise","Rural district",NA,NA
+57,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",57,"Deggendorf","Landkreise","Rural district",NA,NA
+58,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",58,"Dingolfing-Landau","Landkreise","Rural district",NA,NA
+59,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",59,"Freyung-Grafenau","Landkreise","Rural district",NA,NA
+60,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",60,"Kelheim","Landkreise","Rural district",NA,NA
+61,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",61,"Landshut Städte","Kreisfreie Städte","Urban district",NA,NA
+62,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",62,"Landshut","Landkreise","Rural district",NA,NA
+63,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",63,"Passau Städte","Kreisfreie Städte","Urban district",NA,NA
+64,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",64,"Passau","Landkreise","Rural district",NA,NA
+65,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",65,"Regen","Landkreise","Rural district",NA,NA
+66,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",66,"Rottal-Inn","Landkreise","Rural district",NA,NA
+67,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",67,"Straubing-Bogen","Landkreise","Rural district",NA,NA
+68,86,"DEU","Germany",2,"Bayern",6,"Niederbayern",68,"Straubing Städte","Kreisfreie Städte","Urban district",NA,NA
+69,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",69,"Altötting","Landkreise","Rural district",NA,NA
+70,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",70,"Bad Tölz-Wolfratshausen","Landkreise","Rural district",NA,NA
+71,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",71,"Berchtesgadener Land","Landkreise","Rural district",NA,NA
+72,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",72,"Dachau","Landkreise","Rural district",NA,NA
+73,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",73,"Ebersberg","Landkreise","Rural district",NA,NA
+74,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",74,"Eichstätt","Landkreise","Rural district",NA,NA
+75,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",75,"Erding","Landkreise","Rural district",NA,NA
+76,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",76,"Fürstenfeldbruck","Landkreise","Rural district",NA,NA
+77,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",77,"Freising","Landkreise","Rural district",NA,NA
+78,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",78,"Garmisch-Partenkirchen","Landkreise","Rural district",NA,NA
+79,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",79,"Ingolstadt Städte","Kreisfreie Städte","Urban district",NA,NA
+80,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",80,"Landsberg","Landkreise","Rural district",NA,"Landsberg a.Lech"
+81,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",81,"Mühldorf","Landkreise","Rural district",NA,"Mühldorf a.Inn"
+82,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",82,"München","Landkreise","Rural district",NA,"Munich"
+83,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",83,"Miesbach","Landkreise","Rural district",NA,NA
+84,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",84,"Munich Städte","Kreisfreie Städte","Urban district",NA,"München"
+85,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",85,"Neuburg-Schrobenhausen","Landkreise","Rural district",NA,NA
+86,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",86,"Pfaffenhofen","Landkreise","Rural district",NA,"Pfaffenhofen a.d.Ilm"
+87,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",87,"Rosenheim Städte","Kreisfreie Städte","Urban district",NA,NA
+88,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",88,"Rosenheim","Landkreise","Rural district",NA,NA
+89,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",89,"Starnberg","Landkreise","Rural district",NA,NA
+90,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",90,"Traunstein","Landkreise","Rural district",NA,NA
+91,86,"DEU","Germany",2,"Bayern",7,"Oberbayern",91,"Weilheim-Schongau","Landkreise","Rural district",NA,NA
+92,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",92,"Bamberg Städte","Kreisfreie Städte","Urban district",NA,NA
+93,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",93,"Bamberg","Landkreise","Rural district",NA,NA
+94,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",94,"Bayreuth Städte","Kreisfreie Städte","Urban district",NA,NA
+95,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",95,"Bayreuth","Landkreise","Rural district",NA,NA
+96,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",96,"Coburg Städte","Kreisfreie Städte","Urban district",NA,NA
+97,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",97,"Coburg","Landkreise","Rural district",NA,NA
+98,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",98,"Forchheim","Landkreise","Rural district",NA,NA
+99,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",99,"Hof Städte","Kreisfreie Städte","Urban district",NA,NA
+100,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",100,"Hof","Landkreise","Rural district",NA,NA
+101,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",101,"Kronach","Landkreise","Rural district",NA,NA
+102,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",102,"Kulmbach","Landkreise","Rural district",NA,NA
+103,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",103,"Lichtenfels","Landkreise","Rural district",NA,NA
+104,86,"DEU","Germany",2,"Bayern",8,"Oberfranken",104,"Wunsiedel","Landkreise","Rural district",NA,"Wunsiedel i.Fichtelgebirge"
+105,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",105,"Amberg-Sulzbach","Landkreise","Rural district",NA,NA
+106,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",106,"Amberg Städte","Kreisfreie Städte","Urban district",NA,NA
+107,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",107,"Cham","Landkreise","Rural district",NA,NA
+108,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",108,"Neumarkt","Landkreise","Rural district",NA,"Neumarkt i.d.OPf."
+109,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",109,"Neustadt","Landkreise","Rural district",NA,"Neustadt a.d.Waldnaab|Waldnaab"
+110,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",110,"Regensburg Städte","Kreisfreie Städte","Urban district",NA,NA
+111,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",111,"Regensburg","Landkreise","Rural district",NA,NA
+112,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",112,"Schwandorf","Landkreise","Rural district",NA,NA
+113,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",113,"Tirschenreuth","Landkreise","Rural district",NA,NA
+114,86,"DEU","Germany",2,"Bayern",9,"Oberpfalz",114,"Weiden Städte","Kreisfreie Städte","Urban district",NA,"Weiden i.d.OPf."
+115,86,"DEU","Germany",2,"Bayern",10,"Schwaben",115,"Aichach-Friedberg","Landkreise","Rural district",NA,NA
+116,86,"DEU","Germany",2,"Bayern",10,"Schwaben",116,"Augsburg Städte","Kreisfreie Städte","Urban district",NA,NA
+117,86,"DEU","Germany",2,"Bayern",10,"Schwaben",117,"Augsburg","Landkreise","Rural district",NA,NA
+118,86,"DEU","Germany",2,"Bayern",10,"Schwaben",118,"Dillingen","Landkreise","Rural district",NA,NA
+119,86,"DEU","Germany",2,"Bayern",10,"Schwaben",119,"Donau-Ries","Landkreise","Rural district",NA,NA
+120,86,"DEU","Germany",2,"Bayern",10,"Schwaben",120,"Günzburg","Landkreise","Rural district",NA,NA
+121,86,"DEU","Germany",2,"Bayern",10,"Schwaben",121,"Kaufbeuren Städte","Kreisfreie Städte","Urban district",NA,NA
+122,86,"DEU","Germany",2,"Bayern",10,"Schwaben",122,"Kempten Städte","Kreisfreie Städte","Urban district",NA,NA
+123,86,"DEU","Germany",2,"Bayern",10,"Schwaben",123,"Lindau","Landkreise","Rural district",NA,"Lindau (Bodensee)"
+124,86,"DEU","Germany",2,"Bayern",10,"Schwaben",124,"Memmingen Städte","Kreisfreie Städte","Urban district",NA,NA
+125,86,"DEU","Germany",2,"Bayern",10,"Schwaben",125,"Neu-Ulm","Landkreise","Rural district",NA,NA
+126,86,"DEU","Germany",2,"Bayern",10,"Schwaben",126,"Oberallgäu","Landkreise","Rural district",NA,NA
+127,86,"DEU","Germany",2,"Bayern",10,"Schwaben",127,"Ostallgäu","Landkreise","Rural district",NA,NA
+128,86,"DEU","Germany",2,"Bayern",10,"Schwaben",128,"Unterallgäu","Landkreise","Rural district",NA,NA
+129,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",129,"Aschaffenburg Städte","Kreisfreie Städte","Urban district",NA,NA
+130,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",130,"Aschaffenburg","Landkreise","Rural district",NA,NA
+131,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",131,"Bad Kissingen","Landkreise","Rural district",NA,NA
+132,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",132,"Haßberge","Landkreise","Rural district",NA,NA
+133,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",133,"Kitzingen","Landkreise","Rural district",NA,NA
+134,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",134,"Main-Spessart","Landkreise","Rural district",NA,NA
+135,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",135,"Miltenberg","Landkreise","Rural district",NA,NA
+136,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",136,"Rhön-Grabfeld","Landkreise","Rural district",NA,NA
+137,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",137,"Schweinfurt Städte","Kreisfreie Städte","Urban district",NA,NA
+138,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",138,"Schweinfurt","Landkreise","Rural district",NA,NA
+139,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",139,"Würzburg Städte","Kreisfreie Städte","Urban district",NA,NA
+140,86,"DEU","Germany",2,"Bayern",11,"Unterfranken",140,"Würzburg","Landkreise","Rural district",NA,NA
+141,86,"DEU","Germany",3,"Berlin",12,"Berlin",141,"Berlin",NA,NA,NA,NA
+142,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",142,"Barnim","Landkreise","Rural district",NA,NA
+143,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",143,"Brandenburg an der Havel Städte","Kreisfreie Städte","Urban district",NA,NA
+144,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",144,"Cottbus Städte","Kreisfreie Städte","Urban district",NA,NA
+145,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",145,"Dahme-Spreewald","Landkreise","Rural district",NA,NA
+146,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",146,"Elbe-Elster","Landkreise","Rural district",NA,NA
+147,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",147,"Frankfurt am Oder Städte","Kreisfreie Städte","Urban district",NA,NA
+148,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",148,"Havelland","Landkreise","Rural district",NA,NA
+149,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",149,"Märkisch-Oderland","Landkreise","Rural district",NA,NA
+150,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",150,"Oberhavel","Landkreise","Rural district",NA,NA
+151,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",151,"Oberspreewald-Lausitz","Landkreise","Rural district",NA,NA
+152,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",152,"Oder-Spree","Landkreise","Rural district",NA,NA
+153,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",153,"Ostprignitz-Ruppin","Landkreise","Rural district",NA,NA
+154,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",154,"Potsdam-Mittelmark","Landkreise","Rural district",NA,NA
+155,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",155,"Potsdam Städte","Kreisfreie Städte","Urban district",NA,NA
+156,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",156,"Prignitz","Landkreise","Rural district",NA,NA
+157,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",157,"Spree-Neiße","Landkreise","Rural district",NA,NA
+158,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",158,"Teltow-Fläming","Landkreise","Rural district",NA,NA
+159,86,"DEU","Germany",4,"Brandenburg",13,"Brandenburg",159,"Uckermark","Landkreise","Rural district",NA,NA
+160,86,"DEU","Germany",5,"Bremen",14,"Bremen",160,"Bremen Städte","Kreisfreie Städte","Urban district",NA,NA
+161,86,"DEU","Germany",5,"Bremen",15,"Bremerhaven",161,"Bremerhaven","Kreisfreie Stadt","City","<Null>","<Null>"
+162,86,"DEU","Germany",6,"Hamburg",16,"Hamburg",162,"Hamburg Städte","Kreisfreie Städte","Urban district",NA,"Free Hanseatic City of Hamburg"
+163,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",163,"Bergstraße","Landkreise","Rural district",NA,NA
+164,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",164,"Darmstadt-Dieburg","Landkreise","Rural district",NA,"Darmstadt, Ortsteil Kranichstein"
+165,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",165,"Darmstadt Städte","Kreisfreie Städte","Urban district",NA,NA
+166,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",166,"Frankfurt am Main Städte","Kreisfreie Städte","Urban district",NA,NA
+167,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",167,"Groß-Gerau","Landkreise","Rural district",NA,NA
+168,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",168,"Hochtaunuskreis","Landkreise","Rural district",NA,NA
+169,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",169,"Main-Kinzig-Kreis",NA,NA,NA,"Gelnhausen"
+170,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",170,"Main-Taunus-Kreis Städte","Kreisfreie Städte","Urban district",NA,"Hofheim am Taunus"
+171,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",171,"Odenwaldkreis","Landkreise","Rural district",NA,NA
+172,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",172,"Offenbach am Main Städte","Kreisfreie Städte","Urban district",NA,NA
+173,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",173,"Offenbach","Landkreise","Rural district",NA,"Dietzenbach"
+174,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",174,"Rheingau-Taunus-Kreis",NA,NA,NA,"Bad Schwalbach"
+175,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",175,"Wetteraukreis","Landkreise","Rural district",NA,"Friedberg"
+176,86,"DEU","Germany",7,"Hessen",17,"Darmstadt",176,"Wiesbaden Städte","Kreisfreie Städte","Urban district",NA,NA
+177,86,"DEU","Germany",7,"Hessen",18,"Gießen",177,"Gießen","Landkreise","Rural district",NA,NA
+178,86,"DEU","Germany",7,"Hessen",18,"Gießen",178,"Lahn-Dill-Kreis","Landkreise","Rural district",NA,"Wetzlar"
+179,86,"DEU","Germany",7,"Hessen",18,"Gießen",179,"Limburg-Weilburg","Landkreise","Rural district",NA,"Limburg"
+180,86,"DEU","Germany",7,"Hessen",18,"Gießen",180,"Marburg-Biedenkopf","Landkreise","Rural district",NA,"Marburg"
+181,86,"DEU","Germany",7,"Hessen",18,"Gießen",181,"Vogelsbergkreis","Landkreise","Rural district",NA,"Lauterbach"
+182,86,"DEU","Germany",7,"Hessen",19,"Kassel",182,"Fulda","Landkreise","Rural district",NA,NA
+183,86,"DEU","Germany",7,"Hessen",19,"Kassel",183,"Hersfeld-Rotenburg","Landkreise","Rural district",NA,"Bad Hersfeld"
+184,86,"DEU","Germany",7,"Hessen",19,"Kassel",184,"Kassel Städte","Kreisfreie Städte","Urban district",NA,NA
+185,86,"DEU","Germany",7,"Hessen",19,"Kassel",185,"Kassel","Landkreise","Rural district",NA,NA
+186,86,"DEU","Germany",7,"Hessen",19,"Kassel",186,"Schwalm-Eder-Kreis",NA,NA,NA,"Homberg|Efze"
+187,86,"DEU","Germany",7,"Hessen",19,"Kassel",187,"Waldeck-Frankenberg","Landkreise","Rural district",NA,"Korbach"
+188,86,"DEU","Germany",7,"Hessen",19,"Kassel",188,"Werra-Meißner-Kreis","Landkreise","Rural district",NA,"Eschwege"
+189,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",189,"Bad Doberan","Landkreise","Rural district",NA,NA
+190,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",190,"Demmin","Landkreise","Rural district",NA,NA
+191,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",191,"Güstrow","Landkreise","Rural district",NA,NA
+192,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",192,"Greifswald Städte","Kreisfreie Städte","Urban district",NA,NA
+193,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",193,"Ludwigslust","Landkreise","Rural district",NA,NA
+194,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",194,"Müritz","Landkreise","Rural district",NA,NA
+195,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",195,"Mecklenburg-Strelitz","Landkreise","Rural district",NA,NA
+196,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",196,"Neubrandenburg Städte","Kreisfreie Städte","Urban district",NA,NA
+197,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",197,"Nordvorpommern","Landkreise","Rural district",NA,NA
+198,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",198,"Nordwestmecklenburg","Landkreise","Rural district",NA,NA
+199,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",199,"Ostvorpommern","Landkreise","Rural district",NA,NA
+200,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",200,"Parchim","Landkreise","Rural district",NA,NA
+201,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",201,"Rügen","Landkreise","Rural district",NA,NA
+202,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",202,"Rostock Städte","Kreisfreie Städte","Urban district",NA,NA
+203,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",203,"Schwerin Städte","Kreisfreie Städte","Urban district",NA,NA
+204,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",204,"Stralsund Städte","Kreisfreie Städte","Urban district",NA,NA
+205,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",205,"Uecker-Randow","Landkreise","Rural district",NA,NA
+206,86,"DEU","Germany",8,"Mecklenburg-Vorpommern",20,"Mecklenburg-Vorpommern",206,"Wismar Städte","Kreisfreie Städte","Urban district",NA,NA
+207,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",207,"Braunschweig Städte","Kreisfreie Städte","Urban district",NA,NA
+208,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",208,"Göttingen","Landkreise","Rural district",NA,NA
+209,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",209,"Gifhorn","Landkreise","Rural district",NA,NA
+210,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",210,"Goslar","Landkreise","Rural district",NA,NA
+211,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",211,"Helmstedt","Landkreise","Rural district",NA,NA
+212,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",212,"Northeim","Landkreise","Rural district",NA,NA
+213,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",213,"Osterode","Landkreise","Rural district",NA,"Osterode am Harz"
+214,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",214,"Peine","Landkreise","Rural district",NA,NA
+215,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",215,"Salzgitter Städte","Kreisfreie Städte","Urban district",NA,NA
+216,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",216,"Wolfenbüttel","Landkreise","Rural district",NA,NA
+217,86,"DEU","Germany",9,"Niedersachsen",21,"Braunschweig",217,"Wolfsburg Städte","Kreisfreie Städte","Urban district",NA,NA
+218,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",218,"Diepholz","Landkreise","Rural district",NA,NA
+219,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",219,"Hamelin-Pyrmont","Landkreise","Rural district",NA,"Hameln-Pyrmont"
+220,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",220,"Hanover","Landkreise","Rural district",NA,"Region Hannover|Hannover"
+221,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",221,"Hildesheim","Landkreise","Rural district",NA,NA
+222,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",222,"Holzminden","Landkreise","Rural district",NA,NA
+223,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",223,"Nienburg","Landkreise","Rural district",NA,"Neinburg (Weser)"
+224,86,"DEU","Germany",9,"Niedersachsen",22,"Hannover",224,"Schaumburg","Landkreise","Rural district",NA,NA
+225,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",225,"Celle","Landkreise","Rural district",NA,NA
+226,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",226,"Cuxhaven","Landkreise","Rural district","<Null>","<Null>"
+227,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",227,"Harburg","Landkreise","Rural district",NA,NA
+228,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",228,"Osterholz","Landkreise","Rural district",NA,NA
+229,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",229,"Rotenburg","Landkreise","Rural district",NA,"Rotenburg (Wümme)"
+230,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",230,"Soltau-Fallingbostel","Landkreise","Rural district",NA,NA
+231,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",231,"Stade","Landkreise","Rural district",NA,NA
+232,86,"DEU","Germany",9,"Niedersachsen",23,"Lüneburg",232,"Verden","Landkreise","Rural district",NA,NA
+233,86,"DEU","Germany",9,"Niedersachsen",24,"Luneburg",233,"Lüchow-Dannenberg","Landkreise","Rural district",NA,NA
+234,86,"DEU","Germany",9,"Niedersachsen",24,"Luneburg",234,"Lüneburg","Landkreise","Rural district",NA,NA
+235,86,"DEU","Germany",9,"Niedersachsen",24,"Luneburg",235,"Uelzen","Landkreise","Rural district",NA,NA
+236,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",236,"Ammerland","Landkreise","Rural district",NA,NA
+237,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",237,"Aurich","Landkreise","Rural district",NA,"Juist|Norderney|Baltrum"
+238,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",238,"Cloppenburg","Landkreise","Rural district",NA,NA
+239,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",239,"Emden Städte","Kreisfreie Städte","Urban district",NA,NA
+240,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",240,"Emsland","Landkreise","Rural district",NA,NA
+241,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",241,"Friesland","Landkreise","Rural district",NA,"Wangerooge"
+242,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",242,"Grafschaft Bentheim","Landkreise","Rural district",NA,NA
+243,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",243,"Leer","Landkreise","Rural district",NA,NA
+244,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",244,"Oldenburg Städte","Kreisfreie Städte","Urban district",NA,"Oldenburg (Oldenburg)"
+245,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",245,"Oldenburg","Landkreise","Rural district",NA,NA
+246,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",246,"Osnabrück Städte","Kreisfreie Städte","Urban district",NA,NA
+247,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",247,"Osnabrück","Landkreise","Rural district",NA,NA
+248,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",248,"Vechta","Landkreise","Rural district",NA,NA
+249,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",249,"Wesermarsch","Landkreise","Rural district",NA,NA
+250,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",250,"Wilhelmshaven Städte","Kreisfreie Städte","Urban district",NA,NA
+251,86,"DEU","Germany",9,"Niedersachsen",25,"Weser-Ems",251,"Wittmund","Landkreise","Rural district",NA,"Langeoog|Spiekeroog"
+252,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",252,"Bochum Städte","Kreisfreie Städte","Urban district",NA,NA
+253,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",253,"Dortmund Städte","Kreisfreie Städte","Urban district",NA,NA
+254,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",254,"Ennepe-Ruhr","Landkreise","Rural district",NA,NA
+255,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",255,"Hagen Städte","Kreisfreie Städte","Urban district",NA,NA
+256,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",256,"Hamm Städte","Kreisfreie Städte","Urban district",NA,NA
+257,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",257,"Herne Städte","Kreisfreie Städte","Urban district",NA,NA
+258,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",258,"Hochsauerlandkreis","Landkreise","Rural district",NA,NA
+259,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",259,"Märkischer Kreis","Landkreise","Rural district",NA,NA
+260,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",260,"Olpe","Landkreise","Rural district",NA,NA
+261,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",261,"Siegen-Wittgenstein","Landkreise","Rural district",NA,NA
+262,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",262,"Soest","Landkreise","Rural district",NA,NA
+263,86,"DEU","Germany",10,"Nordrhein-Westfalen",26,"Arnsberg",263,"Unna","Landkreise","Rural district",NA,NA
+264,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",264,"Cleves","Landkreise","Rural district",NA,"Kleve"
+265,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",265,"Düsseldorf Städte","Kreisfreie Städte","Urban district",NA,NA
+266,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",266,"Duisburg Städte","Kreisfreie Städte","Urban district",NA,NA
+267,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",267,"Essen Städte","Kreisfreie Städte","Urban district",NA,NA
+268,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",268,"Krefeld Städte","Kreisfreie Städte","Urban district",NA,NA
+269,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",269,"Mönchengladbach Städte","Kreisfreie Städte","Urban district",NA,NA
+270,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",270,"Mülheim Städte","Kreisfreie Städte","Urban district",NA,"Mülheim an der Ruhr"
+271,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",271,"Mettmann","Landkreise","Rural district",NA,NA
+272,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",272,"Oberhausen Städte","Kreisfreie Städte","Urban district",NA,NA
+273,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",273,"Remscheid Städte","Kreisfreie Städte","Urban district",NA,NA
+274,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",274,"Rhein-Kreis Neuss","Landkreise","Rural district",NA,NA
+275,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",275,"Solingen Städte","Kreisfreie Städte","Urban district",NA,NA
+276,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",276,"Viersen","Landkreise","Rural district",NA,NA
+277,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",277,"Wesel","Landkreise","Rural district",NA,NA
+278,86,"DEU","Germany",10,"Nordrhein-Westfalen",27,"Düsseldorf",278,"Wuppertal Städte","Kreisfreie Städte","Urban district",NA,NA
+279,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",279,"Bielefeld Städte","Kreisfreie Städte","Urban district",NA,NA
+280,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",280,"Gütersloh","Landkreise","Rural district",NA,NA
+281,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",281,"Höxter","Landkreise","Rural district",NA,NA
+282,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",282,"Herford","Landkreise","Rural district",NA,NA
+283,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",283,"Lippe","Landkreise","Rural district",NA,NA
+284,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",284,"Minden-Lübbecke","Landkreise","Rural district",NA,NA
+285,86,"DEU","Germany",10,"Nordrhein-Westfalen",28,"Detmold",285,"Paderborn","Landkreise","Rural district",NA,NA
+286,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",286,"Aachen Städte","Kreisfreie Städte","Urban district",NA,NA
+287,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",287,"Aachen","Landkreise","Rural district",NA,NA
+288,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",288,"Bonn Städte","Kreisfreie Städte","Urban district",NA,NA
+289,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",289,"Cologne Städte","Kreisfreie Städte","Urban district",NA,"Koln"
+290,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",290,"Düren","Landkreise","Rural district",NA,NA
+291,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",291,"Euskirchen","Landkreise","Rural district",NA,NA
+292,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",292,"Heinsberg","Landkreise","Rural district",NA,NA
+293,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",293,"Leverkusen Städte","Kreisfreie Städte","Urban district",NA,NA
+294,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",294,"Oberbergischer Kreis","Landkreise","Rural district",NA,NA
+295,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",295,"Rhein-Erft-Kreis","Landkreise","Rural district",NA,"Rhein-Erftkreis"
+296,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",296,"Rhein-Sieg","Landkreise","Rural district",NA,NA
+297,86,"DEU","Germany",10,"Nordrhein-Westfalen",29,"Köln",297,"Rheinisch-Bergischer Kreis","Landkreise","Rural district",NA,NA
+298,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",298,"Borken","Landkreise","Rural district",NA,NA
+299,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",299,"Bottrop Städte","Kreisfreie Städte","Urban district",NA,NA
+300,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",300,"Coesfeld","Landkreise","Rural district",NA,NA
+301,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",301,"Gelsenkirchen Städte","Kreisfreie Städte","Urban district",NA,NA
+302,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",302,"Münster Städte","Kreisfreie Städte","Urban district",NA,NA
+303,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",303,"Recklinghausen","Landkreise","Rural district",NA,NA
+304,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",304,"Steinfurt","Landkreise","Rural district",NA,NA
+305,86,"DEU","Germany",10,"Nordrhein-Westfalen",30,"Munster",305,"Warendorf","Landkreise","Rural district",NA,NA
+306,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",306,"Ahrweiler","Landkreise","Rural district",NA,NA
+307,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",307,"Altenkirchen","Landkreise","Rural district",NA,NA
+308,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",308,"Bad Kreuznach","Landkreise","Rural district",NA,NA
+309,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",309,"Birkenfeld","Landkreise","Rural district",NA,NA
+310,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",310,"Cochem-Zell","Landkreise","Rural district",NA,NA
+311,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",311,"Koblenz Coblenz Städte","Kreisfreie Städte","Urban district",NA,"Koblenz"
+312,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",312,"Mayen-Koblenz","Landkreise","Rural district",NA,NA
+313,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",313,"Neuwied","Landkreise","Rural district",NA,NA
+314,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",314,"Rhein-Hunsrück","Landkreise","Rural district",NA,NA
+315,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",315,"Rhein-Lahn","Landkreise","Rural district",NA,NA
+316,86,"DEU","Germany",11,"Rheinland-Pfalz",31,"Koblenz",316,"Westerwaldkreis","Landkreise","Rural district",NA,NA
+317,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",317,"Alzey-Worms","Landkreise","Rural district",NA,NA
+318,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",318,"Bad Dürkheim","Landkreise","Rural district",NA,NA
+319,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",319,"Donnersbergkreis","Landkreise","Rural district",NA,NA
+320,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",320,"Frankenthal Städte","Kreisfreie Städte","Urban district",NA,NA
+321,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",321,"Germersheim","Landkreise","Rural district",NA,NA
+322,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",322,"Kaiserslautern Städte","Kreisfreie Städte","Urban district",NA,NA
+323,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",323,"Kaiserslautern","Landkreise","Rural district",NA,NA
+324,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",324,"Kusel","Landkreise","Rural district",NA,NA
+325,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",325,"Landau Städte","Kreisfreie Städte","Urban district",NA,"Landau in der Pfalz"
+326,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",326,"Ludwigshafen Städte","Kreisfreie Städte","Urban district",NA,"Ludwigshafen am Rhein|Rheinpfalz-Kreis"
+327,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",327,"Mainz-Bingen","Landkreise","Rural district",NA,NA
+328,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",328,"Mainz Städte","Kreisfreie Städte","Urban district",NA,NA
+329,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",329,"Neustadt Städte","Kreisfreie Städte","Urban district",NA,"Neustadt an der Weinstraße|Weinstraße"
+330,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",330,"Rhein-Pfalz-Kreis","Landkreise","Rural district",NA,NA
+331,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",331,"Südliche Weinstraße","Landkreise","Rural district",NA,NA
+332,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",332,"Südwestpfalz","Landkreise","Rural district",NA,NA
+333,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",333,"Speyer Spires Städte","Kreisfreie Städte","Urban district",NA,"Speyer"
+334,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",334,"Worms Städte","Kreisfreie Städte","Urban district",NA,NA
+335,86,"DEU","Germany",11,"Rheinland-Pfalz",32,"Rheinhessen-Pfalz",335,"Zweibrücken Städte","Kreisfreie Städte","Urban district",NA,NA
+336,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier",336,"Bernkastel-Wittlich","Landkreise","Rural district",NA,NA
+337,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier",337,"Bitburg-Prüm","Landkreise","Rural district",NA,NA
+338,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier",338,"Trier-Saarburg","Landkreise","Rural district",NA,NA
+339,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier",339,"Trier Städte","Kreisfreie Städte","Urban district",NA,NA
+340,86,"DEU","Germany",11,"Rheinland-Pfalz",33,"Trier",340,"Vulkaneifel","Landkreise","Rural district",NA,"Daun"
+341,86,"DEU","Germany",12,"Saarland",34,"Saarland",341,"Merzig-Wadern","Landkreise","Rural district",NA,NA
+342,86,"DEU","Germany",12,"Saarland",34,"Saarland",342,"Neunkirchen","Landkreise","Rural district",NA,NA
+343,86,"DEU","Germany",12,"Saarland",34,"Saarland",343,"Saarbrücken Städte","Kreisfreie Städte","Urban district",NA,NA
+344,86,"DEU","Germany",12,"Saarland",34,"Saarland",344,"Saarlouis","Landkreise","Rural district",NA,NA
+345,86,"DEU","Germany",12,"Saarland",34,"Saarland",345,"Saarpfalz","Landkreise","Rural district",NA,NA
+346,86,"DEU","Germany",12,"Saarland",34,"Saarland",346,"Sankt Wendel","Landkreise","Rural district",NA,"St. Wendel"
+347,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",347,"Anhalt-Zerbst","Landkreise","Rural district",NA,NA
+348,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",348,"Bernburg","Landkreise","Rural district",NA,NA
+349,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",349,"Bitterfeld","Landkreise","Rural district",NA,NA
+350,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",350,"Dessau Städte","Kreisfreie Städte","Urban district",NA,NA
+351,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",351,"Köthen","Landkreise","Rural district",NA,NA
+352,86,"DEU","Germany",13,"Sachsen-Anhalt",35,"Dessau",352,"Wittenberg","Landkreise","Rural district",NA,NA
+353,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",353,"Aschersleben-Staßfurt","Landkreise","Rural district",NA,NA
+354,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",354,"Burgenlandkreis","Landkreise","Rural district",NA,NA
+355,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",355,"Halle Städte","Kreisfreie Städte","Urban district",NA,"Halle (Saale)|Saale"
+356,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",356,"Mansfelder Land","Landkreise","Rural district",NA,NA
+357,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",357,"Merseburg-Querfurt","Landkreise","Rural district",NA,NA
+358,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",358,"Saalkreis","Landkreise","Rural district",NA,NA
+359,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",359,"Sangerhausen","Landkreise","Rural district",NA,NA
+360,86,"DEU","Germany",13,"Sachsen-Anhalt",36,"Halle",360,"Weißenfels","Landkreise","Rural district",NA,NA
+361,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",361,"Altmarkkreis Salzwedel","Landkreise","Rural district",NA,NA
+362,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",362,"Bördekreis","Landkreise","Rural district",NA,NA
+363,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",363,"Halberstadt","Landkreise","Rural district",NA,NA
+364,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",364,"Jerichower Land","Landkreise","Rural district",NA,NA
+365,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",365,"Magdeburg Städte","Kreisfreie Städte","Urban district",NA,NA
+366,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",366,"Ohrekreis","Landkreise","Rural district",NA,NA
+367,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",367,"Quedlinburg","Landkreise","Rural district",NA,NA
+368,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",368,"Schönebeck","Landkreise","Rural district",NA,NA
+369,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",369,"Stendal","Landkreise","Rural district",NA,NA
+370,86,"DEU","Germany",13,"Sachsen-Anhalt",37,"Magdeburg",370,"Wernigerode","Landkreise","Rural district",NA,NA
+371,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",371,"Annaberg","Landkreise","Rural district",NA,NA
+372,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",372,"Aue-Schwarzenberg","Landkreise","Rural district",NA,NA
+373,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",373,"Chemnitz Städte","Kreisfreie Städte","Urban district",NA,NA
+374,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",374,"Chemnitzer Land","Landkreise","Rural district",NA,NA
+375,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",375,"Freiberg","Landkreise","Rural district",NA,NA
+376,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",376,"Mittlerer Erzgebirgskreis","Landkreise","Rural district",NA,NA
+377,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",377,"Mittweida","Landkreise","Rural district",NA,NA
+378,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",378,"Plauen Städte","Kreisfreie Städte","Urban district",NA,NA
+379,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",379,"Stollberg","Landkreise","Rural district",NA,NA
+380,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",380,"Vogtlandkreis","Landkreise","Rural district",NA,NA
+381,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",381,"Zwickau Städte","Kreisfreie Städte","Urban district",NA,NA
+382,86,"DEU","Germany",14,"Sachsen",38,"Chemnitz",382,"Zwickauer Land","Landkreise","Rural district",NA,NA
+383,86,"DEU","Germany",14,"Sachsen",39,"Dresden",383,"Bautzen","Landkreise","Rural district",NA,NA
+384,86,"DEU","Germany",14,"Sachsen",39,"Dresden",384,"Dresden Städte","Kreisfreie Städte","Urban district",NA,NA
+385,86,"DEU","Germany",14,"Sachsen",39,"Dresden",385,"Görlitz Städte","Kreisfreie Städte","Urban district",NA,NA
+386,86,"DEU","Germany",14,"Sachsen",39,"Dresden",386,"Kamenz","Landkreise","Rural district",NA,NA
+387,86,"DEU","Germany",14,"Sachsen",39,"Dresden",387,"Löbau-Zittau","Landkreise","Rural district",NA,NA
+388,86,"DEU","Germany",14,"Sachsen",39,"Dresden",388,"Meißen","Landkreise","Rural district",NA,NA
+389,86,"DEU","Germany",14,"Sachsen",39,"Dresden",389,"Niederschlesischer Oberlausitzkreis",NA,NA,NA,NA
+390,86,"DEU","Germany",14,"Sachsen",39,"Dresden",390,"Riesa-Großenhain","Landkreise","Rural district",NA,NA
+391,86,"DEU","Germany",14,"Sachsen",39,"Dresden",391,"Sächsische Schweiz","Landkreise","Rural district",NA,NA
+392,86,"DEU","Germany",14,"Sachsen",39,"Dresden",392,"Weißeritzkreis","Landkreise","Rural district",NA,NA
+393,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",393,"Döbeln","Landkreise","Rural district",NA,NA
+394,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",394,"Delitzsch","Landkreise","Rural district",NA,NA
+395,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",395,"Leipzig Städte","Kreisfreie Städte","Urban district",NA,NA
+396,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",396,"Leipziger Land","Landkreise","Rural district",NA,NA
+397,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",397,"Muldentalkreis","Landkreise","Rural district",NA,NA
+398,86,"DEU","Germany",14,"Sachsen",40,"Leipzig",398,"Torgau-Oschatz","Landkreise","Rural district",NA,NA
+399,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",399,"Dithmarschen","Landkreise","Rural district",NA,NA
+400,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",400,"Flensburg Städte","Kreisfreie Städte","Urban district",NA,NA
+401,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",401,"Kiel Städte","Kreisfreie Städte","Urban district",NA,NA
+402,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",402,"Lübeck Städte","Kreisfreie Städte","Urban district",NA,NA
+403,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",403,"Lauenburg","Landkreise","Rural district",NA,"Herzogtum Lauenburg"
+404,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",404,"Neumünster Städte","Kreisfreie Städte","Urban district",NA,NA
+405,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",405,"Nordfriesland","Landkreise","Rural district",NA,NA
+406,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",406,"Ostholstein","Landkreise","Rural district",NA,NA
+407,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",407,"Pinneberg","Landkreise","Rural district",NA,NA
+408,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",408,"Plön","Landkreise","Rural district",NA,NA
+409,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",409,"Rendsburg-Eckernförde","Landkreise","Rural district",NA,NA
+410,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",410,"Schleswig-Flensburg","Landkreise","Rural district",NA,NA
+411,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",411,"Segeberg","Landkreise","Rural district",NA,NA
+412,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",412,"Steinburg","Landkreise","Rural district",NA,NA
+413,86,"DEU","Germany",15,"Schleswig-Holstein",41,"Schleswig-Holstein",413,"Stormarn","Landkreise","Rural district",NA,NA
+414,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",414,"Altenburger Land","Landkreise","Rural district",NA,NA
+415,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",415,"Eichsfeld","Landkreise","Rural district",NA,NA
+416,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",416,"Erfurt Städte","Kreisfreie Städte","Urban district",NA,NA
+417,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",417,"Gera Städte","Kreisfreie Städte","Urban district",NA,NA
+418,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",418,"Gotha","Landkreise","Rural district",NA,NA
+419,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",419,"Greiz","Landkreise","Rural district",NA,NA
+420,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",420,"Hildburghausen","Landkreise","Rural district",NA,NA
+421,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",421,"Ilm-Kreis","Landkreise","Rural district",NA,NA
+422,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",422,"Jena Städte","Kreisfreie Städte","Urban district",NA,NA
+423,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",423,"Kyffhäuserkreis","Landkreise","Rural district",NA,NA
+424,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",424,"Nordhausen","Landkreise","Rural district",NA,NA
+425,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",425,"Sömmerda","Landkreise","Rural district",NA,NA
+426,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",426,"Saale-Holzland","Landkreise","Rural district",NA,"Saale-Holzland-Kreis"
+427,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",427,"Saale-Orla","Landkreise","Rural district",NA,"Saale-Orla-Kreis"
+428,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",428,"Saalfeld-Rudolstadt","Landkreise","Rural district",NA,NA
+429,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",429,"Schmalkalden-Meiningen","Landkreise","Rural district",NA,NA
+430,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",430,"Sonneberg","Landkreise","Rural district",NA,NA
+431,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",431,"Suhl Städte","Kreisfreie Städte","Urban district",NA,NA
+432,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",432,"Unstrut-Hainich","Landkreise","Rural district",NA,"Unstrut-Hainich-Kreis"
+433,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",433,"Wartburgkreis","Landkreise","Rural district",NA,NA
+434,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",434,"Weimar Städte","Kreisfreie Städte","Urban district",NA,NA
+435,86,"DEU","Germany",16,"Thüringen",42,"Thüringen",435,"Weimarer Land","Landkreise","Rural district",NA,"Weimarer-Land"

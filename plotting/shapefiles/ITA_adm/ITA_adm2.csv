@@ -1,0 +1,111 @@
+"OBJECTID","ID_0","ISO","NAME_0","ID_1","NAME_1","ID_2","NAME_2","TYPE_2","ENGTYPE_2","NL_NAME_2","VARNAME_2"
+1,112,"ITA","Italy",1,"Abruzzo",1,"Chieti","Provincia","Province",NA,NA
+2,112,"ITA","Italy",1,"Abruzzo",2,"L'Aquila","Provincia","Province",NA,"Aquila"
+3,112,"ITA","Italy",1,"Abruzzo",3,"Pescara","Provincia","Province",NA,NA
+4,112,"ITA","Italy",1,"Abruzzo",4,"Teramo","Provincia","Province",NA,NA
+5,112,"ITA","Italy",2,"Apulia",5,"Bari","Provincia","Province",NA,NA
+6,112,"ITA","Italy",2,"Apulia",6,"Barletta-Andria-Trani","Provincia","Province",NA,NA
+7,112,"ITA","Italy",2,"Apulia",7,"Brindisi","Provincia","Province",NA,NA
+8,112,"ITA","Italy",2,"Apulia",8,"Foggia","Provincia","Province",NA,NA
+9,112,"ITA","Italy",2,"Apulia",9,"Lecce","Provincia","Province",NA,NA
+10,112,"ITA","Italy",2,"Apulia",10,"Taranto","Provincia","Province",NA,"Ionio|Tarent|Tarente"
+11,112,"ITA","Italy",3,"Basilicata",11,"Matera","Provincia","Province",NA,NA
+12,112,"ITA","Italy",3,"Basilicata",12,"Potenza","Provincia","Province",NA,NA
+13,112,"ITA","Italy",4,"Calabria",13,"Catanzaro","Provincia","Province",NA,NA
+14,112,"ITA","Italy",4,"Calabria",14,"Cosenza","Provincia","Province",NA,NA
+15,112,"ITA","Italy",4,"Calabria",15,"Crotone","Provincia","Province",NA,NA
+16,112,"ITA","Italy",4,"Calabria",16,"Reggio Di Calabria","Provincia","Province",NA,"Reggio Calabria|Reggio de Calabre"
+17,112,"ITA","Italy",4,"Calabria",17,"Vibo Valentia","Provincia","Province",NA,NA
+18,112,"ITA","Italy",5,"Campania",18,"Avellino","Provincia","Province",NA,NA
+19,112,"ITA","Italy",5,"Campania",19,"Benevento","Provincia","Province",NA,"Bénévent"
+20,112,"ITA","Italy",5,"Campania",20,"Caserta","Provincia","Province",NA,"Caserte"
+21,112,"ITA","Italy",5,"Campania",21,"Napoli","Provincia","Province",NA,"Napels|Nápoles|Neapel"
+22,112,"ITA","Italy",5,"Campania",22,"Salerno","Provincia","Province",NA,"Salerne"
+23,112,"ITA","Italy",6,"Emilia-Romagna",23,"Bologna","Provincia","Province",NA,"Bologne|Bolonha|Bolonia"
+24,112,"ITA","Italy",6,"Emilia-Romagna",24,"Ferrara","Provincia","Province",NA,"Ferrare"
+25,112,"ITA","Italy",6,"Emilia-Romagna",25,"Forli' - Cesena","Provincia","Province",NA,NA
+26,112,"ITA","Italy",6,"Emilia-Romagna",26,"Modena","Provincia","Province",NA,"Modène|Módena"
+27,112,"ITA","Italy",6,"Emilia-Romagna",27,"Parma","Provincia","Province",NA,"Parme"
+28,112,"ITA","Italy",6,"Emilia-Romagna",28,"Piacenza","Provincia","Province",NA,"Plaisance"
+29,112,"ITA","Italy",6,"Emilia-Romagna",29,"Ravenna","Provincia","Province",NA,"R vena|Ravenne"
+30,112,"ITA","Italy",6,"Emilia-Romagna",30,"Reggio Nell'Emilia","Provincia","Province",NA,"Reggio d'Émilie"
+31,112,"ITA","Italy",6,"Emilia-Romagna",31,"Rimini","Provincia","Province",NA,NA
+32,112,"ITA","Italy",7,"Friuli-Venezia Giulia",32,"Gorizia","Provincia","Province",NA,"Görz"
+33,112,"ITA","Italy",7,"Friuli-Venezia Giulia",33,"Pordenone","Provincia","Province",NA,NA
+34,112,"ITA","Italy",7,"Friuli-Venezia Giulia",34,"Trieste","Provincia","Province",NA,"Triest"
+35,112,"ITA","Italy",7,"Friuli-Venezia Giulia",35,"Udine","Provincia","Province",NA,"Friuli"
+36,112,"ITA","Italy",8,"Lazio",36,"Frosinone","Provincia","Province",NA,NA
+37,112,"ITA","Italy",8,"Lazio",37,"Latina","Provincia","Province",NA,"Littoria"
+38,112,"ITA","Italy",8,"Lazio",38,"Rieti","Provincia","Province",NA,NA
+39,112,"ITA","Italy",8,"Lazio",39,"Roma","Provincia","Province",NA,NA
+40,112,"ITA","Italy",8,"Lazio",40,"Viterbo","Provincia","Province",NA,"Viterbe"
+41,112,"ITA","Italy",9,"Liguria",41,"Genova","Provincia","Province",NA,"Genoa"
+42,112,"ITA","Italy",9,"Liguria",42,"Imperia","Provincia","Province",NA,"Porto Maurizio"
+43,112,"ITA","Italy",9,"Liguria",43,"La Spezia","Provincia","Province",NA,"Spezia"
+44,112,"ITA","Italy",9,"Liguria",44,"Savona","Provincia","Province",NA,NA
+45,112,"ITA","Italy",10,"Lombardia",45,"Bergamo","Provincia","Province",NA,"Bergame"
+46,112,"ITA","Italy",10,"Lombardia",46,"Brescia","Provincia","Province",NA,NA
+47,112,"ITA","Italy",10,"Lombardia",47,"Como","Provincia","Province",NA,"Côme"
+48,112,"ITA","Italy",10,"Lombardia",48,"Cremona","Provincia","Province",NA,"Crémone"
+49,112,"ITA","Italy",10,"Lombardia",49,"Lecco","Provincia","Province",NA,NA
+50,112,"ITA","Italy",10,"Lombardia",50,"Lodi","Provincia","Province",NA,NA
+51,112,"ITA","Italy",10,"Lombardia",51,"Mantua","Provincia","Province",NA,"Mantoue|Mantova"
+52,112,"ITA","Italy",10,"Lombardia",52,"Milano","Provincia","Province",NA,"Milan"
+53,112,"ITA","Italy",10,"Lombardia",53,"Monza and Brianza","Provincia","Province",NA,"Monza e Brianza"
+54,112,"ITA","Italy",10,"Lombardia",54,"Pavia","Provincia","Province",NA,"Pavie"
+55,112,"ITA","Italy",10,"Lombardia",55,"Sondrio","Provincia","Province",NA,NA
+56,112,"ITA","Italy",10,"Lombardia",56,"Varese","Provincia","Province",NA,NA
+57,112,"ITA","Italy",11,"Marche",57,"Ancona","Provincia","Province",NA,"Ancône"
+58,112,"ITA","Italy",11,"Marche",58,"Ascoli Piceno","Provincia","Province",NA,NA
+59,112,"ITA","Italy",11,"Marche",59,"Fermo","Provincia","Province",NA,NA
+60,112,"ITA","Italy",11,"Marche",60,"Macerata","Provincia","Province",NA,NA
+61,112,"ITA","Italy",11,"Marche",61,"Pesaro E Urbino","Provincia","Province",NA,"Pesaro-et-Urbino|Pesaro-Urbino|Pésaro y Urbino"
+62,112,"ITA","Italy",12,"Molise",62,"Campobasso","Provincia","Province",NA,NA
+63,112,"ITA","Italy",12,"Molise",63,"Isernia","Provincia","Province",NA,NA
+64,112,"ITA","Italy",13,"Piemonte",64,"Alessandria","Provincia","Province",NA,"Alejandr¡a|Alexandrie"
+65,112,"ITA","Italy",13,"Piemonte",65,"Asti","Provincia","Province",NA,NA
+66,112,"ITA","Italy",13,"Piemonte",66,"Biella","Provincia","Province",NA,"Verceil"
+67,112,"ITA","Italy",13,"Piemonte",67,"Cuneo","Provincia","Province",NA,"Coni"
+68,112,"ITA","Italy",13,"Piemonte",68,"Novara","Provincia","Province",NA,"Novare"
+69,112,"ITA","Italy",13,"Piemonte",69,"Torino","Provincia","Province",NA,"Torino|Turim"
+70,112,"ITA","Italy",13,"Piemonte",70,"Verbano-Cusio-Ossola","Provincia","Province",NA,"Verbania"
+71,112,"ITA","Italy",13,"Piemonte",71,"Vercelli","Provincia","Province",NA,"Verceil"
+72,112,"ITA","Italy",14,"Sardegna",72,"Cagliari","Provincia","Province",NA,NA
+73,112,"ITA","Italy",14,"Sardegna",73,"Carbonia-Iglesias","Provincia","Province",NA,NA
+74,112,"ITA","Italy",14,"Sardegna",74,"Medio Campidano","Provincia","Province",NA,NA
+75,112,"ITA","Italy",14,"Sardegna",75,"Nuoro","Provincia","Province",NA,NA
+76,112,"ITA","Italy",14,"Sardegna",76,"Ogliastra","Provincia","Province",NA,NA
+77,112,"ITA","Italy",14,"Sardegna",77,"Olbia-Tempio","Provincia","Province",NA,NA
+78,112,"ITA","Italy",14,"Sardegna",78,"Oristano","Provincia","Province",NA,NA
+79,112,"ITA","Italy",14,"Sardegna",79,"Sassari","Provincia","Province",NA,NA
+80,112,"ITA","Italy",15,"Sicily",80,"Agrigento","Provincia","Province",NA,"Agrigente|Girgenti"
+81,112,"ITA","Italy",15,"Sicily",81,"Caltanissetta","Provincia","Province",NA,NA
+82,112,"ITA","Italy",15,"Sicily",82,"Catania","Provincia","Province",NA,"Catane"
+83,112,"ITA","Italy",15,"Sicily",83,"Enna","Provincia","Province",NA,NA
+84,112,"ITA","Italy",15,"Sicily",84,"Messina","Provincia","Province",NA,"Messine"
+85,112,"ITA","Italy",15,"Sicily",85,"Palermo","Provincia","Province",NA,"Palerme"
+86,112,"ITA","Italy",15,"Sicily",86,"Ragusa","Provincia","Province",NA,"Raguse"
+87,112,"ITA","Italy",15,"Sicily",87,"Syracuse","Provincia","Province",NA,"Siracusa|Syrakus"
+88,112,"ITA","Italy",15,"Sicily",88,"Trapani","Provincia","Province",NA,NA
+89,112,"ITA","Italy",16,"Toscana",89,"Arezzo","Provincia","Province",NA,NA
+90,112,"ITA","Italy",16,"Toscana",90,"Florence","Provincia","Province",NA,"Firenze|Florenca|Florencia|Florenz"
+91,112,"ITA","Italy",16,"Toscana",91,"Grosseto","Provincia","Province",NA,NA
+92,112,"ITA","Italy",16,"Toscana",92,"Livorno","Provincia","Province",NA,"Leghorn|Liorna|Livourne"
+93,112,"ITA","Italy",16,"Toscana",93,"Lucca","Provincia","Province",NA,"Lucques"
+94,112,"ITA","Italy",16,"Toscana",94,"Massa Carrara","Provincia","Province",NA,"Apuania|Massa-Carrare|Massa e Carrara"
+95,112,"ITA","Italy",16,"Toscana",95,"Pisa","Provincia","Province",NA,"Pise"
+96,112,"ITA","Italy",16,"Toscana",96,"Pistoia","Provincia","Province",NA,NA
+97,112,"ITA","Italy",16,"Toscana",97,"Prato","Provincia","Province",NA,NA
+98,112,"ITA","Italy",16,"Toscana",98,"Siena","Provincia","Province",NA,"Sienne"
+99,112,"ITA","Italy",17,"Trentino-Alto Adige",99,"Bolzano","Provincia","Province",NA,"Bozen|Südtirol|Alto Adige"
+100,112,"ITA","Italy",17,"Trentino-Alto Adige",100,"Trento","Provincia","Province",NA,"Trente|Trient"
+101,112,"ITA","Italy",18,"Umbria",101,"Perugia","Provincia","Province",NA,"Pérouse|Perúgia"
+102,112,"ITA","Italy",18,"Umbria",102,"Terni","Provincia","Province",NA,NA
+103,112,"ITA","Italy",19,"Valle d'Aosta",103,"Aosta","Provincia","Province",NA,"Aoste|Val d'Aosta, Valle d'Aosta"
+104,112,"ITA","Italy",20,"Veneto",104,"Belluno","Provincia","Province",NA,NA
+105,112,"ITA","Italy",20,"Veneto",105,"Padua","Provincia","Province",NA,"Padoue|Padova"
+106,112,"ITA","Italy",20,"Veneto",106,"Rovigo","Provincia","Province",NA,NA
+107,112,"ITA","Italy",20,"Veneto",107,"Treviso","Provincia","Province",NA,"Trévise"
+108,112,"ITA","Italy",20,"Veneto",108,"Venezia","Provincia","Province",NA,"Venecia|Venedig|Veneza|Venezia|Venise|"
+109,112,"ITA","Italy",20,"Veneto",109,"Verona","Provincia","Province",NA,"Vérone"
+110,112,"ITA","Italy",20,"Veneto",110,"Vicenza","Provincia","Province",NA,"Vicence"
