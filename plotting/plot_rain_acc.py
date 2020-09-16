@@ -38,8 +38,9 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Select 850 hPa level using metpy
-    precip_acc = dset['tp']
-    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
+    precip_acc = dset['tp'].values
+    dset['prmsl'].metpy.convert_units('hPa')
+    mslp = dset['prmsl'].values
     mslp = mpcalc.smooth_n_point(mslp, 9, 15)
 
     lon, lat = get_coordinates(dset)
@@ -62,7 +63,7 @@ def main():
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax,
+        args=dict(x=x, y=y, ax=ax,
                  precip_acc=precip_acc, mslp=mslp, levels_precip=levels_precip,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap, norm=norm)

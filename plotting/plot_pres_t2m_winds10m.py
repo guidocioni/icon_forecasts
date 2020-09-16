@@ -37,10 +37,12 @@ def main():
     dset = xr.open_dataset(file[0])
     dset = dset.metpy.parse_cf()
 
-    u = dset['10u'].squeeze()
-    v = dset['10v'].squeeze()
-    t2m = dset['2t'].squeeze().metpy.unit_array.to('degC')
-    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
+    u = dset['10u'].squeeze().values
+    v = dset['10v'].squeeze().values
+    dset['2t'].metpy.convert_units('degC')
+    t2m = dset['2t'].squeeze().values
+    dset['prmsl'].metpy.convert_units('hPa')
+    mslp = dset['prmsl'].values
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -48,8 +50,8 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_t2m = np.arange(-25, 35, 1)
-    levels_mslp = np.arange(mslp.magnitude.min().astype("int"), mslp.magnitude.max().astype("int"), 4.)
+    levels_t2m = np.arange(-25, 40, 1)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
     cmap = get_colormap("temp")
     
@@ -60,7 +62,7 @@ def main():
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+        args=dict(x=x, y=y, ax=ax, cmap=cmap,
                  t2m=t2m, u=u, v=v, mslp=mslp, levels_t2m=levels_t2m, levels_mslp=levels_mslp,
                  time=time, projection=projection, cum_hour=cum_hour)
         

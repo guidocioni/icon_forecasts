@@ -44,8 +44,8 @@ def main():
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
+    
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
-
     conv = - mpcalc.divergence(u, v, dx[None, :, :], dy[None, :, :])
 
     time = pd.to_datetime(dset.time.values)
@@ -61,7 +61,7 @@ def main():
         m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+        args=dict(x=x, y=y, ax=ax, cmap=cmap,
                  conv=conv, u=u, v=v, levels_conv=levels_conv,
                  time=time, projection=projection, cum_hour=cum_hour)
         

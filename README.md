@@ -1,6 +1,6 @@
 # icon_forecasts
 Download and plot ICON-EU data.
-
+![Plotting sample][http://guidocioni.altervista.org/icon_forecasts/winds_jet/winds_jet_72.png]
 In the following repository I include a fully-functional suite of scripts 
 needed to download, merge and plot data from the ICON-EU model,
 which is freely available at https://opendata.dwd.de/weather/.
@@ -20,11 +20,11 @@ For this reason this is fully parallelized making use of the GNU `parallel` util
 ```bash
 #2-D variables
 variables=("T_2M" "TD_2M" "U_10M")
-${parallel} -j 8 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
+${parallel} -j ${N_CONCUR_PROCESSES} download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 #3-D variables on pressure levels
 variables=("T" "FI" "RELHUM" "U" "V")
-${parallel} -j 8 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
+${parallel} -j ${N_CONCUR_PROCESSES} download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 ```
 The list of variables to download using such parallelization is provided as bash array. 2-D and 3-D variables have different
 routines: these are all defined in the common library `functions_download_dwd.sh`. The link to the DWD opendata server is also defined in this file.
@@ -41,9 +41,14 @@ scripts=("plot_cape.py" "plot_convergence.py")
 
 projections=("euratl" "it" "de")
 
-${parallel} -j 8 ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
+${parallel} -j ${N_CONCUR_PROCESSES} ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 ```
-Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the PNG figure will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backend, thus easing the process of correcting details.
+Furthermore in every individual `python` script a parallelization using `multiprocessing.Pool` over chunks of the input timesteps is performed. This means that, using the same `${N_CONCUR_PROCESSES}`, different plotting istances will act over chunks of 10 timesteps each to speed up the processes. The chunk size can be changed in `utils.py`.
+---
+**NOTE**
+Depending on what is passed to `multiprocessing.Pool.map` in `args` you could get an error since some objects cannot be pickled. Make sure that you're passing only the necessary arrays for the plotting and not additional objects (e.g. `pint` arrays created by `metpy` may be the culprit of the error).
+---
+Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the `PNG` figures will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backend.
 
 ## Upload of the pictures
 PNG pictures are uploaded to a FTP server defined in `ncftp` bookmarks. This operation is NOT parallelized because the FTP server may not allow concurrent connections.

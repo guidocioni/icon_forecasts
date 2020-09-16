@@ -52,10 +52,11 @@ def main():
     rain = np.insert(arr=rain, obj=0, axis=0, values=np.zeros_like(rain[0]))
     snow = np.insert(arr=snow, obj=0, axis=0, values=np.zeros_like(snow[0]))
 
-    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
+    dset['prmsl'].metpy.convert_units('hPa')
+    mslp = dset['prmsl'].values
     mslp = mpcalc.smooth_n_point(mslp, 9, 15)
-    clouds_low = dset['CLCL'].squeeze()
-    clouds_high = dset['CLCH'].squeeze()
+    clouds_low = dset['CLCL'].squeeze().values
+    clouds_high = dset['CLCH'].squeeze().values
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -81,7 +82,7 @@ def main():
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=1)
         
 	# All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax,
+        args=dict(x=x, y=y, ax=ax,
                  rain=rain, snow=snow, mslp=mslp, clouds_low=clouds_low, clouds_high=clouds_high,
                  levels_mslp=levels_mslp, levels_rain=levels_rain, levels_snow=levels_snow,
                  levels_clouds=levels_clouds, time=time, projection=projection, cum_hour=cum_hour,

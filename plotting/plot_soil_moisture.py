@@ -73,7 +73,7 @@ def main():
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+        args=dict(x=x, y=y, ax=ax, cmap=cmap,
                  w_so_sat=w_so_sat, levels_sm=levels_sm,
                  time=time, projection=projection, cum_hour=cum_hour)
         

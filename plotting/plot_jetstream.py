@@ -40,6 +40,7 @@ def main():
     # Select 850 hPa level using metpy
     wind_300 = mpcalc.wind_speed(dset['u'].metpy.sel(vertical=300 * units.hPa),
                              dset['v'].metpy.sel(vertical=300 * units.hPa)).to(units.kph)
+    
     gph_300 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=300 * units.hPa))
 
     lon, lat = get_coordinates(dset)
@@ -60,7 +61,7 @@ def main():
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax,
+        args=dict(x=x, y=y, ax=ax,
                  wind_300=wind_300, gph_300=gph_300, levels_wind=levels_wind,
                  levels_gph=levels_gph, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap)

@@ -10,6 +10,7 @@ import __main__ as main
 import os
 import matplotlib.patheffects as path_effects
 import matplotlib.cm as mplcm
+import sys
 
 import warnings
 warnings.filterwarnings(
@@ -19,9 +20,9 @@ warnings.filterwarnings(
 
 folder = os.environ['MODEL_DATA_FOLDER']
 input_file=folder+'ICON_*.nc' 
-folder_images = os.environ['MODEL_DATA_FOLDER'] 
+folder_images = os.environ['MODEL_DATA_FOLDER']
 chunks_size = 10
-processes = os.environ['N_CONCUR_PROCESSES']
+processes = int(os.environ['N_CONCUR_PROCESSES'])
 figsize_x = 10 
 figsize_y = 8
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc' 
@@ -119,7 +120,7 @@ def get_weather_icons(ww, time):
 
 def print_message(message):
     """Formatted print"""
-    print(main.__file__+' : '+message)
+    print(os.path.basename(sys.argv[0])+' : '+message)
 
 
 def get_coordinates(dataset):

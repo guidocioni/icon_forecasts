@@ -38,9 +38,9 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Select 850 hPa level using metpy
-    cape = dset['CAPE_ML'].squeeze()
-    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
-    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa).metpy.unit_array.to(units.kph)
+    cape = dset['CAPE_ML'].values.squeeze()
+    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa).values
+    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa).values
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -59,7 +59,7 @@ def main():
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+        args=dict(x=x, y=y, ax=ax, cmap=cmap,
                  cape=cape, uwind_850=uwind_850, vwind_850=vwind_850, levels_cape=levels_cape,
                  time=time, projection=projection, cum_hour=cum_hour)
         
@@ -92,7 +92,7 @@ def plot_files(dates, **args):
             scale = None
         else:
             density = 5
-            scale = 2e3
+            scale = 2.5e2
         cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
                      args['uwind_850'][i,::density,::density], args['vwind_850'][i,::density,::density], scale=scale,
                      alpha=0.8, color='gray')

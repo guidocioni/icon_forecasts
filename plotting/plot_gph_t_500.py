@@ -38,7 +38,8 @@ def main():
     dset = dset.metpy.parse_cf()
 
     # Select 850 hPa level using metpy
-    temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa).metpy.unit_array.to('degC')
+    temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa)
+    temp_500.metpy.convert_units('degC')
     gph_500 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=500 * units.hPa))
 
     lon, lat = get_coordinates(dset)
@@ -58,7 +59,7 @@ def main():
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
+        args=dict(x=x, y=y, ax=ax, cmap=cmap,
                  temp_500=temp_500, gph_500=gph_500, levels_temp=levels_temp,
                  levels_gph=levels_gph, time=time, projection=projection, cum_hour=cum_hour)
         

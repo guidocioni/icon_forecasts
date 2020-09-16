@@ -35,9 +35,10 @@ def main():
     file = glob(input_file)
     print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
-    #dset = dset.metpy.parse_cf()
+    dset = dset.metpy.parse_cf()
 
-    tmin2m = dset['TMIN_2M'].squeeze() - 273.15
+    dset['TMIN_2M'].metpy.convert_units('degC')
+    tmin2m = dset['TMIN_2M'].squeeze()
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)

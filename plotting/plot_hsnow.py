@@ -45,7 +45,8 @@ def main():
         hsnow[i] = (hsnow_acc[i] - hsnow_acc[0])*100.
     hsnow = hsnow.where((hsnow>0.5) | (hsnow<-0.5))
 
-    snowlmt = dset['SNOWLMT'].metpy.unit_array.to('m')
+    dset['SNOWLMT'].metpy.convert_units('m')
+    snowlmt = dset['SNOWLMT'].values
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)

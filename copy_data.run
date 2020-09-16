@@ -92,13 +92,13 @@ if [ "$DATA_PLOTTING" = true ]; then
 
 	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
 
-	# scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
-	# 	"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
-	# 	"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
+	scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
+		"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
+		"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
 
-	# projections=("euratl" "it" "de")
+	projections=("euratl" "it" "de")
 
-	# parallel -j 8 python ::: "${scripts[@]}" ::: "${projections[@]}"
+	parallel -j ${N_CONCUR_PROCESSES} python ::: "${scripts[@]}" ::: "${projections[@]}"
 fi
 
 ############################################################

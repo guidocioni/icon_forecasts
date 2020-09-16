@@ -35,14 +35,16 @@ def main():
     file = glob(input_file)
     print_message('Using file '+file[0])
     dset = xr.open_dataset(file[0])
+    # Rename attribute of the winds to avoid problems with units 
+    dset['VMAX_10M'].attrs['units'] = 'm/s'
     dset = dset.metpy.parse_cf()
 
-    # Select 850 hPa level using metpy
-    #winds_10m = dset['VMAX_10M'].squeeze().metpy.unit_array.to('kph')
-    winds_10m = dset['VMAX_10M'].squeeze()*3.6
-    mslp = dset['prmsl'].metpy.unit_array.to('hPa')
-    u = dset['10u'].squeeze()
-    v = dset['10v'].squeeze()
+    dset['VMAX_10M'].metpy.convert_units('kph')
+    dset['prmsl'].metpy.convert_units('hPa')
+    winds_10m = dset['VMAX_10M'].values.squeeze()
+    mslp = dset['prmsl'].values.squeeze()
+    u = dset['10u'].values.squeeze()
+    v = dset['10v'].values.squeeze()
 
     lon, lat = get_coordinates(dset)
     lon2d, lat2d = np.meshgrid(lon, lat)
@@ -51,20 +53,20 @@ def main():
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_winds_10m = np.arange(20., 150., 5.)
-    levels_mslp = np.arange(mslp.magnitude.min().astype("int"), mslp.magnitude.max().astype("int"), 4.)
+    levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
 
     cmap = get_colormap("winds")
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
         ax  = plt.gca()
-        m, x, y =get_projection(lon2d, lat2d, projection)
+        m, x, y = get_projection(lon2d, lat2d, projection)
         #m.shadedrelief(scale=0.4, alpha=0.7)
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
-        args=dict(m=m, x=x, y=y, ax=ax,
-                 winds_10m=winds_10m, mslp=mslp, levels_winds_10m=levels_winds_10m,
+        args=dict(x=x, y=y, ax=ax,
+                 winds_10m = winds_10m, mslp=mslp, levels_winds_10m=levels_winds_10m,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap, u=u, v=v)
         
@@ -74,9 +76,10 @@ def main():
         else:
             # Parallelize the plotting by dividing into chunks and processes 
             dates = chunks(time, chunks_size)
-            plot_files_param=partial(plot_files, **args)
-            p = Pool(processes)
-            p.map(plot_files_param, dates)
+            plot_files_param = partial(plot_files, **args)
+            # p = Pool(processes)
+            with Pool(processes) as p:
+                p.map(plot_files_param, dates)
 
 def plot_files(dates, **args):
     # Using args we don't have to change the prototype function if we want to add other parameters!
