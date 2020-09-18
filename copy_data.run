@@ -5,6 +5,7 @@ export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
 export HOME_FOLDER=$(pwd)
 export N_CONCUR_PROCESSES=4 
 export NCFTP_BOOKMARK="altervista"
+export PROJ_LIB="/Users/guidocioni/miniconda3/envs/nwp-py2/lib/python2.7/site-packages/pyproj/data"
 DATA_DOWNLOAD=false
 DATA_PLOTTING=true
 DATA_UPLOAD=false
@@ -17,7 +18,7 @@ ulimit -Sn 4096
 # 
 source ~/.bash_profile
 # acivate our environment 
-conda activate nwp
+conda activate nwp-py2
 ###########################################
 
 mkdir -p ${MODEL_DATA_FOLDER}it

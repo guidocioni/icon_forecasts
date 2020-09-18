@@ -77,9 +77,8 @@ def main():
             # Parallelize the plotting by dividing into chunks and processes 
             dates = chunks(time, chunks_size)
             plot_files_param = partial(plot_files, **args)
-            # p = Pool(processes)
-            with Pool(processes) as p:
-                p.map(plot_files_param, dates)
+            p = Pool(processes)
+            p.map(plot_files_param, dates)
 
 def plot_files(dates, **args):
     # Using args we don't have to change the prototype function if we want to add other parameters!
@@ -107,7 +106,7 @@ def plot_files(dates, **args):
         # these values work pretty well
         if args['projection'] == 'euratl':
             density=25
-            scale = None
+            scale = 4e2
         else:
             density = 5
             scale = 2e2

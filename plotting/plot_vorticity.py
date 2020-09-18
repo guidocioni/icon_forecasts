@@ -89,7 +89,7 @@ def plot_files(dates, **args):
         # these values work pretty well
         if args['projection'] == 'euratl':
             density=25
-            scale = 3e2
+            scale = 5e2
         else:
             density = 6
             scale = 3e2

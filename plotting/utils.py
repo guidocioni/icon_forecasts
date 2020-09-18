@@ -6,7 +6,6 @@ from metpy.units import units
 import pandas as pd
 from matplotlib.colors import from_levels_and_colors
 import seaborn as sns
-import __main__ as main
 import os
 import matplotlib.patheffects as path_effects
 import matplotlib.cm as mplcm
@@ -215,6 +214,11 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
+
+# def chunks(it, size):
+#     import itertools
+#     it = iter(it)
+#     return iter(lambda: tuple(itertools.islice(it, size)), ())
 
 
 def chunks_array(l, n):

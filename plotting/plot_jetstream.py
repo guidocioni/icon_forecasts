@@ -49,7 +49,7 @@ def main():
     time = pd.to_datetime(dset.time.values)
     cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
-    levels_wind = np.arange(50., 300., 10.)
+    levels_wind = np.arange(80., 300., 10.)
     levels_gph = np.arange(8200., 9700., 100.)
 
     cmap = truncate_colormap(plt.get_cmap('CMRmap_r'), 0., 0.9)

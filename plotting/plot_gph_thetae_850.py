@@ -41,7 +41,7 @@ def main():
 
     # Select 850 hPa level using metpy
     theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa, dset['t'].metpy.sel(vertical=850 * units.hPa),
-                                                      mpcalc.dewpoint_from_relative_humidity(dset['t'].metpy.sel(vertical=850 * units.hPa), 
+                                                      mpcalc.dewpoint_rh(dset['t'].metpy.sel(vertical=850 * units.hPa), 
                                                         dset['r'].metpy.sel(vertical=850 * units.hPa) / 100.)).to('degC').magnitude
 
     dset['prmsl'].metpy.convert_units('hPa')
