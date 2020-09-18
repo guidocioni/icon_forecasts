@@ -1,6 +1,8 @@
 # icon_forecasts
 Download and plot ICON-EU data.
-![Plotting sample][http://guidocioni.altervista.org/icon_forecasts/winds_jet/winds_jet_72.png]
+
+![Plotting sample](http://guidocioni.altervista.org/icon_forecasts/winds_jet/winds_jet_72.png)
+
 In the following repository I include a fully-functional suite of scripts 
 needed to download, merge and plot data from the ICON-EU model,
 which is freely available at https://opendata.dwd.de/weather/.
@@ -44,10 +46,9 @@ projections=("euratl" "it" "de")
 ${parallel} -j ${N_CONCUR_PROCESSES} ${python} ::: "${scripts[@]}" ::: "${projections[@]}"
 ```
 Furthermore in every individual `python` script a parallelization using `multiprocessing.Pool` over chunks of the input timesteps is performed. This means that, using the same `${N_CONCUR_PROCESSES}`, different plotting istances will act over chunks of 10 timesteps each to speed up the processes. The chunk size can be changed in `utils.py`.
----
 **NOTE**
 Depending on what is passed to `multiprocessing.Pool.map` in `args` you could get an error since some objects cannot be pickled. Make sure that you're passing only the necessary arrays for the plotting and not additional objects (e.g. `pint` arrays created by `metpy` may be the culprit of the error).
----
+
 Note that every Python script used for plotting has an option `debug=True` to allow some testing of the script before pushing it to production. When this option is activated the `PNG` figures will not be produced and the script will not be parallelized. Instead just 1 timestep will be processed and the figure will be shown in a window using the matplotlib backend.
 
 ## Upload of the pictures
