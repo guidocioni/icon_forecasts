@@ -4,7 +4,6 @@ if not debug:
     matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
-import xarray as xr 
 import metpy.calc as mpcalc
 from metpy.units import units
 from glob import glob
@@ -32,21 +31,14 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
-    # Select 850 hPa level using metpy
     temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa)
     temp_500.metpy.convert_units('degC')
     gph_500 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=500 * units.hPa))
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    gph_500 = xr.DataArray(gph_500, coords=temp_500.coords,
+                           attrs={'standard_name': 'geopotential height',
+                                  'units': gph_500.units})
 
     levels_temp = np.arange(-70., 20., 2.5)
     levels_gph = np.arange(4700., 6000., 70.)
@@ -55,8 +47,15 @@ def main():
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+
+        ax  = plt.gca()
+        temp_500, gph_500 = subset_arrays([temp_500, gph_500],
+                                                     projection)
+
+        lon, lat = get_coordinates(temp_500)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
+        m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(x=x, y=y, ax=ax, cmap=cmap,
@@ -86,11 +85,7 @@ def plot_files(dates, **args):
                                     levels=args['levels_temp'])
 
         cs2 = args['ax'].contour(args['x'], args['y'], args['temp_500'][i], extend='both',
-                                    levels=args['levels_temp'], linewidths=0.3, colors='gray', alpha=0.7)
-
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
-        c = args['ax'].contour(args['x'], args['y'], args['gph_500'][i], levels=args['levels_gph'],
-                             colors='white', linewidths=1.)
+                                    levels=[-20, 0, 20], linewidths=0.3, alpha=0.7)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 

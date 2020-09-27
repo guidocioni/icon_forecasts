@@ -32,23 +32,14 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
-    u = dset['10u'].squeeze().values
-    v = dset['10v'].squeeze().values
+    u = dset['10u'].squeeze()
+    v = dset['10v'].squeeze()
     dset['2t'].metpy.convert_units('degC')
-    t2m = dset['2t'].squeeze().values
+    t2m = dset['2t'].squeeze()
     dset['prmsl'].metpy.convert_units('hPa')
-    mslp = dset['prmsl'].values
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    mslp = dset['prmsl']
 
     levels_t2m = np.arange(-25, 40, 1)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
@@ -56,14 +47,20 @@ def main():
     cmap = get_colormap("temp")
     
     for projection in projections:# This works regardless if projections is either single value or array
-        print_message('Projection = %s' % projection)
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+
+        ax  = plt.gca()
+
+        u, v, t2m, mslp = subset_arrays([u, v, t2m, mslp], projection)
+
+        lon, lat = get_coordinates(u)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
+        m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(x=x, y=y, ax=ax, cmap=cmap,
-                 t2m=t2m, u=u, v=v, mslp=mslp, levels_t2m=levels_t2m, levels_mslp=levels_mslp,
+                 t2m=t2m.values, u=u.values, v=v.values, mslp=mslp.values, levels_t2m=levels_t2m, levels_mslp=levels_mslp,
                  time=time, projection=projection, cum_hour=cum_hour)
         
         print_message('Pre-processing finished, launching plotting scripts')

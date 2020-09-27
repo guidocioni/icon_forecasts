@@ -34,40 +34,24 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file ' + file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour = read_dataset()
 
     saturation = xr.open_dataset(soil_saturation_file)['soil_saturation']
 
     # Convert to normal soil moisture units
-    depths = dset['W_SO'].depth.values
-    depths[0] = depths[0] * 2
+    w_so = dset['W_SO'].squeeze()
+
     rho_w = 1000.
+    w_so = w_so / (w_so.depth * 2 * rho_w)  
 
-    w_so = dset['W_SO'].copy()  # Otherwise it overwrites it
+    w_so_sat = (w_so.values[:, :, :] / saturation.values[None, :, :]) * 100.
 
-    for i, depth in enumerate(depths):
-        w_so[:, i, :, :] = dset['W_SO'][:, i, :, :] / (depth * rho_w)
-
-    # Expand the saturation matrix to have
-    saturation = np.repeat(
-        saturation.values[None, :, :], w_so.depth.shape[0], axis=0)
-    saturation = np.repeat(
-        saturation[None, :, :, :], w_so.time.shape[0], axis=0)
-
-    w_so_sat = (w_so / saturation) * 100.
+    w_so_sat = xr.DataArray(w_so_sat, coords=w_so.coords,
+                           attrs={'standard_name': 'Soil moisture saturation',
+                                  'units': '%'})
 
     # Fix weird points with ice/rock
-    w_so_sat = w_so_sat.where(w_so != 0, 0.).squeeze()
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour = np.array((time - time[0]) /
-                        pd.Timedelta('1 hour')).astype("int")
+    w_so_sat = w_so_sat.where(w_so != 0, 0.)
 
     levels_sm = np.arange(0, 100, 10.)
 
@@ -75,7 +59,13 @@ def main():
 
     for projection in projections:  # This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+
         ax = plt.gca()
+        w_so_sat = subset_arrays([w_so_sat], projection)[0]
+
+        lon, lat = get_coordinates(w_so_sat)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
         m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function

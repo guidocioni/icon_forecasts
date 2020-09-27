@@ -32,28 +32,17 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
     # Compute rain and snow 
     # Note that we have to load since they are Dask arrays
-    rain_acc = dset['RAIN_GSP'].load()
-    snow_acc = dset['SNOW_GSP'].load()
-    rain = rain_acc*0.
-    snow = snow_acc*0.
-    for i in range(1, len(dset.time)):
-        rain[i]=rain_acc[i]-rain_acc[0]
-        snow[i]=snow_acc[i]-snow_acc[0]
+    rain_acc = dset['RAIN_GSP'] + dset['RAIN_CON']
+    snow_acc = dset['SNOW_GSP'] + dset['SNOW_CON']
+    rain = rain_acc - rain_acc[0, :, :]
+    snow = snow_acc - snow_acc[0, :, :]
 
-    snowlmt = dset['SNOWLMT'].load().metpy.unit_array.to('m')
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    dset['SNOWLMT'].metpy.convert_units('m')
+    snowlmt = dset['SNOWLMT']
 
     levels_snow = (1, 5, 10, 15, 20, 30, 40, 50, 70, 90, 120)
     levels_rain = (10, 15, 25, 35, 50, 75, 100, 125, 150)
@@ -64,10 +53,16 @@ def main():
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+        
         ax  = plt.gca()
+
+        rain, snow, snowlmt = subset_arrays([rain, snow, snowlmt], projection)
+
+        lon, lat = get_coordinates(rain)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+        
         m, x, y = get_projection(lon2d, lat2d, projection)
-        #img=m.arcgisimage(service='World_Shaded_Relief', xpixels = 1000, verbose=False)
-        #img.set_alpha(0.8)
+
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function

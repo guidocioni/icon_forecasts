@@ -34,27 +34,18 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
+    dset['sde'].metpy.convert_units('cm')
     hsnow_acc = dset['sde']
-    hsnow = hsnow_acc*0.
-    for i, _ in enumerate(hsnow_acc[1:]):
-        hsnow[i] = (hsnow_acc[i] - hsnow_acc[0])*100.
+    hsnow = hsnow_acc - hsnow_acc[0, :, :]
     hsnow = hsnow.where((hsnow>0.5) | (hsnow<-0.5))
 
     dset['SNOWLMT'].metpy.convert_units('m')
-    snowlmt = dset['SNOWLMT'].values
+    snowlmt = dset['SNOWLMT']
 
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
-
-    levels_hsnow = (-50, -40, -30, -20, -10, -5, -2.5, -2, -1, -0.5, 0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40, 50)
+    levels_hsnow = (-50, -40, -30, -20, -10, -5, -2.5, -2, -1, -0.5,
+                     0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40, 50)
     levels_snowlmt = np.arange(0., 3000., 500.)
 
     cmap, norm = from_levels_and_colors(levels_hsnow, sns.color_palette("PuOr", n_colors=len(levels_hsnow)+1),
@@ -62,8 +53,16 @@ def main():
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+
         ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+
+        hsnow, snowlmt = subset_arrays([hsnow, snowlmt], projection)
+
+        lon, lat = get_coordinates(snowlmt)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
+        m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
+
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
@@ -100,7 +99,7 @@ def plot_files(dates, **args):
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
         
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Snow depth change since initialization time' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Snow depth change [cm] since run beginning and snow limit [m]' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
 
         if first:

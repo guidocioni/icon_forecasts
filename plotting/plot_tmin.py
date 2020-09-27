@@ -5,8 +5,6 @@ if not debug:
 
 import matplotlib.pyplot as plt
 import xarray as xr 
-# import metpy.calc as mpcalc
-# from metpy.units import units
 from glob import glob
 import numpy as np
 import pandas as pd
@@ -32,19 +30,10 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour = read_dataset()
 
     dset['TMIN_2M'].metpy.convert_units('degC')
     tmin2m = dset['TMIN_2M'].squeeze()
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
 
     levels_t2m = np.arange(-25, 35, 1)
 
@@ -53,7 +42,14 @@ def main():
     for projection in projections:# This works regardless if projections is either single value or array
         print_message('Projection = %s' % projection)
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+        
         ax  = plt.gca()        
+        
+        tmin2m = subset_arrays([tmin2m], projection)[0]
+
+        lon, lat = get_coordinates(tmin2m)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+        
         m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function

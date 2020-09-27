@@ -32,22 +32,16 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour = read_dataset()
 
     u = dset['u'].metpy.sel(vertical=850 * units.hPa).squeeze()
     v = dset['v'].metpy.sel(vertical=850 * units.hPa).squeeze()
 
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
-
     vort = mpcalc.vorticity(u, v, dx[None, :, :], dy[None, :, :])
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    vort = xr.DataArray(vort, coords=u.coords,
+                        attrs={'standard_name': 'vorticity',
+                               'units': vort.units})
 
     levels_vort = np.linspace(-0.0005, 0.0005, 51)
 
@@ -55,8 +49,15 @@ def main():
     
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+        
+        ax  = plt.gca()
+
+        u, v, vort = subset_arrays([u, v, vort], projection)
+
+        lon, lat = get_coordinates(u)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+        
+        m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
@@ -94,9 +95,12 @@ def plot_files(dates, **args):
             density = 6
             scale = 3e2
 
-        cv = args['ax'].quiver(args['x'][::density,::density], args['y'][::density,::density],
-                     args['u'][i,::density,::density], args['v'][i,::density,::density], scale=scale,
-                     alpha=0.6, color='gray')
+        cv = args['ax'].quiver(args['x'][::density,::density],
+                               args['y'][::density,::density],
+                               args['u'][i,::density,::density],
+                               args['v'][i,::density,::density],
+                               scale=scale,
+                               alpha=0.6, color='gray')
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Relative vorticity '+str(args['vort'].units) ,loc='lower left', fontsize=6)

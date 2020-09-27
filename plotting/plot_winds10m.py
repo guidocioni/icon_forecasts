@@ -32,25 +32,14 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    # Rename attribute of the winds to avoid problems with units 
-    dset['VMAX_10M'].attrs['units'] = 'm/s'
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour = read_dataset()
 
     dset['VMAX_10M'].metpy.convert_units('kph')
     dset['prmsl'].metpy.convert_units('hPa')
-    winds_10m = dset['VMAX_10M'].values.squeeze()
-    mslp = dset['prmsl'].values.squeeze()
-    u = dset['10u'].values.squeeze()
-    v = dset['10v'].values.squeeze()
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    winds_10m = dset['VMAX_10M'].squeeze()
+    mslp = dset['prmsl'].squeeze()
+    u = dset['10u'].squeeze()
+    v = dset['10v'].squeeze()
 
     levels_winds_10m = np.arange(20., 150., 5.)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)
@@ -59,16 +48,23 @@ def main():
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+        
         ax  = plt.gca()
+
+        u, v, mslp, winds_10m = subset_arrays([u, v, mslp, winds_10m], projection)
+
+        lon, lat = get_coordinates(u)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+        
         m, x, y = get_projection(lon2d, lat2d, projection)
-        #m.shadedrelief(scale=0.4, alpha=0.7)
+        
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(x=x, y=y, ax=ax,
-                 winds_10m = winds_10m, mslp=mslp, levels_winds_10m=levels_winds_10m,
+                 winds_10m = winds_10m.values, mslp=mslp.values, levels_winds_10m=levels_winds_10m,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
-                 cmap=cmap, u=u, v=v)
+                 cmap=cmap, u=u.values, v=v.values)
         
         print_message('Pre-processing finished, launching plotting scripts')
         if debug:

@@ -1,8 +1,6 @@
 import numpy as np
 from matplotlib.offsetbox import AnchoredText
 import matplotlib.colors as colors
-import metpy.calc as mpcalc
-from metpy.units import units
 import pandas as pd
 from matplotlib.colors import from_levels_and_colors
 import seaborn as sns
@@ -10,6 +8,10 @@ import os
 import matplotlib.patheffects as path_effects
 import matplotlib.cm as mplcm
 import sys
+from glob import glob
+import xarray as xr
+from matplotlib.colors import BoundaryNorm
+import metpy
 
 import warnings
 warnings.filterwarnings(
@@ -90,6 +92,39 @@ WMO_GLYPH_LOOKUP_PNG = {
         '95': '25',
 }
 
+proj_defs = {
+    'euratl':
+    {
+        'projection': 'mill',
+        'llcrnrlon': -23.5,
+        'llcrnrlat': 29.5,
+        'urcrnrlon': 45,
+        'urcrnrlat': 70.5,
+        'resolution': 'l',
+        'epsg': 4269
+    },
+    'it':
+    {
+        'projection': 'mill',
+        'llcrnrlon': 6,
+        'llcrnrlat': 36,
+        'urcrnrlon': 19,
+        'urcrnrlat': 48,
+        'resolution': 'i',
+        'epsg': 4269
+    },
+    'de':
+    {
+        'projection': 'cyl',
+        'llcrnrlon': 5,
+        'llcrnrlat': 46.5,
+        'urcrnrlon': 16,
+        'urcrnrlat': 56,
+        'resolution': 'i',
+        'epsg': 4269
+    }
+}
+
 
 def get_weather_icons(ww, time):
     #from matplotlib._png import read_png
@@ -116,6 +151,39 @@ def get_weather_icons(ww, time):
 
     return(weather_icons)
 
+def subset_arrays(arrs, proj):
+    """Given an input projection created with basemap or cartopy subset the input arrays 
+    on the boundaries"""
+    proj_options = proj_defs[proj]
+    out = []
+    for arr in arrs:
+        out.append(arr.metpy.sel(lat=slice(proj_options['llcrnrlat'], proj_options['urcrnrlat']),
+                            lon=slice(proj_options['llcrnrlon'], proj_options['urcrnrlon'])))
+
+    return out
+
+def read_dataset():
+    """Wrapper to initialize the dataset"""
+    file = glob(input_file)
+    print_message('Using file ' + file[0])
+    dset = xr.open_dataset(file[0])
+    try:
+        dset['VMAX_10M'].attrs['units'] = 'm/s'
+    except:
+        print_message("Cannot change attribute of VMAX_10M")
+    dset = dset.metpy.parse_cf()
+    time, cum_hour = read_time(dset)
+
+    return dset, time, cum_hour
+
+def read_time(dset):
+    """Read time properly (as datetime object) from dataset
+    and compute forecast lead time as cumulative hour"""
+    time = pd.to_datetime(dset.time.values)
+    cum_hour = np.array((time - time[0]) /
+                        pd.Timedelta('1 hour')).astype("int")
+
+    return time, cum_hour
 
 def print_message(message):
     """Formatted print"""
@@ -124,11 +192,11 @@ def print_message(message):
 
 def get_coordinates(dataset):
     """Get the lat/lon coordinates from the dataset and convert them to degrees."""
-    lons = dataset['lon'].metpy.unit_array.to('degreeE')
-    lats = dataset['lat'].metpy.unit_array.to('degreeN')
+    dataset['lon'].metpy.convert_units('degreeE')
+    dataset['lat'].metpy.convert_units('degreeN')
     # We have to return an array otherwise Basemap 
     # will complain
-    return(lons.magnitude, lats.magnitude)
+    return(dataset['lon'].values, dataset['lat'].values)
 
 
 def get_city_coordinates(city):
@@ -142,17 +210,16 @@ def get_city_coordinates(city):
 def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     from mpl_toolkits.basemap import Basemap  # import Basemap matplotlib toolkit
     """Create the projection in Basemap and returns the x, y array to use it in a plot"""
-    if projection=="euratl":
-        m = Basemap(projection='mill', llcrnrlon=-23.5, llcrnrlat=29.5, urcrnrlon=45, urcrnrlat=70.5,resolution='l',epsg=4269)
+    proj_options =proj_defs[projection]
+    m = Basemap(**proj_options)
+    if projection == "euratl":
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 10.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
             m.drawmeridians(np.arange(0.0, 360.0, 10.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
-    elif projection=="eur":
-        m = Basemap(projection='cyl', llcrnrlon=-15, llcrnrlat=29, urcrnrlon=35, urcrnrlat=71,resolution='i',epsg=4269)
-    elif projection=="it":
-        m = Basemap(projection='mill', llcrnrlon=6, llcrnrlat=36, urcrnrlon=19, urcrnrlat=48,resolution='i',epsg=4269)
+
+    elif projection == "it":
         m.readshapefile(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/ITA_adm/ITA_adm1',
                             'ITA_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
@@ -160,9 +227,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
                 labels=[True, False, False, True], fontsize=7)
             m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
-    elif projection=="de":
-        m = Basemap(projection='cyl', llcrnrlon=5, llcrnrlat=46.5,\
-               urcrnrlon=16, urcrnrlat=56,  resolution='i',epsg=4269)
+    elif projection == "de":
         m.readshapefile(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/DEU_adm/DEU_adm1',
                             'DEU_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
@@ -176,6 +241,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
         m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=7)
 
     x, y = m(lon,lat)
+
     return(m, x, y)
 
 
@@ -214,11 +280,6 @@ def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
         yield l[i:i + n]
-
-# def chunks(it, size):
-#     import itertools
-#     it = iter(it)
-#     return iter(lambda: tuple(itertools.islice(it, size)), ())
 
 
 def chunks_array(l, n):
@@ -307,6 +368,10 @@ def get_colormap_norm(cmap_type, levels):
                          extend='max')
     elif cmap_type == "rain_new":
         colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_prec.rgba').values    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
+                         extend='max')
+    elif cmap_type == "winds":
+        colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_winds.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
 

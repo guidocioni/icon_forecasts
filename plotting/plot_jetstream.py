@@ -32,22 +32,18 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
-    # Select 850 hPa level using metpy
     wind_300 = mpcalc.wind_speed(dset['u'].metpy.sel(vertical=300 * units.hPa),
-                             dset['v'].metpy.sel(vertical=300 * units.hPa)).to(units.kph)
-    
+                                 dset['v'].metpy.sel(vertical=300 * units.hPa)).to(units.kph)
+    wind_300 = xr.DataArray(wind_300, coords=dset['u'].metpy.sel(vertical=300 * units.hPa).coords,
+                           attrs={'standard_name': 'wind intensity',
+                                  'units': wind_300.units})
+
     gph_300 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=300 * units.hPa))
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
+    gph_300 = xr.DataArray(gph_300, coords=dset['z'].metpy.sel(vertical=300 * units.hPa).coords,
+                           attrs={'standard_name': 'geopotential height',
+                                  'units': gph_300.units})
 
     levels_wind = np.arange(80., 300., 10.)
     levels_gph = np.arange(8200., 9700., 100.)
@@ -56,8 +52,15 @@ def main():
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+
         ax  = plt.gca()
-        m, x, y =get_projection(lon2d, lat2d, projection)
+
+        wind_300, gph_300 = subset_arrays([wind_300, gph_300], projection)
+
+        lon, lat = get_coordinates(wind_300)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
+        m, x, y = get_projection(lon2d, lat2d, projection)
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
         # All the arguments that need to be passed to the plotting function

@@ -34,25 +34,17 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file ' + file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour  = read_dataset()
 
-    # Select 850 hPa level using metpy
     theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa, dset['t'].metpy.sel(vertical=850 * units.hPa),
                                                       mpcalc.dewpoint_rh(dset['t'].metpy.sel(vertical=850 * units.hPa), 
-                                                        dset['r'].metpy.sel(vertical=850 * units.hPa) / 100.)).to('degC').magnitude
+                                                        dset['r'].metpy.sel(vertical=850 * units.hPa) / 100.)).to('degC')
 
+    theta_e = xr.DataArray(theta_e, coords= dset['t'].metpy.sel(vertical=850 * units.hPa).coords,
+                           attrs={'standard_name': 'Equivalent potential temperature',
+                                  'units': theta_e.units})
     dset['prmsl'].metpy.convert_units('hPa')
     mslp = dset['prmsl']
-
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour = np.array((time - time[0]) /
-                        pd.Timedelta('1 hour')).astype("int")
 
     levels_temp = np.arange(-10, 80, .5)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 2.5)
@@ -61,7 +53,14 @@ def main():
 
     for projection in projections:  # This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+
         ax = plt.gca()
+
+        theta_e, mslp = subset_arrays([theta_e, mslp], projection)
+        
+        lon, lat = get_coordinates(mslp)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+        
         m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function

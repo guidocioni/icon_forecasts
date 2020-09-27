@@ -4,12 +4,7 @@ if not debug:
     matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
-import xarray as xr 
-# import metpy.calc as mpcalc
-# from metpy.units import units
-from glob import glob
 import numpy as np
-import pandas as pd
 from multiprocessing import Pool
 from functools import partial
 import os 
@@ -32,29 +27,27 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    file = glob(input_file)
-    print_message('Using file '+file[0])
-    dset = xr.open_dataset(file[0])
-    dset = dset.metpy.parse_cf()
+    dset, time, cum_hour = read_dataset()
 
     dset['TMAX_2M'].metpy.convert_units('degC')
     tmax2m = dset['TMAX_2M'].squeeze()
 
-    lon, lat = get_coordinates(dset)
-    lon2d, lat2d = np.meshgrid(lon, lat)
-
-    time = pd.to_datetime(dset.time.values)
-    cum_hour=np.array((time-time[0]) / pd.Timedelta('1 hour')).astype("int")
-
-    levels_t2m = np.arange(-25, 35, 1)
+    levels_t2m = np.arange(-25, 40, 1)
 
     cmap = get_colormap("temp")
     
     for projection in projections:# This works regardless if projections is either single value or array
         print_message('Projection = %s' % projection)
         fig = plt.figure(figsize=(figsize_x, figsize_y))
+        
         ax  = plt.gca()        
-        m, x, y =get_projection(lon2d, lat2d, projection, labels=True)
+
+        tmax2m = subset_arrays([tmax2m], projection)[0]
+
+        lon, lat = get_coordinates(tmax2m)
+        lon2d, lat2d = np.meshgrid(lon, lat)
+
+        m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
 
         # All the arguments that need to be passed to the plotting function
         args=dict(m=m, x=x, y=y, ax=ax, cmap=cmap,
