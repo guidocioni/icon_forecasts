@@ -38,13 +38,13 @@ def main():
 
     dset['sde'].metpy.convert_units('cm')
     hsnow_acc = dset['sde']
-    hsnow = hsnow_acc - hsnow_acc[0, :, :]
+    hsnow = (hsnow_acc - hsnow_acc[0, :, :]).load()
     hsnow = hsnow.where((hsnow>0.5) | (hsnow<-0.5))
 
     del hsnow_acc
 
     dset['SNOWLMT'].metpy.convert_units('m')
-    snowlmt = dset['SNOWLMT']
+    snowlmt = dset['SNOWLMT'].load()
 
     levels_hsnow = (-50, -40, -30, -20, -10, -5, -2.5, -2, -1, -0.5,
                      0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40, 50)

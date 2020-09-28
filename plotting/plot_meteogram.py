@@ -37,7 +37,7 @@ increments = (time[1:] - time[:-1]) / pd.Timedelta('1 hour')
 for city in cities:  # This works regardless if cities is either single value or array
     print_message('Producing meteogram for %s' % city)
     lon, lat = get_city_coordinates(city)
-    dset_city = dset.sel(lon=lon, lat=lat, method='nearest')
+    dset_city = dset.sel(lon=lon, lat=lat, method='nearest').load()
     dset_city['t'].metpy.convert_units('degC')
     dset_city['2t'].metpy.convert_units('degC')
     dset_city['2d'].metpy.convert_units('degC')

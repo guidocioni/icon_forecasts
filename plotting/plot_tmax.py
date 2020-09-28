@@ -30,7 +30,7 @@ def main():
     dset, time, cum_hour = read_dataset(variables=['TMAX_2M'])
 
     dset['TMAX_2M'].metpy.convert_units('degC')
-    tmax2m = dset['TMAX_2M']
+    tmax2m = dset['TMAX_2M'].load()
 
     levels_t2m = np.arange(-25, 40, 1)
 

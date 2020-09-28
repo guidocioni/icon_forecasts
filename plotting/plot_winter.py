@@ -38,11 +38,11 @@ def main():
     # Note that we have to load since they are Dask arrays
     rain_acc = dset['RAIN_GSP'] + dset['RAIN_CON']
     snow_acc = dset['SNOW_GSP'] + dset['SNOW_CON']
-    rain = rain_acc - rain_acc[0, :, :]
-    snow = snow_acc - snow_acc[0, :, :]
+    rain = (rain_acc - rain_acc[0, :, :]).load()
+    snow = (snow_acc - snow_acc[0, :, :]).load()
 
     dset['SNOWLMT'].metpy.convert_units('m')
-    snowlmt = dset['SNOWLMT']
+    snowlmt = dset['SNOWLMT'].load()
 
     levels_snow = (1, 5, 10, 15, 20, 30, 40, 50, 70, 90, 120)
     levels_rain = (10, 15, 25, 35, 50, 75, 100, 125, 150)

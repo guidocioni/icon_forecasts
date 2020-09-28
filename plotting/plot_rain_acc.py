@@ -34,9 +34,9 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['TOT_PREC','PMSL'])
 
-    precip_acc = dset['tp']
+    precip_acc = dset['tp'].load()
     dset['prmsl'].metpy.convert_units('hPa')
-    mslp = dset['prmsl']
+    mslp = dset['prmsl'].load()
 
     levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40,
                     45, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 400, 500)
@@ -60,7 +60,7 @@ def main():
 
         # All the arguments that need to be passed to the plotting function
         args=dict(x=x, y=y, ax=ax,
-                 precip_acc=precip_acc.values, mslp=mslp.values, levels_precip=levels_precip,
+                 precip_acc=precip_acc, mslp=mslp, levels_precip=levels_precip,
                  levels_mslp=levels_mslp, time=time, projection=projection, cum_hour=cum_hour,
                  cmap=cmap, norm=norm)
         

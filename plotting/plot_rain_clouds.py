@@ -40,16 +40,16 @@ def main():
     # Compute rain and snow 
     rain_acc = dset['RAIN_GSP'] + dset['RAIN_CON']
     snow_acc = dset['SNOW_GSP'] + dset['SNOW_CON']
-    rain = rain_acc.differentiate(coord="time", datetime_unit="h")
-    snow = snow_acc.differentiate(coord="time", datetime_unit="h")
+    rain = rain_acc.differentiate(coord="time", datetime_unit="h").load()
+    snow = snow_acc.differentiate(coord="time", datetime_unit="h").load()
 
     del rain_acc
     del snow_acc
 
     dset['prmsl'].metpy.convert_units('hPa')
-    mslp = dset['prmsl']
-    clouds_low = dset['CLCL'].squeeze()
-    clouds_high = dset['CLCH'].squeeze()
+    mslp = dset['prmsl'].load()
+    clouds_low = dset['CLCL'].load()
+    clouds_high = dset['CLCH'].load()
 
     levels_rain   = (0.1, 0.2, 0.4, 0.6, 0.8, 1., 1.5, 2., 2.5, 3.0, 4.,
                      5, 7.5, 10., 15., 20., 30., 40., 60., 80., 100., 120.)

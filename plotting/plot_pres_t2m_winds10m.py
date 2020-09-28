@@ -34,12 +34,12 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['U_10M','V_10M','T_2M','PMSL'])
 
-    u = dset['10u'].squeeze()
-    v = dset['10v'].squeeze()
+    u = dset['10u'].load()
+    v = dset['10v'].load()
     dset['2t'].metpy.convert_units('degC')
-    t2m = dset['2t'].squeeze()
+    t2m = dset['2t'].load()
     dset['prmsl'].metpy.convert_units('hPa')
-    mslp = dset['prmsl']
+    mslp = dset['prmsl'].load()
 
     levels_t2m = np.arange(-25, 40, 1)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)

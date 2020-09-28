@@ -37,8 +37,8 @@ def main():
     dset, time, cum_hour = read_dataset(variables=['V_10M', 'U_10M'])
 
     ######## Variable read  #################################
-    u = dset['10u'].squeeze()
-    v = dset['10v'].squeeze()
+    u = dset['10u'].load()
+    v = dset['10v'].load()
     # We could move this computation in the projection part to make
     # it fast, but this would mean that we have to do it many times...
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])

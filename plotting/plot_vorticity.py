@@ -34,8 +34,8 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour = read_dataset(variables=['U','V'])
 
-    u = dset['u'].metpy.sel(vertical=850 * units.hPa).squeeze()
-    v = dset['v'].metpy.sel(vertical=850 * units.hPa).squeeze()
+    u = dset['u'].metpy.sel(vertical=850 * units.hPa).load()
+    v = dset['v'].metpy.sel(vertical=850 * units.hPa).load()
 
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
     vort = mpcalc.vorticity(u, v, dx[None, :, :], dy[None, :, :])

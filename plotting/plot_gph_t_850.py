@@ -37,8 +37,8 @@ def main():
     dset, time, cum_hour = read_dataset(variables=['T', 'FI'])
 
     # Select 850 hPa level using metpy
-    temp_850 = dset['t'].metpy.sel(vertical=850 * units.hPa)
     temp_850.metpy.convert_units('degC')
+    temp_850 = dset['t'].metpy.sel(vertical=850 * units.hPa).load()
     gph_500 = mpcalc.geopotential_to_height(
         dset['z'].metpy.sel(vertical=500 * units.hPa))
     gph_500 = xr.DataArray(gph_500, coords=temp_850.coords,

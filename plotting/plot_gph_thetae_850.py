@@ -44,7 +44,7 @@ def main():
                            attrs={'standard_name': 'Equivalent potential temperature',
                                   'units': theta_e.units})
     dset['prmsl'].metpy.convert_units('hPa')
-    mslp = dset['prmsl']
+    mslp = dset['prmsl'].load()
 
     levels_temp = np.arange(-10, 80, .5)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 2.5)

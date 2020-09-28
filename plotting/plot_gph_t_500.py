@@ -32,9 +32,9 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['T', 'FI'])
-
-    temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa)
+    
     temp_500.metpy.convert_units('degC')
+    temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa).load()
     gph_500 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=500 * units.hPa))
     gph_500 = xr.DataArray(gph_500, coords=temp_500.coords,
                            attrs={'standard_name': 'geopotential height',
@@ -84,8 +84,8 @@ def plot_files(dates, **args):
         cs = args['ax'].contourf(args['x'], args['y'], args['temp_500'][i], extend='both', cmap=args['cmap'],
                                     levels=args['levels_temp'])
 
-        cs2 = args['ax'].contour(args['x'], args['y'], args['temp_500'][i], extend='both',
-                                    levels=[-20, 0, 20], linewidths=0.3, alpha=0.7)
+        c = args['ax'].contour(args['x'], args['y'], args['gph_500'][i], levels=args['levels_gph'],
+                               colors='white', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 
@@ -106,7 +106,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, cs2, labels, an_fc, an_var, an_run, maxlabels, minlabels])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
 
         first = False 
 

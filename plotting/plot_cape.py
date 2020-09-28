@@ -33,10 +33,10 @@ def main():
     dset, time, cum_hour  = read_dataset(variables=['CAPE_ML', 'U', 'V'])
 
     ######## Variable read  #################################
-    cape = dset['CAPE_ML'].squeeze()
+    cape = dset['CAPE_ML'].load()
     # Select 850 hPa level using metpy
-    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa)
-    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa)
+    uwind_850 = dset['u'].metpy.sel(vertical=850 * units.hPa).load()
+    vwind_850 = dset['v'].metpy.sel(vertical=850 * units.hPa).load()
     #########################################################
 
     ######## Levels definition ###############################
@@ -67,7 +67,7 @@ def main():
         # All the arguments that need to be passed to the plotting function
         # we pass only arrays to avoid the pickle problem when unpacking in multiprocessing
         args = dict(x=x, y=y, ax=ax, cmap=cmap,
-                    cape=cape.values, uwind_850=uwind_850.values, vwind_850=vwind_850.values,
+                    cape=cape, uwind_850=uwind_850, vwind_850=vwind_850,
                     levels_cape=levels_cape,
                     time=time, projection=projection, cum_hour=cum_hour)
 

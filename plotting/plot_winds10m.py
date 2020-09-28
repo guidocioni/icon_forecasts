@@ -36,10 +36,10 @@ def main():
 
     dset['VMAX_10M'].metpy.convert_units('kph')
     dset['prmsl'].metpy.convert_units('hPa')
-    winds_10m = dset['VMAX_10M'].squeeze()
-    mslp = dset['prmsl'].squeeze()
-    u = dset['10u'].squeeze()
-    v = dset['10v'].squeeze()
+    winds_10m = dset['VMAX_10M'].load()
+    mslp = dset['prmsl'].load()
+    u = dset['10u'].load()
+    v = dset['10v'].load()
 
     levels_winds_10m = np.arange(20., 150., 5.)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)

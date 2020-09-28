@@ -38,7 +38,7 @@ def main():
 
     saturation = xr.open_dataset(soil_saturation_file)['soil_saturation']
 
-    w_so = dset['W_SO']
+    w_so = dset['W_SO'].load()
 
     rho_w = 1000.
     w_so = w_so / (0.03 * 2 * rho_w)  
