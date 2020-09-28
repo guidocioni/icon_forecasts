@@ -34,7 +34,7 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour  = read_dataset()
+    dset, time, cum_hour  = read_dataset(variables=['T', 'RELHUM', 'PMSL'])
 
     theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa, dset['t'].metpy.sel(vertical=850 * units.hPa),
                                                       mpcalc.dewpoint_rh(dset['t'].metpy.sel(vertical=850 * units.hPa), 

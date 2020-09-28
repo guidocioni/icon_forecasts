@@ -32,7 +32,8 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour  = read_dataset()
+    dset, time, cum_hour  = read_dataset(variables=['RAIN_GSP','RAIN_CON','SNOW_GSP','SNOW_CON',
+                                                    'PMSL','CLCL','CLCH'])
 
     increments = (time[1:] - time[:-1]) / pd.Timedelta('1 hour')
 

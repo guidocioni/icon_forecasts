@@ -34,12 +34,14 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour  = read_dataset()
+    dset, time, cum_hour  = read_dataset(variables=['H_SNOW', 'SNOWLMT'])
 
     dset['sde'].metpy.convert_units('cm')
     hsnow_acc = dset['sde']
     hsnow = hsnow_acc - hsnow_acc[0, :, :]
     hsnow = hsnow.where((hsnow>0.5) | (hsnow<-0.5))
+
+    del hsnow_acc
 
     dset['SNOWLMT'].metpy.convert_units('m')
     snowlmt = dset['SNOWLMT']

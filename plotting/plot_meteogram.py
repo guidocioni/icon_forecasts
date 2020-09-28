@@ -29,41 +29,28 @@ if not sys.argv[1:]:
 else:
     cities = sys.argv[1:]
 
-file = glob(input_file)
-print_message('Using file ' + file[0])
-dset = xr.open_dataset(file[0])
-dset = dset.metpy.parse_cf()
-hsurf = xr.open_dataset(invariant_file)['HSURF']
-
-time = pd.to_datetime(dset.time.values)
+dset, time, cum_hour  = read_dataset(variables=['T_2M','TD_2M','T','VMAX_10M',
+                                                'PMSL','HSURF','WW','RAIN_GSP','RAIN_CON',
+                                                'SNOW_GSP','SNOW_CON','RELHUM','U','V'])
 increments = (time[1:] - time[:-1]) / pd.Timedelta('1 hour')
-cum_hour = np.array((time - time[0]) / pd.Timedelta('1 hour')).astype("int")
 
 for city in cities:  # This works regardless if cities is either single value or array
     print_message('Producing meteogram for %s' % city)
     lon, lat = get_city_coordinates(city)
     dset_city = dset.sel(lon=lon, lat=lat, method='nearest')
-    height = hsurf.sel(lon=lon, lat=lat, method='nearest')
     dset_city['t'].metpy.convert_units('degC')
-    # Due to the bug in metpy we have to do this conversion manually,
-    # in the newer version of metpy we should be able to do just 
-    # convert_units('hPa')
-    #
     dset_city['2t'].metpy.convert_units('degC')
     dset_city['2d'].metpy.convert_units('degC')
-    dset_city['VMAX_10M'] = dset_city['VMAX_10M'] * 3.6
+    dset_city['VMAX_10M'].metpy.convert_units('kph')
     dset_city['prmsl'].metpy.convert_units('hPa')
+    dset_city['plev'].metpy.convert_units('hPa')
 
     rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']
     snow_acc = dset_city['SNOW_GSP'] + dset_city['SNOW_CON']
-    rain = rain_acc.diff(dim='time', n=1) / increments
-    snow = snow_acc.diff(dim='time', n=1) / increments
-    rain = np.insert(rain, 0, 0)
-    snow = np.insert(snow, 0, 0)
+    rain = rain_acc.differentiate(coord="time", datetime_unit="h")
+    snow = snow_acc.differentiate(coord="time", datetime_unit="h")
 
-    weather_icons = get_weather_icons(
-        dset_city['WW'],
-        time)
+    weather_icons = get_weather_icons(dset_city['WW'], time)
 
     fig = plt.figure(figsize=(10, 10))
     gs = gridspec.GridSpec(4, 1, height_ratios=[3, 1, 1, 1])
@@ -73,11 +60,10 @@ for city in cities:  # This works regardless if cities is either single value or
                       cmap=get_colormap("temp"), levels=np.arange(-70, 35, 5))
     ax0.axes.get_xaxis().set_ticklabels([])
     ax0.invert_yaxis()
-    #ax0.set_ylim(1000, 200)
+    ax0.set_ylim(1000, 200)
     ax0.set_xlim(time[0], time[-1])
     ax0.set_ylabel('Pressure [Pa]')
     y_labels = ax0.get_yticks()
-    ax0.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0e'))
     cbar_ax = fig.add_axes([0.92, 0.55, 0.02, 0.3])
     cs2 = ax0.contour(time, dset_city['t'].metpy.vertical.values, dset_city['r'].T,
                       levels=np.linspace(0, 100, 5), colors='white', alpha=0.7)
@@ -90,7 +76,7 @@ for city in cities:  # This works regardless if cities is either single value or
     ax0.xaxis.set_major_locator(mdates.HourLocator(interval=6))
     ax0.grid(True, alpha=0.5)
     an_fc = annotation_run(ax0, time)
-    an_var = annotation(ax0, 'RH, $T$ and $u,v$ @(%3.1fN, %3.1fE, %d m)' % (dset_city.lat, dset_city.lon, height.values),
+    an_var = annotation(ax0, 'RH, $T$ and $u,v$ @(%3.1fN, %3.1fE, %d m)' % (dset_city.lat, dset_city.lon, dset_city.HSURF),
                         loc='upper left')
     an_city = annotation(ax0, city, loc='upper center')
 

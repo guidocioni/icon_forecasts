@@ -32,7 +32,7 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour  = read_dataset()
+    dset, time, cum_hour  = read_dataset(variables=['U', 'V', 'FI'])
 
     wind_300 = mpcalc.wind_speed(dset['u'].metpy.sel(vertical=300 * units.hPa),
                                  dset['v'].metpy.sel(vertical=300 * units.hPa)).to(units.kph)

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Folder to be used to download and process data
-export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
+export MODEL_DATA_FOLDER="/Users/thd5tt/Downloads/temp/"
 export HOME_FOLDER=$(pwd)
 export N_CONCUR_PROCESSES=4 
 export NCFTP_BOOKMARK="altervista"
-DATA_DOWNLOAD=false
-DATA_PLOTTING=true
+DATA_DOWNLOAD=true
+DATA_PLOTTING=false
 DATA_UPLOAD=false
 
 ##### LOAD functions to download model data
@@ -17,7 +17,7 @@ ulimit -Sn 4096
 # 
 source ~/.bash_profile
 # acivate our environment 
-conda activate nwp-py2
+#conda activate nwp-py2
 ###########################################
 
 mkdir -p ${MODEL_DATA_FOLDER}it
@@ -72,11 +72,9 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
 	parallel -j ${N_CONCUR_PROCESSES} download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
-	#soil levels
+	#soil levelsls
 	parallel -j ${N_CONCUR_PROCESSES} download_merge_soil_variable_icon_eu ::: "W_SO"
 
-	cdo -f nc copy -merge '*.grib2' ICON_${year}${month}${day}${run}_eur.nc || { exit 1; }
-	rm ${MODEL_DATA_FOLDER}*.grib2 
 fi 
 
 ############################################################

@@ -12,6 +12,7 @@ from glob import glob
 import xarray as xr
 from matplotlib.colors import BoundaryNorm
 import metpy
+import re
 
 import warnings
 warnings.filterwarnings(
@@ -162,19 +163,33 @@ def subset_arrays(arrs, proj):
 
     return out
 
-def read_dataset():
+def read_dataset(variables = ['T_2M', 'TD_2M']):
     """Wrapper to initialize the dataset"""
-    file = glob(input_file)
-    print_message('Using file ' + file[0])
-    dset = xr.open_dataset(file[0])
-    try:
-        dset['VMAX_10M'].attrs['units'] = 'm/s'
-    except:
-        print_message("Cannot change attribute of VMAX_10M")
+    # Create the regex for the files with the needed variables
+    variables_search = '('+'|'.join(variables)+')'
+    # Get a list of all the files in the folder
+    # In the future we can use Run/Date to have a more selective glob pattern
+    files = glob(folder+'*.nc')
+    # find only the files with the variables that we need 
+    needed_files = [f for f in files if re.search(r'%s(?:_\d{10})' % variables_search, f)]
+    dset = xr.open_mfdataset(needed_files, preprocess=preprocess).load()
+    # NOTE!! Even though we use open_mfdataset, which creates a Dask array, we then 
+    # load the dataset into memory since otherwise the object cannot be pickled by 
+    # multiprocessing
     dset = dset.metpy.parse_cf()
     time, cum_hour = read_time(dset)
 
     return dset, time, cum_hour
+
+def preprocess(ds):
+    '''Additional preprocessing step to apply to the datasets'''
+    # correct gust attributes typo
+    if 'VMAX_10M' in ds.variables.keys():
+        ds['VMAX_10M'].attrs['units'] = 'm/s'
+    if 'plev_bnds' in ds.variables.keys():
+        ds = ds.drop('plev_bnds')
+
+    return ds.squeeze(drop=True)
 
 def read_time(dset):
     """Read time properly (as datetime object) from dataset
@@ -245,35 +260,35 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     return(m, x, y)
 
 
-def get_projection_cartopy(plt, projection="euratl"):
-    '''Retrieve the projection using cartopy'''
-    print('projection = %s' % projection)
-    import cartopy.crs as ccrs
-    import cartopy.feature as cfeature
-    import cartopy.io.shapereader as shpreader
+# def get_projection_cartopy(plt, projection="euratl"):
+#     '''Retrieve the projection using cartopy'''
+#     print('projection = %s' % projection)
+#     import cartopy.crs as ccrs
+#     import cartopy.feature as cfeature
+#     import cartopy.io.shapereader as shpreader
 
-    # If projection is "euratl" we don't have to do anything,
-    # the correct extents will be set automatically 
+#     # If projection is "euratl" we don't have to do anything,
+#     # the correct extents will be set automatically 
 
-    ax = plt.axes(projection=ccrs.PlateCarree())
+#     ax = plt.axes(projection=ccrs.PlateCarree())
         
-    if projection=="it":
-        ax.set_extent([6, 19, 36, 48], ccrs.PlateCarree())
-        adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/ITA_adm/ITA_adm1.shp').geometries()
-        ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None", linewidth=0.5)
-        ax.coastlines(resolution='10m')
-        ax.add_feature(cfeature.BORDERS.with_scale('10m'))
-    elif projection=="de":
-        ax.set_extent([5, 16, 46.5, 56], ccrs.PlateCarree())
-        adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/DEU_adm/DEU_adm1.shp').geometries()
-        ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None")
-        ax.coastlines(resolution='10m')
-        ax.add_feature(cfeature.BORDERS.with_scale('10m'))
-    elif projection=="euratl":
-        ax.coastlines(resolution='50m')
-        ax.add_feature(cfeature.BORDERS.with_scale('50m'))
+#     if projection=="it":
+#         ax.set_extent([6, 19, 36, 48], ccrs.PlateCarree())
+#         adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/ITA_adm/ITA_adm1.shp').geometries()
+#         ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None", linewidth=0.5)
+#         ax.coastlines(resolution='10m')
+#         ax.add_feature(cfeature.BORDERS.with_scale('10m'))
+#     elif projection=="de":
+#         ax.set_extent([5, 16, 46.5, 56], ccrs.PlateCarree())
+#         adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/DEU_adm/DEU_adm1.shp').geometries()
+#         ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None")
+#         ax.coastlines(resolution='10m')
+#         ax.add_feature(cfeature.BORDERS.with_scale('10m'))
+#     elif projection=="euratl":
+#         ax.coastlines(resolution='50m')
+#         ax.add_feature(cfeature.BORDERS.with_scale('50m'))
 
-    return(ax)
+#     return(ax)
 
 
 def chunks(l, n):

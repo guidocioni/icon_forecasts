@@ -34,15 +34,14 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour = read_dataset()
+    dset, time, cum_hour = read_dataset(variables='W_SO')
 
     saturation = xr.open_dataset(soil_saturation_file)['soil_saturation']
 
-    # Convert to normal soil moisture units
-    w_so = dset['W_SO'].squeeze()
+    w_so = dset['W_SO']
 
     rho_w = 1000.
-    w_so = w_so / (w_so.depth * 2 * rho_w)  
+    w_so = w_so / (0.03 * 2 * rho_w)  
 
     w_so_sat = (w_so.values[:, :, :] / saturation.values[None, :, :]) * 100.
 

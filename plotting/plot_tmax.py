@@ -27,10 +27,10 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour = read_dataset()
+    dset, time, cum_hour = read_dataset(variables=['TMAX_2M'])
 
     dset['TMAX_2M'].metpy.convert_units('degC')
-    tmax2m = dset['TMAX_2M'].squeeze()
+    tmax2m = dset['TMAX_2M']
 
     levels_t2m = np.arange(-25, 40, 1)
 

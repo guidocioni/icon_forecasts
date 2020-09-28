@@ -32,7 +32,7 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour  = read_dataset()
+    dset, time, cum_hour  = read_dataset(variables=['U_10M','V_10M','T_2M','PMSL'])
 
     u = dset['10u'].squeeze()
     v = dset['10v'].squeeze()

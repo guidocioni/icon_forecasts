@@ -32,7 +32,7 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour = read_dataset()
+    dset, time, cum_hour = read_dataset(variables=['VMAX_10M','PMSL','U_10M','V_10M'])
 
     dset['VMAX_10M'].metpy.convert_units('kph')
     dset['prmsl'].metpy.convert_units('hPa')
