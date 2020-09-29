@@ -49,7 +49,7 @@ def main():
 
     for projection in projections:  # This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        
+
         ax = plt.gca()
 
         # Subset array to avoid memory/CPU extra usage when plotting
@@ -59,7 +59,7 @@ def main():
         # Get coordinates from one of the variables
         lon, lat = get_coordinates(cape)
         lon2d, lat2d = np.meshgrid(lon, lat)
-    
+
         m, x, y = get_projection(lon2d, lat2d, projection, labels=True)
         # additional maps adjustment for this map
         m.fillcontinents(color='lightgray', lake_color='whitesmoke', zorder=0)
@@ -117,7 +117,7 @@ def plot_files(dates, **args):
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
-                         label='CAPE [J/kg]', pad=0.03, fraction=0.04, extend="max")
+                         label='CAPE [J/kg]', pad=0.03, fraction=0.04)
 
         if debug:
             plt.show(block=True)

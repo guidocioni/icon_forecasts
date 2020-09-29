@@ -207,8 +207,8 @@ def print_message(message):
 
 def get_coordinates(dataset):
     """Get the lat/lon coordinates from the dataset and convert them to degrees."""
-    dataset['lon'].metpy.convert_units('degreeE')
-    dataset['lat'].metpy.convert_units('degreeN')
+    dataset['lon']#.metpy.convert_units('degreeE')
+    dataset['lat']#.metpy.convert_units('degreeN')
     # We have to return an array otherwise Basemap 
     # will complain
     return(dataset['lon'].values, dataset['lat'].values)

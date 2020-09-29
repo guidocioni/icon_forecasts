@@ -11,6 +11,30 @@ The main script to be called (possibly through cronjob) is `copy_data.run`.
 There, the current run version is determined, and files are downloaded from the DWD server.
 CDO is used to merge the files. At the end of the process one single NETCDF file with all the variables and timesteps is created.
 
+## Installation
+This is not package! It is just a collection of scripts which can be run from `copy_data.run`. It was tested on Linux and MacOS; it will not run on Windows since it uses `bash`. To install it just clone the folder.
+
+You need the following UNIX utilities to run the main script
+- `GNU parallel` to parallelize the download and processing of data
+- `ncftp` to upload pictures to FTP
+- `cdo` for the preprocessing
+- `wget` to download the files
+- `bzip2` to decompress the downloaded files
+
+The `python` installation can be re-created with the up-to-date `requirements.txt`. The script was succesfully tested on both `python 2.7.15` and `python 3.7.8`. The 2.7 version for now is the most stable.
+
+The most important packages to have installed are 
+
+- `numpy`
+- `pandas`
+- `metpy`
+- `xarray`
+- `dask`
+- `basemap`
+- `matplotlib`
+- `seaborn`
+- `scipy`
+
 ## Inputs to be defined 
 Most of the inputs needed to run the code are contained at the beginning of the main bash script `copy_data.run`. In particular `MODEL_DATA_FOLDER` where the processing is done (downloading of files and creation of pictures). 
 `NCFTP_BOOKMARK` is the FTP bookmark to be defined in `ncftp` so that user and password don't need to be entered every time.
