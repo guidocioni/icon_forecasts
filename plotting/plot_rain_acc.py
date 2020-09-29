@@ -35,8 +35,8 @@ def main():
     dset, time, cum_hour  = read_dataset(variables=['TOT_PREC','PMSL'])
 
     precip_acc = dset['tp'].load()
-    dset['prmsl'].metpy.convert_units('hPa')
     mslp = dset['prmsl'].load()
+    mslp.metpy.convert_units('hPa')
 
     levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40,
                     45, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 400, 500)

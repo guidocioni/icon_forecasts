@@ -34,16 +34,23 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['U', 'V', 'FI'])
 
-    wind_300 = mpcalc.wind_speed(dset['u'].metpy.sel(vertical=300 * units.hPa),
-                                 dset['v'].metpy.sel(vertical=300 * units.hPa)).to(units.kph)
-    wind_300 = xr.DataArray(wind_300, coords=dset['u'].metpy.sel(vertical=300 * units.hPa).coords,
+    u_300 = dset['u'].metpy.sel(vertical=300 * units.hPa)
+    v_300 = dset['v'].metpy.sel(vertical=300 * units.hPa)
+    z_300 = dset['z'].metpy.sel(vertical=300 * units.hPa)
+
+    wind_300 = mpcalc.wind_speed(u_300, v_300).to(units.kph)
+    wind_300 = xr.DataArray(wind_300, coords=u_300.coords,
                            attrs={'standard_name': 'wind intensity',
                                   'units': wind_300.units})
 
-    gph_300 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=300 * units.hPa))
-    gph_300 = xr.DataArray(gph_300, coords=dset['z'].metpy.sel(vertical=300 * units.hPa).coords,
+    gph_300 = mpcalc.geopotential_to_height(z_300)
+    gph_300 = xr.DataArray(gph_300, coords=z_300.coords,
                            attrs={'standard_name': 'geopotential height',
                                   'units': gph_300.units})
+
+    del u_300
+    del v_300
+    del z_300
 
     levels_wind = np.arange(80., 300., 10.)
     levels_gph = np.arange(8200., 9700., 100.)

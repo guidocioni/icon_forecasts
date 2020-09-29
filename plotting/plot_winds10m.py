@@ -34,10 +34,10 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour = read_dataset(variables=['VMAX_10M','PMSL','U_10M','V_10M'])
 
-    dset['VMAX_10M'].metpy.convert_units('kph')
-    dset['prmsl'].metpy.convert_units('hPa')
     winds_10m = dset['VMAX_10M'].load()
+    winds_10m.metpy.convert_units('kph')
     mslp = dset['prmsl'].load()
+    mslp.metpy.convert_units('hPa')
     u = dset['10u'].load()
     v = dset['10v'].load()
 

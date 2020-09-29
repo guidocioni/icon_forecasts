@@ -41,8 +41,8 @@ def main():
     rain = (rain_acc - rain_acc[0, :, :]).load()
     snow = (snow_acc - snow_acc[0, :, :]).load()
 
-    dset['SNOWLMT'].metpy.convert_units('m')
     snowlmt = dset['SNOWLMT'].load()
+    dset['SNOWLMT'].metpy.convert_units('m')
 
     levels_snow = (1, 5, 10, 15, 20, 30, 40, 50, 70, 90, 120)
     levels_rain = (10, 15, 25, 35, 50, 75, 100, 125, 150)
@@ -53,14 +53,14 @@ def main():
 
     for projection in projections:# This works regardless if projections is either single value or array
         fig = plt.figure(figsize=(figsize_x, figsize_y))
-        
+
         ax  = plt.gca()
 
         rain, snow, snowlmt = subset_arrays([rain, snow, snowlmt], projection)
 
         lon, lat = get_coordinates(rain)
         lon2d, lat2d = np.meshgrid(lon, lat)
-        
+
         m, x, y = get_projection(lon2d, lat2d, projection)
 
         m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
@@ -70,7 +70,7 @@ def main():
                  levels_snowlmt=levels_snowlmt, levels_rain=levels_rain, levels_snow=levels_snow,
                  time=time, projection=projection, cum_hour=cum_hour, norm_snow=norm_snow,
                  cmap_rain=cmap_rain, cmap_snow=cmap_snow, norm_rain=norm_rain)
-        
+
         print_message('Pre-processing finished, launching plotting scripts')
         if debug:
             plot_files(time[-2:-1], **args)

@@ -34,6 +34,7 @@ The most important packages to have installed are
 - `matplotlib`
 - `seaborn`
 - `scipy`
+- `geopy`
 
 ## Inputs to be defined 
 Most of the inputs needed to run the code are contained at the beginning of the main bash script `copy_data.run`. In particular `MODEL_DATA_FOLDER` where the processing is done (downloading of files and creation of pictures). 

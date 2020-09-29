@@ -29,8 +29,8 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour = read_dataset(variables=['TMAX_2M'])
 
-    dset['TMAX_2M'].metpy.convert_units('degC')
     tmax2m = dset['TMAX_2M'].load()
+    tmax2m.metpy.convert_units('degC')
 
     levels_t2m = np.arange(-25, 40, 1)
 

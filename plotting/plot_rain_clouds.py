@@ -46,8 +46,8 @@ def main():
     del rain_acc
     del snow_acc
 
-    dset['prmsl'].metpy.convert_units('hPa')
     mslp = dset['prmsl'].load()
+    mslp.metpy.convert_units('hPa')
     clouds_low = dset['CLCL'].load()
     clouds_high = dset['CLCH'].load()
 

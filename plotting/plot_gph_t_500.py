@@ -32,13 +32,16 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['T', 'FI'])
-    
-    temp_500.metpy.convert_units('degC')
+
     temp_500 = dset['t'].metpy.sel(vertical=500 * units.hPa).load()
-    gph_500 = mpcalc.geopotential_to_height(dset['z'].metpy.sel(vertical=500 * units.hPa))
-    gph_500 = xr.DataArray(gph_500, coords=temp_500.coords,
+    temp_500.metpy.convert_units('degC')
+    z_500 = dset['z'].metpy.sel(vertical=500 * units.hPa).load()
+    gph_500 = mpcalc.geopotential_to_height(z_500)
+    gph_500 = xr.DataArray(gph_500, coords=z_500.coords,
                            attrs={'standard_name': 'geopotential height',
                                   'units': gph_500.units})
+
+    del z_500
 
     levels_temp = np.arange(-70., 20., 2.5)
     levels_gph = np.arange(4700., 6000., 70.)

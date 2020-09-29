@@ -36,10 +36,10 @@ def main():
 
     u = dset['10u'].load()
     v = dset['10v'].load()
-    dset['2t'].metpy.convert_units('degC')
     t2m = dset['2t'].load()
-    dset['prmsl'].metpy.convert_units('hPa')
+    t2m.metpy.convert_units('degC')
     mslp = dset['prmsl'].load()
+    mslp.metpy.convert_units('hPa')
 
     levels_t2m = np.arange(-25, 40, 1)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 4.)

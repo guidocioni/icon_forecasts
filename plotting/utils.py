@@ -33,8 +33,7 @@ soil_saturation_file = os.environ['HOME_FOLDER']+'/soil_saturation.nc'
 # Options for savefig
 options_savefig = {
     'dpi':100,
-    'bbox_inches':'tight',
-    'transparent':True
+    'bbox_inches':'tight'
 }
 
 # Dictionary to map the output folder based on the projection employed
@@ -205,13 +204,23 @@ def print_message(message):
     print(os.path.basename(sys.argv[0])+' : '+message)
 
 
-def get_coordinates(dataset):
-    """Get the lat/lon coordinates from the dataset and convert them to degrees."""
-    dataset['lon']#.metpy.convert_units('degreeE')
-    dataset['lat']#.metpy.convert_units('degreeN')
-    # We have to return an array otherwise Basemap 
-    # will complain
-    return(dataset['lon'].values, dataset['lat'].values)
+def get_coordinates(ds):
+    """Get the lat/lon coordinates from the ds and convert them to degrees.
+    Usually this is only used to prepare the plotting."""
+    if ('lat' in ds.coords.keys()) and ('lon' in ds.coords.keys()):
+        longitude = ds['lon']
+        latitude = ds['lat']
+    elif ('latitude' in ds.coords.keys()) and ('longitude' in ds.coords.keys()):
+        longitude = ds['longitude']
+        latitude = ds['latitude']
+    elif ('lat2d' in ds.coords.keys()) and ('lon2d' in ds.coords.keys()):
+        longitude = ds['lon2d']
+        latitude = ds['lat2d']
+
+    if longitude.max() > 180:
+        longitude = (((longitude.lon + 180) % 360) - 180)
+
+    return(longitude.values, latitude.values)
 
 
 def get_city_coordinates(city):

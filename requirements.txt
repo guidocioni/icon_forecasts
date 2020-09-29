@@ -5,6 +5,7 @@ basemap=1.2.2
 basemap-data-hires
 dask=2.28.0
 gdal=3.1.2
+geopy=2.0.0
 geos=3.8.1
 matplotlib=3.3.2
 metpy=0.12.2

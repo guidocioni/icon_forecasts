@@ -36,15 +36,18 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset, time, cum_hour  = read_dataset(variables=['T', 'RELHUM', 'PMSL'])
 
-    theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa, dset['t'].metpy.sel(vertical=850 * units.hPa),
-                                                      mpcalc.dewpoint_rh(dset['t'].metpy.sel(vertical=850 * units.hPa), 
-                                                        dset['r'].metpy.sel(vertical=850 * units.hPa) / 100.)).to('degC')
+    t_850 = dset['t'].metpy.sel(vertical=850 * units.hPa).load()
+    rh_850 = dset['r'].metpy.sel(vertical=850 * units.hPa).load()
+    theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa, t_850,
+                                                      mpcalc.dewpoint_rh(t_850, rh_850 / 100.)).to('degC')
 
-    theta_e = xr.DataArray(theta_e, coords= dset['t'].metpy.sel(vertical=850 * units.hPa).coords,
+    theta_e = xr.DataArray(theta_e, coords= t_850.coords,
                            attrs={'standard_name': 'Equivalent potential temperature',
                                   'units': theta_e.units})
-    dset['prmsl'].metpy.convert_units('hPa')
+    del t_850
+    del rh_850
     mslp = dset['prmsl'].load()
+    mslp.metpy.convert_units('hPa')
 
     levels_temp = np.arange(-10, 80, .5)
     levels_mslp = np.arange(mslp.min().astype("int"), mslp.max().astype("int"), 2.5)
