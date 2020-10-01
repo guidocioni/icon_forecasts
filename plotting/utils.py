@@ -170,7 +170,7 @@ def read_dataset(variables = ['T_2M', 'TD_2M']):
     # In the future we can use Run/Date to have a more selective glob pattern
     files = glob(folder+'*.nc')
     # find only the files with the variables that we need 
-    needed_files = [f for f in files if re.search(r'%s(?:_\d{10})' % variables_search, f)]
+    needed_files = [f for f in files if re.search(r'/%s(?:_\d{10})' % variables_search, f)]
     dset = xr.open_mfdataset(needed_files, preprocess=preprocess)
     # NOTE!! Even though we use open_mfdataset, which creates a Dask array, we then 
     # load the dataset into memory since otherwise the object cannot be pickled by 
@@ -370,7 +370,7 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
 def get_colormap(cmap_type):
     """Create a custom colormap."""
     colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_%s.rgba' % cmap_type).values 
-         
+    
     cmap = colors.LinearSegmentedColormap.from_list(cmap_type, colors_tuple, colors_tuple.shape[0])
     return(cmap)
 
