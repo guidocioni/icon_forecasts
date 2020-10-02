@@ -9,7 +9,7 @@ which is freely available at https://opendata.dwd.de/weather/.
 
 The main script to be called (possibly through cronjob) is `copy_data.run`. 
 There, the current run version is determined, and files are downloaded from the DWD server.
-CDO is used to merge the files. At the end of the process one single NETCDF file with all the variables and timesteps is created.
+CDO is used to merge the files. At the end of the process one single NETCDF file with all the timesteps for every variable is created. We keep these files separated and merge them whe necessary in Python.
 
 ## Installation
 This is not package! It is just a collection of scripts which can be run from `copy_data.run`. It was tested on Linux and MacOS; it will not run on Windows since it uses `bash`. To install it just clone the folder.
