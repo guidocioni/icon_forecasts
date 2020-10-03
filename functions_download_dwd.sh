@@ -7,6 +7,7 @@ listurls() {
 		-A $filename.bz2 $url 2>&1\
 		| grep -Eo '(http|https)://(.*).bz2'
 }
+export -f listurls
 #
 get_and_extract_one() {
   url="$1"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Folder to be used to download and process data
-export MODEL_DATA_FOLDER="/Users/thd5tt/Downloads/temp/"
+export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
 export HOME_FOLDER=$(pwd)
 export N_CONCUR_PROCESSES=4 
 export NCFTP_BOOKMARK="altervista"
@@ -66,14 +66,14 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 	variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" \
 	"CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP"\
 	"SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
-	parallel -j ${N_CONCUR_PROCESSES} download_merge_2d_variable_icon_eu ::: "${variables[@]}"
+	parallel -j ${N_CONCUR_PROCESSES} --delay 1 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 	#3-D variables on pressure levels
 	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
-	parallel -j ${N_CONCUR_PROCESSES} download_merge_3d_variable_icon_eu ::: "${variables[@]}"
+	parallel -j ${N_CONCUR_PROCESSES} --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
-	#soil levelsls
-	parallel -j ${N_CONCUR_PROCESSES} download_merge_soil_variable_icon_eu ::: "W_SO"
+	# #soil levelsls
+	download_merge_soil_variable_icon_eu "W_SO"
 
 fi 
 
