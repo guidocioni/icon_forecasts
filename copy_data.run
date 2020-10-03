@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 # Folder to be used to download and process data
 export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
@@ -72,8 +72,8 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
 	parallel -j ${N_CONCUR_PROCESSES} --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
-	# #soil levelsls
-	download_merge_soil_variable_icon_eu "W_SO"
+	#soil levelsls
+	download_merge_soil_variable_icon_eu W_SO
 
 fi 
 
