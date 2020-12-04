@@ -116,6 +116,8 @@ def plot_files(dates, **args):
         an_var = annotation(args['ax'], 'Convergence [' + str(args['conv'].units) + ']',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Convergence [' + str(
@@ -126,7 +128,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, cv])
+        remove_collections([cs, an_fc, an_var, an_run, cv, logo])
 
         first = False
 

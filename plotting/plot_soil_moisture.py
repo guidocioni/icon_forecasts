@@ -34,7 +34,7 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset, time, cum_hour = read_dataset(variables='W_SO')
+    dset, time, cum_hour = read_dataset(variables=['W_SO'])
 
     saturation = xr.open_dataset(soil_saturation_file)['soil_saturation']
 
@@ -100,6 +100,8 @@ def plot_files(dates, **args):
         an_var = annotation(
             args['ax'], 'Soil Moisture saturation', loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -110,7 +112,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run])
+        remove_collections([cs, an_fc, an_var, an_run, logo])
 
         first = False
 

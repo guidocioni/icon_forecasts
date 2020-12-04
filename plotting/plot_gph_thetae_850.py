@@ -111,6 +111,8 @@ def plot_files(dates, **args):
         an_var = annotation(
             args['ax'], 'MSLP [hPa] and $\theta_e$ @850hPa [C]', loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -122,7 +124,7 @@ def plot_files(dates, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections([c, cs, labels, an_fc, an_var,
-                            an_run, maxlabels, minlabels])
+                            an_run, maxlabels, minlabels, logo])
 
         first = False
 

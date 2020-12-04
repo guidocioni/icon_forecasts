@@ -101,6 +101,7 @@ def plot_files(dates, **args):
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'], zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]', pad=0.035, fraction=0.035)
@@ -110,7 +111,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
 
         first = False 
 

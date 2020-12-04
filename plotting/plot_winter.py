@@ -103,8 +103,10 @@ def plot_files(dates, **args):
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)  
 
         an_fc = annotation_forecast(args['ax'],args['time'][i])
-        an_var = annotation(args['ax'], 'Snow and rain accumulated' ,loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 'Snow and rain accumulated', loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             if args['projection'] == "euratl": 
@@ -131,7 +133,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs_rain, cs_snow, c, labels, an_fc, an_var, an_run])
+        remove_collections([cs_rain, cs_snow, c, labels, an_fc, an_var, an_run, logo])
 
         first = False 
 

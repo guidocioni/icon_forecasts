@@ -134,6 +134,8 @@ def plot_files(dates, **args):
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'Clouds (grey-low, orange-high), rain, snow and MSLP' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             if args['projection'] == "euratl": 
@@ -160,7 +162,7 @@ def plot_files(dates, **args):
             plt.savefig(filename, **options_savefig)        
         
         remove_collections([c, cs_rain, cs_snow, cs_clouds_low, cs_clouds_high,
-                             labels, an_fc, an_var, an_run, maxlabels, minlabels])
+                             labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
 
         first = False 
 

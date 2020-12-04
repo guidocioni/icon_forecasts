@@ -11,8 +11,11 @@ import sys
 from glob import glob
 import xarray as xr
 from matplotlib.colors import BoundaryNorm
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 import metpy
 import re
+from matplotlib.image import imread as read_png
+
 
 import warnings
 warnings.filterwarnings(
@@ -20,30 +23,47 @@ warnings.filterwarnings(
     message='The unit of the quantity is stripped.'
 )
 
-folder = os.environ['MODEL_DATA_FOLDER']
+if 'MODEL_DATA_FOLDER' in os.environ:
+    folder = os.environ['MODEL_DATA_FOLDER']
+else:
+    folder = '/tmp/icon-eu/'
+
 input_file=folder+'ICON_*.nc' 
-folder_images = os.environ['MODEL_DATA_FOLDER']
+folder_images = folder
 chunks_size = 10
-processes = int(os.environ['N_CONCUR_PROCESSES'])
+# if 'N_CONCUR_PROCESSES' in os.environ:
+#     processes = int(os.environ['N_CONCUR_PROCESSES' in os.environ:])
+# else:
+#     processes = 8
+
+processes = 8
+
 figsize_x = 10 
 figsize_y = 8
-invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc' 
-soil_saturation_file = os.environ['HOME_FOLDER']+'/soil_saturation.nc'
+invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
+
+if "HOME_FOLDER" in os.environ:
+    home_folder = os.environ['HOME_FOLDER']
+else:
+    home_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+soil_saturation_file = home_folder+'/soil_saturation.nc'
 
 # Options for savefig
 options_savefig = {
     'dpi':100,
-    'bbox_inches':'tight'
+    'bbox_inches':'tight',
+    'transparent':True
 }
 
 # Dictionary to map the output folder based on the projection employed
 subfolder_images = {
     'euratl' : folder_images,
     'it' : folder_images+'it',
-    'de' : folder_images+'de'    
+    'de' : folder_images+'de'
 }
 
-folder_glyph = os.environ['HOME_FOLDER'] + '/plotting/yrno_png/'
+folder_glyph = home_folder + '/plotting/yrno_png/'
 WMO_GLYPH_LOOKUP_PNG = {
         '0': '01',
         '1': '02',
@@ -132,7 +152,12 @@ def get_weather_icons(ww, time):
     """
     Get the path to a png given the weather representation 
     """
-    weather = [WMO_GLYPH_LOOKUP_PNG[w.astype(int).astype(str)] for w in ww.values]
+    weather = []
+    for w in ww.values:
+        if w.astype(int).astype(str) in WMO_GLYPH_LOOKUP_PNG:
+            weather.append(WMO_GLYPH_LOOKUP_PNG[w.astype(int).astype(str)])
+        else:
+            weather.append('empty')
     weather_icons=[]
     for date, weath in zip(time, weather):
         if date.hour >= 6 and date.hour <= 18:
@@ -244,7 +269,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
                 labels=[True, False, False, True], fontsize=7)
 
     elif projection == "it":
-        m.readshapefile(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/ITA_adm/ITA_adm1',
+        m.readshapefile(home_folder + '/plotting/shapefiles/ITA_adm/ITA_adm1',
                             'ITA_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
@@ -252,7 +277,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
             m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
     elif projection == "de":
-        m.readshapefile(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/DEU_adm/DEU_adm1',
+        m.readshapefile(home_folder + '/plotting/shapefiles/DEU_adm/DEU_adm1',
                             'DEU_adm1',linewidth=0.2,color='black',zorder=7)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
@@ -283,13 +308,13 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
         
 #     if projection=="it":
 #         ax.set_extent([6, 19, 36, 48], ccrs.PlateCarree())
-#         adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/ITA_adm/ITA_adm1.shp').geometries()
+#         adm1_shapes = shpreader.Reader(home_folder + '/plotting/shapefiles/ITA_adm/ITA_adm1.shp').geometries()
 #         ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None", linewidth=0.5)
 #         ax.coastlines(resolution='10m')
 #         ax.add_feature(cfeature.BORDERS.with_scale('10m'))
 #     elif projection=="de":
 #         ax.set_extent([5, 16, 46.5, 56], ccrs.PlateCarree())
-#         adm1_shapes = shpreader.Reader(os.environ['HOME_FOLDER'] + '/plotting/shapefiles/DEU_adm/DEU_adm1.shp').geometries()
+#         adm1_shapes = shpreader.Reader(home_folder + '/plotting/shapefiles/DEU_adm/DEU_adm1.shp').geometries()
 #         ax.add_geometries(adm1_shapes, ccrs.PlateCarree(), edgecolor="black", facecolor="None")
 #         ax.coastlines(resolution='10m')
 #         ax.add_feature(cfeature.BORDERS.with_scale('10m'))
@@ -342,6 +367,17 @@ def annotation_forecast(ax, time, loc='upper left',fontsize=8, local=True):
     return(at) 
 
 
+def add_logo_on_map(ax, logo=home_folder+'/plotting/meteoindiretta_logo.png', zoom=0.15, pos=(0.92, 0.1)):
+    '''Add a logo on the map given a pnd image, a zoom and a position
+    relative to the axis ax.'''
+    img_logo = OffsetImage(read_png(logo), zoom=zoom)
+    logo_ann = AnnotationBbox(
+        img_logo, pos, xycoords='axes fraction', frameon=False)
+    logo_ann.set_zorder(10)
+    at = ax.add_artist(logo_ann)
+    return at
+
+
 def convert_timezone(dt_from, from_tz='utc', to_tz='Europe/Berlin'):
     """Convert between two timezones. dt_from needs to be a Timestamp 
     object, don't know if it works otherwise."""
@@ -369,8 +405,8 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256):
 
 def get_colormap(cmap_type):
     """Create a custom colormap."""
-    colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_%s.rgba' % cmap_type).values 
-    
+    colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_%s.rgba' % cmap_type).values 
+
     cmap = colors.LinearSegmentedColormap.from_list(cmap_type, colors_tuple, colors_tuple.shape[0])
     return(cmap)
 
@@ -391,11 +427,11 @@ def get_colormap_norm(cmap_type, levels):
         cmap, norm = from_levels_and_colors(levels, sns.color_palette('gist_stern_r', n_colors=len(levels)),
                          extend='max')
     elif cmap_type == "rain_new":
-        colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_prec.rgba').values    
+        colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_prec.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
     elif cmap_type == "winds":
-        colors_tuple = pd.read_csv(os.environ['HOME_FOLDER'] + '/plotting/cmap_winds.rgba').values    
+        colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_winds.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
 

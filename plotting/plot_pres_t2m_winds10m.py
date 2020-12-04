@@ -112,6 +112,8 @@ def plot_files(dates, **args):
         an_fc = annotation_forecast(args['ax'],args['time'][i])
         an_var = annotation(args['ax'], 'MSLP [hPa], Winds@10m and Temperature@2m' ,loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], args['time'])
+        logo = add_logo_on_map(ax=args['ax'],
+                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Temperature [C]', pad=0.03, fraction=0.04)
@@ -121,7 +123,7 @@ def plot_files(dates, **args):
         else:
             plt.savefig(filename, **options_savefig)        
         
-        remove_collections([cs, cs2, c, labels, labels2, an_fc, an_var, an_run, cv, maxlabels, minlabels])
+        remove_collections([cs, cs2, c, labels, labels2, an_fc, an_var, an_run, cv, maxlabels, minlabels, logo])
 
         first = False 
 

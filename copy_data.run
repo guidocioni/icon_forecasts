@@ -1,13 +1,13 @@
-#!/usr/local/bin/bash
+#!/usr/bin/bash
 
 # Folder to be used to download and process data
-export MODEL_DATA_FOLDER="/Volumes/Data/temp/icon-eu/"
+export MODEL_DATA_FOLDER="/tmp/icon-eu/"
 export HOME_FOLDER=$(pwd)
-export N_CONCUR_PROCESSES=4 
+export N_CONCUR_PROCESSES=4
 export NCFTP_BOOKMARK="altervista"
-DATA_DOWNLOAD=true
+DATA_DOWNLOAD=false
 DATA_PLOTTING=false
-DATA_UPLOAD=false
+DATA_UPLOAD=true
 
 ##### LOAD functions to download model data
 . ./functions_download_dwd.sh
@@ -15,7 +15,7 @@ export SHELL=$(type -p bash)
 # We need to open many files at the same time
 ulimit -Sn 4096
 # 
-source ~/.bash_profile
+# source ~/.bash_profile
 # acivate our environment 
 #conda activate nwp-py2
 ###########################################
@@ -31,19 +31,21 @@ export hour=`date +"%H"`
 export hour_no_zero=`date -u +"%-H"`
 # note that this date is in UTC which is needed for retrieving the correct run!
 
-if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 9 ] 
-then 
- run="00"
-elif [ "$hour_no_zero" -ge 9 ] && [ "$hour_no_zero" -lt 16 ] 
-then
- run="06"
-elif [ "$hour_no_zero" -ge 16 ] && [ "$hour_no_zero" -lt 21 ] 
-then
- run="12"
-elif [ "$hour_no_zero" -ge 21 ] 
-then
- run="18"
-fi
+# if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 9 ] 
+# then 
+#  run="00"
+# elif [ "$hour_no_zero" -ge 9 ] && [ "$hour_no_zero" -lt 16 ] 
+# then
+#  run="06"
+# elif [ "$hour_no_zero" -ge 16 ] && [ "$hour_no_zero" -lt 21 ] 
+# then
+#  run="12"
+# elif [ "$hour_no_zero" -ge 21 ] 
+# then
+#  run="18"
+# fi
+
+run="00"
 
 export run
 
@@ -56,21 +58,22 @@ cd ${MODEL_DATA_FOLDER} || { echo 'Cannot change to DATA folder' ; exit 1; }
 
 if [ "$DATA_DOWNLOAD" = true ]; then
 	# Remove older files
-	rm ${MODEL_DATA_FOLDER}*.nc
+	# rm ${MODEL_DATA_FOLDER}*.nc
 	rm ${MODEL_DATA_FOLDER}*.grib2
 
 	# Invariant
 	download_invariant_icon_eu
 
 	#2-D variables
-	variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC" \
-	"CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP"\
-	"SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
-	parallel -j ${N_CONCUR_PROCESSES} --delay 1 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
+	# variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC"\
+	# 			"CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP"\
+	# 			"SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW")
+	# parallel -j ${N_CONCUR_PROCESSES} --delay 1 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 	#3-D variables on pressure levels
-	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
-	parallel -j ${N_CONCUR_PROCESSES} --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
+	# variables=("T" "FI" "RELHUM" "U" "V" "CLC")
+	# variables=("RELHUM" "U")
+	# parallel -j ${N_CONCUR_PROCESSES} --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
 	#soil levelsls
 	download_merge_soil_variable_icon_eu W_SO
@@ -88,7 +91,7 @@ if [ "$DATA_PLOTTING" = true ]; then
 
 	export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
 
-	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
+	#python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
 
 	scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
 		"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
@@ -142,10 +145,10 @@ fi
 # SECTION 4 - CLEANING ############################################################
 
 #Remove images locally
-rm ${MODEL_DATA_FOLDER}*.png
-rm ${MODEL_DATA_FOLDER}de/*.png
-rm ${MODEL_DATA_FOLDER}it/*.png
-rm ${MODEL_DATA_FOLDER}*.py
+# rm ${MODEL_DATA_FOLDER}*.png
+# rm ${MODEL_DATA_FOLDER}de/*.png
+# rm ${MODEL_DATA_FOLDER}it/*.png
+# rm ${MODEL_DATA_FOLDER}*.py
 
 ############################################################
 
