@@ -10,7 +10,6 @@ import matplotlib.cm as mplcm
 import sys
 from glob import glob
 import xarray as xr
-from matplotlib.colors import BoundaryNorm
 from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 import metpy
 import re
@@ -28,16 +27,10 @@ if 'MODEL_DATA_FOLDER' in os.environ:
 else:
     folder = '/tmp/icon-eu/'
 
-input_file=folder+'ICON_*.nc' 
+input_file = folder + 'ICON_*.nc'
 folder_images = folder
 chunks_size = 10
-# if 'N_CONCUR_PROCESSES' in os.environ:
-#     processes = int(os.environ['N_CONCUR_PROCESSES' in os.environ:])
-# else:
-#     processes = 8
-
-processes = 8
-
+processes = 9
 figsize_x = 10 
 figsize_y = 8
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
@@ -176,34 +169,44 @@ def get_weather_icons(ww, time):
 
     return(weather_icons)
 
-def subset_arrays(arrs, proj):
-    """Given an input projection created with basemap or cartopy subset the input arrays 
-    on the boundaries"""
-    proj_options = proj_defs[proj]
-    out = []
-    for arr in arrs:
-        out.append(arr.metpy.sel(lat=slice(proj_options['llcrnrlat'], proj_options['urcrnrlat']),
-                            lon=slice(proj_options['llcrnrlon'], proj_options['urcrnrlon'])))
 
-    return out
-
-def read_dataset(variables = ['T_2M', 'TD_2M']):
+def read_dataset(variables = ['T_2M', 'TD_2M'], level=None, projection=None,
+                 engine='scipy'):
     """Wrapper to initialize the dataset"""
     # Create the regex for the files with the needed variables
     variables_search = '('+'|'.join(variables)+')'
     # Get a list of all the files in the folder
     # In the future we can use Run/Date to have a more selective glob pattern
     files = glob(folder+'*.nc')
+    run = pd.to_datetime(re.findall(r'(?:\d{10})', files[0])[0],
+               format='%Y%m%d%H')
     # find only the files with the variables that we need 
     needed_files = [f for f in files if re.search(r'/%s(?:_\d{10})' % variables_search, f)]
-    dset = xr.open_mfdataset(needed_files, preprocess=preprocess)
+    dset = xr.open_mfdataset(needed_files, preprocess=preprocess, engine=engine)
     # NOTE!! Even though we use open_mfdataset, which creates a Dask array, we then 
     # load the dataset into memory since otherwise the object cannot be pickled by 
     # multiprocessing
     dset = dset.metpy.parse_cf()
-    time, cum_hour = read_time(dset)
+    if level:
+        dset = dset.sel(plev=level, method='nearest')
+    if projection:
+        proj_options = proj_defs[projection]
+        dset = dset.sel(lat=slice(proj_options['llcrnrlat'],
+                                  proj_options['urcrnrlat']),
+                        lon=slice(proj_options['llcrnrlon'],
+                                  proj_options['urcrnrlon']))
+    dset['run'] = run
 
-    return dset, time, cum_hour
+    return dset
+
+
+def get_time_run_cum(dset):
+    time = dset['time'].to_pandas()
+    run = dset['run'].to_pandas()
+    cum_hour = np.array((time - run) / pd.Timedelta('1 hour')).astype(int)
+
+    return time, run, cum_hour
+
 
 def preprocess(ds):
     '''Additional preprocessing step to apply to the datasets'''
@@ -215,14 +218,6 @@ def preprocess(ds):
 
     return ds.squeeze(drop=True)
 
-def read_time(dset):
-    """Read time properly (as datetime object) from dataset
-    and compute forecast lead time as cumulative hour"""
-    time = pd.to_datetime(dset.time.values)
-    cum_hour = np.array((time - time[0]) /
-                        pd.Timedelta('1 hour')).astype("int")
-
-    return time, cum_hour
 
 def print_message(message):
     """Formatted print"""
@@ -245,7 +240,7 @@ def get_coordinates(ds):
     if longitude.max() > 180:
         longitude = (((longitude.lon + 180) % 360) - 180)
 
-    return(longitude.values, latitude.values)
+    return np.meshgrid(longitude.values, latitude.values)
 
 
 def get_city_coordinates(city):
@@ -256,9 +251,9 @@ def get_city_coordinates(city):
     return(loc.longitude, loc.latitude)
 
 
-def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
+def get_projection(dset, projection="euratl", countries=True, labels=True):
+    lon2d, lat2d = get_coordinates(dset)
     from mpl_toolkits.basemap import Basemap  # import Basemap matplotlib toolkit
-    """Create the projection in Basemap and returns the x, y array to use it in a plot"""
     proj_options =proj_defs[projection]
     m = Basemap(**proj_options)
     if projection == "euratl":
@@ -289,7 +284,7 @@ def get_projection(lon, lat, projection="euratl", countries=True, labels=True):
     if countries:
         m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=7)
 
-    x, y = m(lon,lat)
+    x, y = m(lon2d, lat2d)
 
     return(m, x, y)
 
@@ -331,20 +326,19 @@ def chunks(l, n):
         yield l[i:i + n]
 
 
-def chunks_array(l, n):
+def chunks_dataset(ds, n):
     """Same as 'chunks' but for the time dimension in
-    an array, and we assume that's always the first 
-    dimension for now."""
-    #ind = l.dims.index('time')
-    for i in range(0, l.shape[0], n):
-        yield l[i:i + n]
+    a dataset"""
+    for i in range(0, len(ds.time), n):
+        yield ds.isel(time=slice(i, i + n))
 
 
 # Annotation run, models 
 def annotation_run(ax, time, loc='upper right',fontsize=8):
     """Put annotation of the run obtaining it from the
     time array passed to the function."""
-    at = AnchoredText('Run %s'% time[0].strftime('%Y%m%d %H UTC'), 
+    time = pd.to_datetime(time)
+    at = AnchoredText('Run %s'% time.strftime('%Y%m%d %H UTC'), 
                        prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     at.zorder = 10
@@ -352,8 +346,9 @@ def annotation_run(ax, time, loc='upper right',fontsize=8):
     return(at)
 
 
-def annotation_forecast(ax, time, loc='upper left',fontsize=8, local=True):
+def annotation_forecast(ax, time, loc='upper left', fontsize=8, local=True):
     """Put annotation of the forecast time."""
+    time = pd.to_datetime(time)
     if local: # convert to local time
         time = convert_timezone(time)
         at = AnchoredText('Valid %s' % time.strftime('%A %d %b %Y at %H (Berlin)'), 
@@ -364,7 +359,7 @@ def annotation_forecast(ax, time, loc='upper left',fontsize=8, local=True):
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     at.zorder = 10
     ax.add_artist(at)
-    return(at) 
+    return(at)
 
 
 def add_logo_on_map(ax, logo=home_folder+'/plotting/meteoindiretta_logo.png', zoom=0.15, pos=(0.92, 0.1)):
@@ -383,7 +378,7 @@ def convert_timezone(dt_from, from_tz='utc', to_tz='Europe/Berlin'):
     object, don't know if it works otherwise."""
     dt_to = dt_from.tz_localize(from_tz).tz_convert(to_tz)
     # remove again the timezone information
-    return dt_to.tz_localize(None)   
+    return dt_to.tz_localize(None)
 
 
 def annotation(ax, text, loc='upper right',fontsize=8):

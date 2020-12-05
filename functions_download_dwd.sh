@@ -33,8 +33,8 @@ download_merge_2d_variable_icon_eu()
 	echo "folder: ${url}"
 	echo "files: ${filename}"
 	#
-	listurls $filename_grep $url | parallel -j 20 get_and_extract_one {}
-	# find ${filename} -empty -type f -delete # Remove empty files
+	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
+	find ${filename} -empty -type f -delete # Remove empty files
 	sleep 1
 	cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
 	rm ${filename}
@@ -44,12 +44,12 @@ export -f download_merge_2d_variable_icon_eu
 download_merge_3d_variable_icon_eu()
 {
 	filename="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_*_${1}.grib2"
-	filename_grep="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_(.*)_${1}.grib2.bz2"
+	filename_grep="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_(.*)_(1000|900|850|700|600|500|300|250|150|50)_${1}.grib2.bz2"
 	url="https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
-	# echo "folder: ${url}"
-	# echo "files: ${filename}"
-	listurls $filename_grep $url | parallel -j 20 get_and_extract_one {}
-	# # find ${filename} -empty -type f -delete # Remove empty files
+	echo "folder: ${url}"
+	echo "files: ${filename}"
+	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
+	find ${filename} -empty -type f -delete # Remove empty files
 	cdo merge ${filename} ${1}_${year}${month}${day}${run}_eur.grib2
 	rm ${filename}
 	cdo -f nc copy ${1}_${year}${month}${day}${run}_eur.grib2 ${1}_${year}${month}${day}${run}_eur.nc
@@ -72,7 +72,7 @@ download_merge_soil_variable_icon_eu()
 	filename="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_*_3_${1}.grib2"
 	filename_grep="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_(.*)_3_${1}.grib2.bz2"
 	url="https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
-	listurls $filename_grep $url | parallel get_and_extract_one {}
+	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
 	cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
 	rm ${filename}
 }
