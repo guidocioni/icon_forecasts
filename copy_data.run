@@ -3,6 +3,8 @@
 # Cd into our working directory in case we're not into it already
 cd "$(dirname "$0")";
 
+echo "icon-forecasts: Starting processing of icon-eu model data - `date`"
+
 # Folder to be used to download and process data
 export MODEL_DATA_FOLDER="/tmp/icon-eu/"
 export HOME_FOLDER=$(pwd)
@@ -10,7 +12,7 @@ export N_CONCUR_PROCESSES=12 # not used anymore as it needs to be tuned per case
 export NCFTP_BOOKMARK="altervista"
 DATA_DOWNLOAD=false
 DATA_PLOTTING=true
-DATA_UPLOAD=false
+DATA_UPLOAD=true
 
 ##### LOAD functions to download model data
 . ./functions_download_dwd.sh
@@ -57,6 +59,9 @@ cd ${MODEL_DATA_FOLDER} || { echo 'Cannot change to DATA folder' ; exit 1; }
 # SECTION 1 - DATA DOWNLOAD ############################################################
 
 if [ "$DATA_DOWNLOAD" = true ]; then
+	echo "-----------------------------------------------"
+	echo "icon-forecasts: Starting downloading of data - `date`"
+	echo "-----------------------------------------------"
 	# Remove older files
 	rm ${MODEL_DATA_FOLDER}*.nc
 	rm ${MODEL_DATA_FOLDER}*.grib2
@@ -85,12 +90,15 @@ fi
 # SECTION 2 - DATA PLOTTING ############################################################
 
 if [ "$DATA_PLOTTING" = true ]; then
+	echo "-----------------------------------------------"
+	echo "icon-forecasts: Starting plotting of data - `date`"
+	echo "-----------------------------------------------"
 	python --version
 	cp ${HOME_FOLDER}/plotting/*.py ${MODEL_DATA_FOLDER}
 
 	export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
 
-	#python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
+	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
 
 	scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
 		"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
@@ -107,6 +115,9 @@ fi
 # SECTION 3 - IMAGES UPLOAD ############################################################
 # Use ncftpbookmarks to add a new FTP server with credentials
 if [ "$DATA_UPLOAD" = true ]; then
+	echo "-----------------------------------------------"
+	echo "icon-forecasts: Starting FTP uploading - `date`"
+	echo "-----------------------------------------------"
 	# First upload meteograms
 	ncftpput -R -v ${NCFTP_BOOKMARK} icon_italy/meteograms meteogram_*
 	#
@@ -142,11 +153,14 @@ fi
 ############################################################
 
 # SECTION 4 - CLEANING ############################################################
-
 rm ${MODEL_DATA_FOLDER}*.png
 rm ${MODEL_DATA_FOLDER}de/*.png
 rm ${MODEL_DATA_FOLDER}it/*.png
 rm ${MODEL_DATA_FOLDER}*.py
+
+echo "-----------------------------------------------"
+echo "icon-forecasts: Finished cleaning up - `date`"
+echo "----------------------------------------------_"
 
 ############################################################
 

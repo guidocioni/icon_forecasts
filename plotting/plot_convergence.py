@@ -33,7 +33,7 @@ def main():
 
     # We could move this computation in the projection part to make
     # it fast, but this would mean that we have to do it many times...
-    dset = compute_convergence(dset, uvar='U_10M', vvar='V_10M')
+    dset = compute_convergence(dset, uvar='10u', vvar='10v')
 
     levels_conv = np.linspace(-0.0005, 0.0005, 21)
     cmap = plt.get_cmap('BrBG')

@@ -33,7 +33,7 @@ def main():
     dset = read_dataset(variables=['W_SO'], projection=projection)
     dset = compute_soil_moisture_sat(dset, projection=projection)
 
-    levels_sm = np.arange(0, 100, 10.)
+    levels_sm = np.arange(5, 100, 10.)
 
     cmap = plt.get_cmap('terrain_r')
 
@@ -42,6 +42,7 @@ def main():
     ax = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
+    m.drawmapboundary(fill_color='whitesmoke')
 
     dset = dset.drop(['lon', 'lat', 'W_SO']).load()
 
@@ -69,7 +70,8 @@ def plot_files(dss, **args):
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
 
-        cs = args['ax'].contourf(args['x'], args['y'], data['w_so_sat'], extend='both', cmap=args['cmap'],
+        cs = args['ax'].contourf(args['x'], args['y'], data['w_so_sat'], 
+                                 extend='max', cmap=args['cmap'],
                                  levels=args['levels_sm'])
 
         an_fc = annotation_forecast(args['ax'], time)

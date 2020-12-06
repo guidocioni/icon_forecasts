@@ -21,7 +21,9 @@ export -f listurls
 get_and_extract_one() {
   url="$1"
   file=`basename $url | sed 's/\.bz2//g'`
-  wget -t 2 -q -O - "$url" | bzip2 -dc > "$file"
+  if [ ! -f "$file" ]; then
+  	wget -t 2 -q -O - "$url" | bzip2 -dc > "$file"
+  fi
 }
 export -f get_and_extract_one
 ##############################################
@@ -33,11 +35,13 @@ download_merge_2d_variable_icon_eu()
 	echo "folder: ${url}"
 	echo "files: ${filename}"
 	#
-	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
-	find ${filename} -empty -type f -delete # Remove empty files
-	sleep 1
-	cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
-	rm ${filename}
+	if [ ! -f "${1}_${year}${month}${day}${run}_eur.nc" ]; then
+		listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
+		find ${filename} -empty -type f -delete # Remove empty files
+		sleep 1
+		cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
+		rm ${filename}
+	fi
 }
 export -f download_merge_2d_variable_icon_eu
 ################################################
@@ -48,12 +52,14 @@ download_merge_3d_variable_icon_eu()
 	url="https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
 	echo "folder: ${url}"
 	echo "files: ${filename}"
-	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
-	find ${filename} -empty -type f -delete # Remove empty files
-	cdo merge ${filename} ${1}_${year}${month}${day}${run}_eur.grib2
-	rm ${filename}
-	cdo -f nc copy ${1}_${year}${month}${day}${run}_eur.grib2 ${1}_${year}${month}${day}${run}_eur.nc
-	rm ${1}_${year}${month}${day}${run}_eur.grib2
+	if [ ! -f "${1}_${year}${month}${day}${run}_eur.nc" ]; then
+		listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
+		find ${filename} -empty -type f -delete # Remove empty files
+		cdo merge ${filename} ${1}_${year}${month}${day}${run}_eur.grib2
+		rm ${filename}
+		cdo -f nc copy ${1}_${year}${month}${day}${run}_eur.grib2 ${1}_${year}${month}${day}${run}_eur.nc
+		rm ${1}_${year}${month}${day}${run}_eur.grib2
+	fi
 }
 export -f download_merge_3d_variable_icon_eu
 ################################################
@@ -72,8 +78,10 @@ download_merge_soil_variable_icon_eu()
 	filename="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_*_3_${1}.grib2"
 	filename_grep="icon-eu_europe_regular-lat-lon_soil-level_${year}${month}${day}${run}_(.*)_3_${1}.grib2.bz2"
 	url="https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
-	listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
-	cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
-	rm ${filename}
+	if [ ! -f "${1}_${year}${month}${day}${run}_eur.nc" ]; then
+		listurls $filename_grep $url | parallel -j 10 get_and_extract_one {}
+		cdo -f nc copy -mergetime ${filename} ${1}_${year}${month}${day}${run}_eur.nc
+		rm ${filename}
+	fi
 }
 export -f download_merge_soil_variable_icon_eu

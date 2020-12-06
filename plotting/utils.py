@@ -31,7 +31,7 @@ input_file = folder + 'ICON_*.nc'
 folder_images = folder
 chunks_size = 10
 processes = 9
-figsize_x = 10 
+figsize_x = 10
 figsize_y = 8
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
 
@@ -500,7 +500,7 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
     return(texts)
 
 
-def add_vals_on_map(ax, bmap, var, levels, density=50,
+def add_vals_on_map(ax, projection, var, levels, density=50,
                      cmap='rainbow', shift_x=0., shift_y=0., fontsize=8, lcolors=True):
     '''Given an input projection, a variable containing the values and a plot put
     the values on a map exlcuing NaNs and taking care of not going
@@ -510,22 +510,25 @@ def add_vals_on_map(ax, bmap, var, levels, density=50,
 
     norm = colors.Normalize(vmin=levels.min(), vmax=levels.max())
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
-    
-    lon_min, lon_max, lat_min, lat_max = bmap.llcrnrlon, bmap.urcrnrlon, bmap.llcrnrlat, bmap.urcrnrlat
+
+    proj_options = proj_defs[projection]
+    lon_min, lon_max, lat_min, lat_max = proj_options['llcrnrlon'], proj_options['urcrnrlon'],\
+                                         proj_options['llcrnrlat'], proj_options['urcrnrlat']
 
     # Remove values outside of the extents
-    var = var.sel(lat=slice(lat_min+0.15, lat_max-0.15), lon=slice(lon_min+0.15, lon_max-0.15))[::density, ::density]
+    var = var.sel(lat=slice(lat_min + 0.15, lat_max - 0.15),
+                  lon=slice(lon_min + 0.15, lon_max - 0.15))[::density, ::density]
     lons = var.lon
     lats = var.lat
 
     at = []
     for ilat, ilon in np.ndindex(var.shape):
         if lcolors:
-            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon]+shift_x, lats[ilat]+shift_y),
+            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
                              color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
                               path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
         else:
-            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[i]+shift_x, lats[i]+shift_y),
+            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
                              color = 'white', weight='bold', fontsize=fontsize,
                               path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
 

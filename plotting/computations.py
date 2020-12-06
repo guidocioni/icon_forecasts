@@ -4,7 +4,7 @@ from metpy.units import units
 from utils import *
 
 
-def compute_convergence(dset, uvar='U_10M', vvar='V_10M'):
+def compute_convergence(dset, uvar='10u', vvar='10v'):
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
     conv = - mpcalc.divergence(dset[uvar], dset[vvar],
                                dx[None, :, :],
@@ -16,6 +16,20 @@ def compute_convergence(dset, uvar='U_10M', vvar='V_10M'):
                         name='conv')
 
     return xr.merge([dset, conv])
+
+
+def compute_vorticity(dset, uvar='10u', vvar='10v'):
+    dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
+    vort = mpcalc.vorticity(dset[uvar], dset[vvar],
+                            dx[None, :, :],
+                            dy[None, :, :])
+    vort = xr.DataArray(vort.magnitude,
+                        coords=dset[uvar].coords,
+                        attrs={'standard_name': 'vorticity',
+                               'units': vort.units},
+                        name='vort')
+
+    return xr.merge([dset, vort])
 
 
 def compute_geopot_height(dset, zvar='z', level=None):
@@ -63,6 +77,25 @@ def compute_snow_change(dset, snowvar='sde'):
     return xr.merge([dset, hsnow])
 
 
+def compute_rain_snow_change(dset):
+    try:
+        rain_acc = dset['RAIN_GSP'] + dset['RAIN_CON']
+    except:
+        rain_acc = dset['RAIN_GSP']
+    try:
+        snow_acc = dset['SNOW_GSP'] + dset['SNOW_CON']
+    except:
+        snow_acc = dset['SNOW_GSP']
+
+    rain = (rain_acc - rain_acc[0, :, :])
+    snow = (snow_acc - snow_acc[0, :, :])
+
+    rain = xr.DataArray(rain, name='rain_increment')
+    snow = xr.DataArray(snow, name='snow_increment')
+
+    return xr.merge([dset, rain, snow])
+
+
 def compute_wind_speed(dset, uvar='u', vvar='v'):
     wind = mpcalc.wind_speed(dset[uvar], dset[vvar]).to(units.kph)
     wind = xr.DataArray(wind, coords=dset[uvar].coords,
@@ -98,14 +131,14 @@ def compute_soil_moisture_sat(dset, projection):
     saturation = xr.open_dataset(soil_saturation_file)['soil_saturation']
     saturation = saturation.assign_coords({"lon": (((saturation.lon + 180) % 360) - 180)})
     saturation = saturation.sel(lat=slice(proj_options['llcrnrlat'],
-                                  proj_options['urcrnrlat']),
-                    lon=slice(proj_options['llcrnrlon'],
-                              proj_options['urcrnrlon']))
+                                          proj_options['urcrnrlat']),
+                                lon=slice(proj_options['llcrnrlon'],
+                                          proj_options['urcrnrlon']))
 
     w_so = dset['W_SO']
 
     rho_w = 1000.
-    w_so = w_so / (0.03 * 2 * rho_w)  
+    w_so = w_so / (0.03 * 2 * rho_w)
 
     w_so_sat = (w_so.values[:, :, :] / saturation.values[None, :, :]) * 100.
 
