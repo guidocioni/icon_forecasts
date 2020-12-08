@@ -48,7 +48,7 @@ export -f download_merge_2d_variable_icon_eu
 download_merge_3d_variable_icon_eu()
 {
 	filename="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_*_${1}.grib2"
-	filename_grep="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_(.*)_(1000|900|850|700|600|500|300|250|150|50)_${1}.grib2.bz2"
+	filename_grep="icon-eu_europe_regular-lat-lon_pressure-level_${year}${month}${day}${run}_(.*)_(1000|950|900|850|800|700|600|500|400|300|250|200|150|50)_${1}.grib2.bz2"
 	url="https://opendata.dwd.de/weather/nwp/icon-eu/grib/${run}/${1,,}/"
 	echo "folder: ${url}"
 	echo "files: ${filename}"

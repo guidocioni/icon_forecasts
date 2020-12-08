@@ -3,14 +3,16 @@
 # Cd into our working directory in case we're not into it already
 cd "$(dirname "$0")";
 
+echo "----------------------------------------------------------------------------------------------"
 echo "icon-forecasts: Starting processing of icon-eu model data - `date`"
+echo "----------------------------------------------------------------------------------------------"
 
 # Folder to be used to download and process data
 export MODEL_DATA_FOLDER="/tmp/icon-eu/"
 export HOME_FOLDER=$(pwd)
 export N_CONCUR_PROCESSES=12 # not used anymore as it needs to be tuned per case
 export NCFTP_BOOKMARK="altervista"
-DATA_DOWNLOAD=false
+DATA_DOWNLOAD=true
 DATA_PLOTTING=true
 DATA_UPLOAD=true
 
@@ -59,9 +61,9 @@ cd ${MODEL_DATA_FOLDER} || { echo 'Cannot change to DATA folder' ; exit 1; }
 # SECTION 1 - DATA DOWNLOAD ############################################################
 
 if [ "$DATA_DOWNLOAD" = true ]; then
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	echo "icon-forecasts: Starting downloading of data - `date`"
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	# Remove older files
 	rm ${MODEL_DATA_FOLDER}*.nc
 	rm ${MODEL_DATA_FOLDER}*.grib2
@@ -81,7 +83,6 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 
 	#soil levelsls
 	download_merge_soil_variable_icon_eu W_SO
-
 fi 
 
 ############################################################
@@ -90,9 +91,9 @@ fi
 # SECTION 2 - DATA PLOTTING ############################################################
 
 if [ "$DATA_PLOTTING" = true ]; then
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	echo "icon-forecasts: Starting plotting of data - `date`"
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	python --version
 	cp ${HOME_FOLDER}/plotting/*.py ${MODEL_DATA_FOLDER}
 
@@ -115,9 +116,9 @@ fi
 # SECTION 3 - IMAGES UPLOAD ############################################################
 # Use ncftpbookmarks to add a new FTP server with credentials
 if [ "$DATA_UPLOAD" = true ]; then
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	echo "icon-forecasts: Starting FTP uploading - `date`"
-	echo "-----------------------------------------------"
+	echo "----------------------------------------------------------------------------------------------"
 	# First upload meteograms
 	ncftpput -R -v ${NCFTP_BOOKMARK} icon_italy/meteograms meteogram_*
 	#
@@ -158,9 +159,9 @@ rm ${MODEL_DATA_FOLDER}de/*.png
 rm ${MODEL_DATA_FOLDER}it/*.png
 rm ${MODEL_DATA_FOLDER}*.py
 
-echo "-----------------------------------------------"
+echo "----------------------------------------------------------------------------------------------"
 echo "icon-forecasts: Finished cleaning up - `date`"
-echo "----------------------------------------------_"
+echo "----------------------------------------------------------------------------------------------"
 
 ############################################################
 

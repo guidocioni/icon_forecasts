@@ -14,13 +14,16 @@ from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 import metpy
 import re
 from matplotlib.image import imread as read_png
-
+import requests
+import json
 
 import warnings
 warnings.filterwarnings(
     action='ignore',
     message='The unit of the quantity is stripped.'
 )
+
+apiKey = os.environ['MAPBOX_KEY']
 
 if 'MODEL_DATA_FOLDER' in os.environ:
     folder = os.environ['MODEL_DATA_FOLDER']
@@ -141,7 +144,6 @@ proj_defs = {
 
 def get_weather_icons(ww, time):
     #from matplotlib._png import read_png
-    from matplotlib.image import imread as read_png
     """
     Get the path to a png given the weather representation 
     """
@@ -244,11 +246,17 @@ def get_coordinates(ds):
 
 
 def get_city_coordinates(city):
-    """Get the lat/lon coordinates of a city given its name using geopy."""
-    from geopy.geocoders import Nominatim
-    geolocator =Nominatim(user_agent='meteogram')
-    loc = geolocator.geocode(city)
-    return(loc.longitude, loc.latitude)
+    apiURL_places = "https://api.mapbox.com/geocoding/v5/mapbox.places"
+
+    url = "%s/%s.json?&access_token=%s&country=DE" % (apiURL_places, city, apiKey)
+
+    response = requests.get(url)
+    json_data = json.loads(response.text)
+
+    # place_name = json_data['features'][0]['place_name']
+    lon, lat = json_data['features'][0]['center']
+
+    return lon, lat
 
 
 def get_projection(dset, projection="euratl", countries=True, labels=True):

@@ -41,8 +41,7 @@ def main():
     plot_param = partial(plot, **args)
     p = Pool(processes)
     p.map(plot_param, cities_chunks)
-    # For some reason parallaleism doesn't work...
-    # plot(cities, **args)
+
 
 def plot(cities, **args):
     for city in cities:
