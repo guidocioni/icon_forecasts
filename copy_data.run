@@ -142,20 +142,21 @@ if [ "$DATA_UPLOAD" = true ]; then
 
 	# Create a lisf of all the images to upload 
 	upload_elements=()
+	upload_folder=()
 	for i in "${!projections_output[@]}"; do
 		for j in "${images_output[@]}"; do
-			upload_elements+=("${projections_output_folder[$i]}/${j} ./${projections_output[$i]}${j}_*")
+			upload_folder+=("${projections_output_folder[$i]}/${j}")
+			upload_elements+=("./${projections_output[$i]}${j}_*")
 		done
 	done
 
-	# Finally upload the images 
-	for k in "${upload_elements[@]}"; do
-		ncftpput -R -v ${NCFTP_BOOKMARK} ${k}
-	done
+	parallel -j 5 --link ncftpput -R -v ${NCFTP_BOOKMARK} ::: "${upload_folder[@]}" ::: "${upload_elements[@]}"
 
-	# To be parallelized in the future if the FTP server accepts multiple connections
-	# this doesn't work 
-	# parallel -j 2 ncftpput -R -v ${NCFTP_BOOKMARK} ::: "${upload_elements[@]}"
+	# Finally upload the images 
+	# for k in "${upload_elements[@]}"; do
+	# 	ncftpput -R -v ${NCFTP_BOOKMARK} ${k}
+	# done
+
 	rm ${MODEL_DATA_FOLDER}*.png
 	rm ${MODEL_DATA_FOLDER}de/*.png
 	rm ${MODEL_DATA_FOLDER}it/*.png
