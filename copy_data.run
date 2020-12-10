@@ -22,39 +22,30 @@ export SHELL=$(type -p bash)
 # We need to open many files at the same time
 ulimit -Sn 8192
 # 
-# acivate our environment 
-#conda activate nwp-py2
 ###########################################
+
+# Retrieve run ##########################
+if [ -f $MODEL_DATA_FOLDER/last_processed_run.txt ]; then
+	latest_run=`python get_last_run.py`
+	latest_processed_run=`while read line; do echo $line; done < $MODEL_DATA_FOLDER/last_processed_run.txt`
+	if [ $latest_run -gt $latest_processed_run ]; then
+		echo "New run ${latest_run} found! Starting processing."
+	else
+		echo "Run ${latest_processed_run} already processed, exiting"
+		exit 1
+	fi
+fi
+
+export year=${latest_run:0:4} 
+export month=${latest_run:4:2} 
+export day=${latest_run:6:2} 
+export run=${latest_run:8:2} 
+
+#############################################
+
 
 mkdir -p ${MODEL_DATA_FOLDER}it
 mkdir -p ${MODEL_DATA_FOLDER}de
-
-# Retrieve run ##########################
-export year=`date +"%Y"`
-export month=`date +"%m"`
-export day=`date +"%d"`
-export hour=`date +"%H"`
-export hour_no_zero=`date -u +"%-H"`
-# note that this date is in UTC which is needed for retrieving the correct run!
-
-if [ "$hour_no_zero" -ge 4 ] && [ "$hour_no_zero" -lt 9 ] 
-then 
- run="00"
-elif [ "$hour_no_zero" -ge 9 ] && [ "$hour_no_zero" -lt 16 ] 
-then
- run="06"
-elif [ "$hour_no_zero" -ge 16 ] && [ "$hour_no_zero" -lt 21 ] 
-then
- run="12"
-elif [ "$hour_no_zero" -ge 21 ] 
-then
- run="18"
-fi
-
-export run
-
-###########################################
-
 # Move to the data folder to do processing
 cd ${MODEL_DATA_FOLDER} || { echo 'Cannot change to DATA folder' ; exit 1; }
 
@@ -83,6 +74,7 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 
 	#soil levelsls
 	download_merge_soil_variable_icon_eu W_SO
+	N_NETCDF_FILES=`find . -type f -name '*.nc' -printf x | wc -c`
 fi 
 
 ############################################################
@@ -108,9 +100,20 @@ if [ "$DATA_PLOTTING" = true ]; then
 	projections=("euratl" "it" "de")
 
 	parallel -j 5 python ::: "${scripts[@]}" ::: "${projections[@]}"
+	rm ${MODEL_DATA_FOLDER}*.py
+	N_IMAGES=`find . -type f -name '*.png' -printf x | wc -c`
 fi
 
 ############################################################
+
+# If we at least produced some netcdf and images we assume the run is succesfull and 
+# store the run processed in a text file. Unfortunately there is no easy way to check
+# if the processing is really succesfull as we have many errors in the process that
+# don't undermine the whole processing! 
+#
+if [ "$N_NETCDF_FILES" -ge 2 ] && [ "$N_IMAGES" -ge 10 ]; then
+	echo $year$month$day$run > last_processed_run.txt
+fi
 
 
 # SECTION 3 - IMAGES UPLOAD ############################################################
@@ -148,16 +151,14 @@ if [ "$DATA_UPLOAD" = true ]; then
 	# To be parallelized in the future if the FTP server accepts multiple connections
 	# this doesn't work 
 	# parallel -j 2 ncftpput -R -v ${NCFTP_BOOKMARK} ::: "${upload_elements[@]}"
-
+	rm ${MODEL_DATA_FOLDER}*.png
+	rm ${MODEL_DATA_FOLDER}de/*.png
+	rm ${MODEL_DATA_FOLDER}it/*.png
 fi 
 
 ############################################################
 
 # SECTION 4 - CLEANING ############################################################
-rm ${MODEL_DATA_FOLDER}*.png
-rm ${MODEL_DATA_FOLDER}de/*.png
-rm ${MODEL_DATA_FOLDER}it/*.png
-rm ${MODEL_DATA_FOLDER}*.py
 
 echo "----------------------------------------------------------------------------------------------"
 echo "icon-forecasts: Finished cleaning up - `date`"

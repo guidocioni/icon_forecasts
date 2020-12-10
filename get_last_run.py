@@ -155,4 +155,4 @@ def get_most_recent_run(run=None, vars_2d=None, vars_3d=['t'],
 if __name__ == "__main__":
     final, sel_run = get_most_recent_run(run=args.run, vars_2d=args.vars_2d,
                         vars_3d=args.vars_3d, levels_3d=args.levels_3d)
-    print(final)
+    print(sel_run)
