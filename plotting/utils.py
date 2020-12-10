@@ -248,7 +248,7 @@ def get_coordinates(ds):
 def get_city_coordinates(city):
     apiURL_places = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 
-    url = "%s/%s.json?&access_token=%s&country=DE" % (apiURL_places, city, apiKey)
+    url = "%s/%s.json?&access_token=%s" % (apiURL_places, city, apiKey)
 
     response = requests.get(url)
     json_data = json.loads(response.text)
