@@ -6,13 +6,17 @@ We only use 0, 6, 12, 18 runs. The files for these runs are usually *all* ready 
 - 11:30 GMT for 06Z run
 - 16:15 GMT for 12Z run
 - 22:15 GMT for 18Z run
+
 This means that we have to use different timing in `cron` as the timezone cannot be yet specified.
 With DST (daylight saving time) between 28 March and 31 October usually, the difference is only one hour, so
+
 - 05:15 CEST for 00Z run
 - 12:30 CEST for 06Z run
 - 17:15 CEST for 12Z run
 - 23:15 CEST for 18Z run
+
 Without DST we have to add another hour as the difference is of 2 hours in CET.
+
 - 06:15 CET for 00Z run
 - 13:30 CET for 06Z run
 - 18:15 CET for 12Z run
