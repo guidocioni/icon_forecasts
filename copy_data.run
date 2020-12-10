@@ -29,7 +29,7 @@ if [ -f $MODEL_DATA_FOLDER/last_processed_run.txt ]; then
 	latest_run=`python get_last_run.py`
 	latest_processed_run=`while read line; do echo $line; done < $MODEL_DATA_FOLDER/last_processed_run.txt`
 	if [ $latest_run -gt $latest_processed_run ]; then
-		echo "New run ${latest_run} found! Starting processing."
+		echo "New run ${latest_run} found! Last processed run was ${latest_processed_run}."
 	else
 		echo "Run ${latest_processed_run} already processed, exiting"
 		exit 1
@@ -39,8 +39,13 @@ fi
 export year=${latest_run:0:4} 
 export month=${latest_run:4:2} 
 export day=${latest_run:6:2} 
-export run=${latest_run:8:2} 
+export run=${latest_run:8:2}
 
+# Skip runs that we don't want to process
+if [ $run -eq "09" ] || [ $run -eq "15" ] || [ $run -eq "21" ] || [ $run -eq "03" ]; then
+	echo "Skipping run ${latest_run}"
+	exit 1
+fi
 #############################################
 
 
