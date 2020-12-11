@@ -79,7 +79,6 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 
 	#soil levelsls
 	download_merge_soil_variable_icon_eu W_SO
-	N_NETCDF_FILES=`find . -type f -name '*.nc' -printf x | wc -c`
 fi 
 
 ############################################################
@@ -106,7 +105,6 @@ if [ "$DATA_PLOTTING" = true ]; then
 
 	parallel -j 5 python ::: "${scripts[@]}" ::: "${projections[@]}"
 	rm ${MODEL_DATA_FOLDER}*.py
-	N_IMAGES=`find . -type f -name '*.png' -printf x | wc -c`
 fi
 
 ############################################################
@@ -115,9 +113,12 @@ fi
 # store the run processed in a text file. Unfortunately there is no easy way to check
 # if the processing is really succesfull as we have many errors in the process that
 # don't undermine the whole processing! 
-#
-if [ "$N_NETCDF_FILES" -ge 2 ] && [ "$N_IMAGES" -ge 10 ]; then
-	echo $year$month$day$run > last_processed_run.txt
+
+N_NETCDF_FILES=`find . -type f -name '*.nc' -printf x | wc -c`
+N_IMAGES=`find . -type f -name '*.png' -printf x | wc -c`
+
+if [ $N_NETCDF_FILES -ge 2 ] && [ $N_IMAGES -ge 10 ]; then
+	echo ${latest_run} > last_processed_run.txt
 fi
 
 
@@ -146,13 +147,12 @@ if [ "$DATA_UPLOAD" = true ]; then
 	for i in "${!projections_output[@]}"; do
 		for j in "${images_output[@]}"; do
 			upload_folder+=("${projections_output_folder[$i]}/${j}")
-			upload_elements+=("./${projections_output[$i]}${j}_*")
+			upload_elements+=("${MODEL_DATA_FOLDER}${projections_output[$i]}${j}_*")
 		done
 	done
 
-	parallel -j 5 --link ncftpput -R -v ${NCFTP_BOOKMARK} ::: "${upload_folder[@]}" ::: "${upload_elements[@]}"
+	parallel -j 2 --link ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ::: ${upload_folder[@]} ::: ${upload_elements[@]}
 
-	# Finally upload the images 
 	# for k in "${upload_elements[@]}"; do
 	# 	ncftpput -R -v ${NCFTP_BOOKMARK} ${k}
 	# done

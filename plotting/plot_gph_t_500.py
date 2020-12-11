@@ -36,7 +36,7 @@ def main():
     dset = compute_geopot_height(dset, zvar='z', level=50000)
     dset = dset.sel(plev=50000, method='nearest')
 
-    levels_temp = np.arange(-70., 20., 2.5)
+    levels_temp = np.arange(-50., 0., 1)
     levels_gph = np.arange(4700., 6000., 70.)
 
     cmap = get_colormap('temp')
