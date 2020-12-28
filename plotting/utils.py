@@ -24,6 +24,7 @@ warnings.filterwarnings(
 )
 
 apiKey = os.environ['MAPBOX_KEY']
+apiURL_places = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 
 if 'MODEL_DATA_FOLDER' in os.environ:
     folder = os.environ['MODEL_DATA_FOLDER']
@@ -246,17 +247,35 @@ def get_coordinates(ds):
 
 
 def get_city_coordinates(city):
-    apiURL_places = "https://api.mapbox.com/geocoding/v5/mapbox.places"
+    # First read the local cache and see if we already downloaded the city coordinates
+    if os.path.isfile(home_folder + '/plotting/cities_coordinates.csv'):
+        cities_coords = pd.read_csv(home_folder + '/plotting/cities_coordinates.csv',
+                                    index_col=[0])
+        if city in cities_coords.index:
+            return cities_coords.loc[city].lon, cities_coords.loc[city].lat
+        else:
+            # make the request and append to the file
+            url = "%s/%s.json?&access_token=%s" % (apiURL_places, city, apiKey)
+            response = requests.get(url)
+            json_data = json.loads(response.text)
+            lon, lat = json_data['features'][0]['center']
+            to_append = pd.DataFrame(index=[city],
+                                     data={'lon': lon, 'lat': lat})
+            to_append.to_csv(home_folder + '/plotting/cities_coordinates.csv',
+                             mode='a', header=False)
 
-    url = "%s/%s.json?&access_token=%s" % (apiURL_places, city, apiKey)
+            return lon, lat
+    else:
+        # Make request and create the file for the first time
+        url = "%s/%s.json?&access_token=%s" % (apiURL_places, city, apiKey)
+        response = requests.get(url)
+        json_data = json.loads(response.text)
+        lon, lat = json_data['features'][0]['center']
+        cities_coords = pd.DataFrame(index=[city],
+                                     data={'lon': lon, 'lat': lat})
+        cities_coords.to_csv(home_folder + '/plotting/cities_coordinates.csv')
 
-    response = requests.get(url)
-    json_data = json.loads(response.text)
-
-    # place_name = json_data['features'][0]['place_name']
-    lon, lat = json_data['features'][0]['center']
-
-    return lon, lat
+        return lon, lat
 
 
 def get_projection(dset, projection="euratl", countries=True, labels=True):

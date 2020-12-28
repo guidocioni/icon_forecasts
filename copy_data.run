@@ -32,7 +32,7 @@ if [ -f $MODEL_DATA_FOLDER/last_processed_run.txt ]; then
 		echo "New run ${latest_run} found! Last processed run was ${latest_processed_run}."
 	else
 		echo "Run ${latest_processed_run} already processed, exiting"
-		exit 1
+		exit 0
 	fi
 fi
 
@@ -44,7 +44,7 @@ export run=${latest_run:8:2}
 # Skip runs that we don't want to process
 if [ $run -eq "09" ] || [ $run -eq "15" ] || [ $run -eq "21" ] || [ $run -eq "03" ]; then
 	echo "Skipping run ${latest_run}"
-	exit 1
+	exit 0
 fi
 #############################################
 
@@ -129,7 +129,7 @@ if [ "$DATA_UPLOAD" = true ]; then
 	echo "icon-forecasts: Starting FTP uploading - `date`"
 	echo "----------------------------------------------------------------------------------------------"
 	# First upload meteograms
-	ncftpput -R -v ${NCFTP_BOOKMARK} icon_italy/meteograms meteogram_*
+	ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} icon_italy/meteograms meteogram_*
 	#
 	# Then upload the other pictures
 	#
@@ -143,19 +143,18 @@ if [ "$DATA_UPLOAD" = true ]; then
 
 	# Create a lisf of all the images to upload 
 	upload_elements=()
-	upload_folder=()
 	for i in "${!projections_output[@]}"; do
 		for j in "${images_output[@]}"; do
-			upload_folder+=("${projections_output_folder[$i]}/${j}")
-			upload_elements+=("${MODEL_DATA_FOLDER}${projections_output[$i]}${j}_*")
+				upload_elements+=("${projections_output_folder[$i]}/${j} ./${projections_output[$i]}${j}_*")
 		done
 	done
 
-	parallel -j 2 --link ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ::: ${upload_folder[@]} ::: ${upload_elements[@]}
 
-	# for k in "${upload_elements[@]}"; do
-	# 	ncftpput -R -v ${NCFTP_BOOKMARK} ${k}
-	# done
+	for k in "${upload_elements[@]}"; do
+		ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ${k}
+	done
+	# For some reason the parallel version does not work
+	# parallel -j 1 --link ncftpput -R -v -DD ${NCFTP_BOOKMARK} ::: ${upload_folder[@]} ::: ${upload_elements[@]}
 
 	rm ${MODEL_DATA_FOLDER}*.png
 	rm ${MODEL_DATA_FOLDER}de/*.png
