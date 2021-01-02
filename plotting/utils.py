@@ -35,8 +35,8 @@ input_file = folder + 'ICON_*.nc'
 folder_images = folder
 chunks_size = 10
 processes = 9
-figsize_x = 10
-figsize_y = 8
+figsize_x = 11
+figsize_y = 9
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
 
 if "HOME_FOLDER" in os.environ:
@@ -50,7 +50,7 @@ soil_saturation_file = home_folder+'/soil_saturation.nc'
 options_savefig = {
     'dpi':100,
     'bbox_inches':'tight',
-    'transparent':True
+    'transparent':False
 }
 
 # Dictionary to map the output folder based on the projection employed
@@ -278,7 +278,7 @@ def get_city_coordinates(city):
         return lon, lat
 
 
-def get_projection(dset, projection="euratl", countries=True, labels=True):
+def get_projection(dset, projection="euratl", countries=True, labels=True, color_borders='black'):
     lon2d, lat2d = get_coordinates(dset)
     from mpl_toolkits.basemap import Basemap  # import Basemap matplotlib toolkit
     proj_options =proj_defs[projection]
@@ -292,7 +292,7 @@ def get_projection(dset, projection="euratl", countries=True, labels=True):
 
     elif projection == "it":
         m.readshapefile(home_folder + '/plotting/shapefiles/ITA_adm/ITA_adm1',
-                            'ITA_adm1',linewidth=0.2,color='black',zorder=7)
+                            'ITA_adm1', linewidth=0.2, color='black', zorder=7)
         if labels:
             m.drawparallels(np.arange(-90.0, 90.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
@@ -307,9 +307,9 @@ def get_projection(dset, projection="euratl", countries=True, labels=True):
             m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
 
-    m.drawcoastlines(linewidth=0.5, linestyle='solid', color='black', zorder=7)
+    m.drawcoastlines(linewidth=0.5, linestyle='solid', color=color_borders, zorder=7)
     if countries:
-        m.drawcountries(linewidth=0.5, linestyle='solid', color='black', zorder=7)
+        m.drawcountries(linewidth=0.5, linestyle='solid', color=color_borders, zorder=7)
 
     x, y = m(lon2d, lat2d)
 
