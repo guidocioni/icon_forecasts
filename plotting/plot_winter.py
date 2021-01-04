@@ -60,7 +60,7 @@ def main():
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
-        plot_files(dset.isel(time=slice(0, 2)), **args)
+        plot_files(dset.isel(time=slice(-2, -1)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and processes 
         dss = chunks_dataset(dset, chunks_size)
@@ -80,10 +80,10 @@ def plot_files(dss, **args):
 
         cs_rain = args['ax'].contourf(args['x'], args['y'], data['rain_increment'],
                          extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
-                         levels=args['levels_rain'], alpha=0.8)
+                         levels=args['levels_rain'], alpha=0.5, antialiased = True)
         cs_snow = args['ax'].contourf(args['x'], args['y'], data['snow_increment'],
                          extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
-                         levels=args['levels_snow'], alpha=0.8)
+                         levels=args['levels_snow'], antialiased = True)
 
         c = args['ax'].contour(args['x'], args['y'], data['SNOWLMT'], levels=args['levels_snowlmt'],
                              colors='red', linewidths=0.5)

@@ -73,11 +73,11 @@ def plot_files(dss, **args):
 
         # plot every -th element
         if projection == "euratl":
-            density = 29
+            density = 23
         elif projection == "it":
-            density = 6
-        elif projection == "de":
             density = 5
+        elif projection == "de":
+            density = 4
 
         vals = add_vals_on_map(args['ax'], projection,
                                data['TMIN_2M'], args['levels_t2m'],

@@ -532,7 +532,7 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
 
 
 def add_vals_on_map(ax, projection, var, levels, density=50,
-                     cmap='rainbow', shift_x=0., shift_y=0., fontsize=8, lcolors=True):
+                     cmap='rainbow', shift_x=0., shift_y=0., fontsize=7.5, lcolors=True):
     '''Given an input projection, a variable containing the values and a plot put
     the values on a map exlcuing NaNs and taking care of not going
     outside of the map boundaries, which can happen.

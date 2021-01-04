@@ -45,7 +45,7 @@ def main():
 
     cmap_snow, norm_snow = get_colormap_norm("snow", levels_snow)
     cmap_rain, norm_rain = get_colormap_norm("rain_new", levels_rain)
-    cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0., 0.5)
+    cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0.2, 0.7)
     cmap_clouds_high = truncate_colormap(plt.get_cmap('Oranges'), 0., 0.5)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
@@ -53,8 +53,9 @@ def main():
     ax = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
-    m.drawmapboundary(fill_color='whitesmoke')
-    m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=1)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
+    #m.drawmapboundary(fill_color='whitesmoke')
+    #m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=1)
 
     dset = dset.drop(['lon', 'lat', 'RAIN_GSP', 'RAIN_CON', 'SNOW_GSP', 'SNOW_CON']).load()
 
@@ -89,16 +90,16 @@ def plot_files(dss, **args):
 
         cs_rain = args['ax'].contourf(args['x'], args['y'], data['rain_rate'],
                          extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
-                         levels=args['levels_rain'], zorder=4)
+                         levels=args['levels_rain'], zorder=4, antialiased=True)
         cs_snow = args['ax'].contourf(args['x'], args['y'], data['snow_rate'],
                          extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
-                         levels=args['levels_snow'], zorder=5)
+                         levels=args['levels_snow'], zorder=5, antialiased=True)
         cs_clouds_low = args['ax'].contourf(args['x'], args['y'], data['CLCL'],
                          extend='max', cmap=args['cmap_clouds'],
-                         levels=args['levels_clouds'], zorder=3)
+                         levels=args['levels_clouds'], zorder=3, antialiased=True)
         cs_clouds_high = args['ax'].contourf(args['x'], args['y'], data['CLCH'],
                          extend='max', cmap=args['cmap_clouds_high'],
-                         levels=args['levels_clouds'], zorder=2, alpha=0.7)
+                         levels=args['levels_clouds'], zorder=2, alpha=0.5, antialiased=True)
 
         c = args['ax'].contour(args['x'], args['y'], data['prmsl'],
                              levels=args['levels_mslp'], colors='black', linewidths=1., zorder=6, alpha=1.0)

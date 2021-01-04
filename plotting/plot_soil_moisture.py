@@ -72,7 +72,7 @@ def plot_files(dss, **args):
 
         cs = args['ax'].contourf(args['x'], args['y'], data['w_so_sat'], 
                                  extend='max', cmap=args['cmap'],
-                                 levels=args['levels_sm'])
+                                 levels=args['levels_sm'], antialiased=True)
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(

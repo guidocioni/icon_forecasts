@@ -93,7 +93,7 @@ def plot_files(dss, **args):
         cs = args['ax'].pcolormesh(args['x'], args['y'],
                    data['SYNMSG_BT_CL_IR10.8'],
                    cmap=args['cmap_bt'],
-                   vmin=200, vmax=295)
+                   vmin=200, vmax=295, antialiased=True)
 
         # cs_rain = args['ax'].contourf(args['x'], args['y'], data['rain_rate'],
         #                  extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
