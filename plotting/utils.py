@@ -185,7 +185,11 @@ def read_dataset(variables = ['T_2M', 'TD_2M'], level=None, projection=None,
                format='%Y%m%d%H')
     # find only the files with the variables that we need 
     needed_files = [f for f in files if re.search(r'/%s(?:_\d{10})' % variables_search, f)]
-    dset = xr.open_mfdataset(needed_files, preprocess=preprocess, engine=engine)
+    dset = xr.open_mfdataset(needed_files,
+                             preprocess=preprocess,
+                             engine=engine,
+                             chunks={'time': 2, 'lon': 100, 'lat': 100}
+                             )
     # NOTE!! Even though we use open_mfdataset, which creates a Dask array, we then 
     # load the dataset into memory since otherwise the object cannot be pickled by 
     # multiprocessing

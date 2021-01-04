@@ -117,8 +117,8 @@ def compute_rate(dset):
     except:
         snow_acc = dset['SNOW_GSP']
 
-    rain = rain_acc.differentiate(coord="time", datetime_unit="h")
-    snow = snow_acc.differentiate(coord="time", datetime_unit="h")
+    rain = rain_acc.load().differentiate(coord="time", datetime_unit="h")
+    snow = snow_acc.load().differentiate(coord="time", datetime_unit="h")
 
     rain = xr.DataArray(rain, name='rain_rate')
     snow = xr.DataArray(snow, name='snow_rate')

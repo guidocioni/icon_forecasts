@@ -49,7 +49,7 @@ def main():
     cmap_rain, norm_rain = get_colormap_norm("rain_new", levels_rain)
     cmap_clouds = truncate_colormap(plt.get_cmap('Greys'), 0., 0.5)
     cmap_clouds_high = truncate_colormap(plt.get_cmap('Oranges'), 0., 0.5)
-    fp = open('cmap_bt.pkl', 'rb')
+    fp = open(home_folder + '/plotting/cmap_bt.pkl', 'rb')
     cmap_bt = pickle.load(fp)
     fp.close()
 

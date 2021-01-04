@@ -36,7 +36,7 @@ def main():
     it = []
     for city in cities:
         lon, lat = get_city_coordinates(city)
-        d = dset.sel(lon=lon, lat=lat, method='nearest').copy()
+        d = dset.sel(lon=lon, lat=lat, method='nearest').copy().load()
         d.attrs['city'] = city
         it.append(d)
         del d

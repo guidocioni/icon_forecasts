@@ -34,7 +34,6 @@ def main():
                                     'SNOW_GSP', 'SNOW_CON',
                                     'PMSL', 'CLCL', 'CLCH'],
                                     projection=projection)
-
     dset = compute_rate(dset)
     dset['prmsl'].metpy.convert_units('hPa')
 

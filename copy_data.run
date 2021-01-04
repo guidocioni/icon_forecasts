@@ -25,8 +25,8 @@ ulimit -Sn 8192
 ###########################################
 
 # Retrieve run ##########################
+latest_run=`python get_last_run.py`
 if [ -f $MODEL_DATA_FOLDER/last_processed_run.txt ]; then
-	latest_run=`python get_last_run.py`
 	latest_processed_run=`while read line; do echo $line; done < $MODEL_DATA_FOLDER/last_processed_run.txt`
 	if [ $latest_run -gt $latest_processed_run ]; then
 		echo "New run ${latest_run} found! Last processed run was ${latest_processed_run}."
@@ -95,11 +95,12 @@ if [ "$DATA_PLOTTING" = true ]; then
 
 	export QT_QPA_PLATFORM=offscreen # Needed to avoid errors when using Python without display
 
-	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Brocken Palermo Toulouse Utrecht Sassari Cheremule
+	python plot_meteogram.py Hamburg Pisa Rome Milano Naples Palermo Toulouse Utrecht Sassari Cheremule
 
 	scripts=("plot_winter.py" "plot_cape.py" "plot_convergence.py" "plot_gph_t_500.py" "plot_gph_t_850.py" \
 		"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
-		"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py")
+		"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py" \
+		"plot_sat.py")
 
 	projections=("euratl" "it" "de")
 
@@ -134,7 +135,7 @@ if [ "$DATA_UPLOAD" = true ]; then
 	# Then upload the other pictures
 	#
 	images_output=("gph_t_850" "gph_t_500" "gph_thetae_850" "precip_clouds" "winds10m" "winds_jet" "vort_850" "hsnow" "cape"\
-		"conv" "soil_moisture" "t_v_pres" "precip_acc" "vort_850" "winter" "tmax" "tmin")
+		"conv" "soil_moisture" "t_v_pres" "precip_acc" "vort_850" "winter" "tmax" "tmin" "sat")
 
 	# suffix for naming
 	projections_output=("" "it/" "de/")
