@@ -38,6 +38,7 @@ def main():
 
     #dset = compute_rate(dset)
     dset['prmsl'].metpy.convert_units('hPa')
+    dset['SYNMSG_BT_CL_IR10.8'].metpy.convert_units('degC')
 
     levels_rain  = (0.1, 0.2, 0.4, 0.6, 0.8, 1., 1.5, 2., 2.5, 3.0, 4.,
                     5, 7.5, 10., 15., 20., 30., 40., 60., 80., 100., 120.)
@@ -93,7 +94,7 @@ def plot_files(dss, **args):
         cs = args['ax'].pcolormesh(args['x'], args['y'],
                    data['SYNMSG_BT_CL_IR10.8'],
                    cmap=args['cmap_bt'],
-                   vmin=200, vmax=295, antialiased=True)
+                   vmin=-73, vmax=22, antialiased=True, shading='auto')
 
         # cs_rain = args['ax'].contourf(args['x'], args['y'], data['rain_rate'],
         #                  extend='max', cmap=args['cmap_rain'], norm=args['norm_rain'],
@@ -120,24 +121,10 @@ def plot_files(dss, **args):
         logo = add_logo_on_map(ax=args['ax'],
                                 zoom=0.1, pos=(0.95, 0.08))
 
-        # if first:
-        #     if projection == "euratl": 
-        #         x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size     = 0.15, 0.15, 0.35, 0.02
-        #         x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.15, 0.35, 0.02  
-        #     elif projection == "de":
-        #         x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size     = 0.17, 0.05, 0.32, 0.02
-        #         x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.32, 0.02 
-        #     elif projection == "it":
-        #         x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size     = 0.18, 0.05, 0.3, 0.02
-        #         x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.3, 0.02 
-        #     ax_cbar = plt.gcf().add_axes([x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size])
-        #     ax_cbar_2 = plt.gcf().add_axes([x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size])
-        #     cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
-        #      label='Snow [cm/hr]')
-        #     cbar_rain = plt.gcf().colorbar(cs_rain, cax=ax_cbar_2, orientation='horizontal',
-        #      label='Rain [mm/hr]')
-        #     cbar_snow.ax.tick_params(labelsize=8) 
-        #     cbar_rain.ax.tick_params(labelsize=8)
+        if first:
+            plt.colorbar(cs, orientation='horizontal',
+                         label='Brightness temperature [C]', pad=0.03, fraction=0.03)
+
         if debug:
             plt.show(block=True)
         else:

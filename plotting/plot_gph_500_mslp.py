@@ -3,7 +3,7 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
-from computations import compute_snow_change
+from computations import compute_geopot_height
 import metpy.calc as mpcalc
 
 debug = False
@@ -12,11 +12,9 @@ if not debug:
     matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
-from matplotlib.colors import from_levels_and_colors
-import seaborn as sns
 
 # The one employed for the figure name when exported 
-variable_name = 'hsnow'
+variable_name = 'gph_500_mslp'
 
 print_message('Starting script to plot '+variable_name)
 
@@ -33,37 +31,32 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset = read_dataset(variables=['H_SNOW', 'SNOWLMT'],
+    dset = read_dataset(variables=['FI', 'PMSL'], level=[50000],
                         projection=projection)
-    dset['sde'].metpy.convert_units('cm')
-    dset['SNOWLMT'].metpy.convert_units('m')
 
-    dset = compute_snow_change(dset)
+    dset = compute_geopot_height(dset, zvar='z', level=50000)
+    dset['prmsl'].metpy.convert_units('hPa')
 
-    levels_hsnow = (-50, -40, -30, -20, -10, -5, -2.5, -2, -1, -0.5,
-                    0, 0.5, 1, 2, 2.5, 5, 10, 20, 30, 40, 50)
-    levels_snowlmt = np.arange(0., 3000., 500.)
+    levels_gph = np.arange(5000., 6000., 40.)
 
-    cmap, norm = from_levels_and_colors(levels_hsnow, 
-                                        sns.color_palette("PuOr", 
-                                                          n_colors=len(levels_hsnow) + 1),
-                                        extend='both')
+    cmap = get_colormap('gph')
+    #cmap = truncate_colormap(cmap, 0.05, 0.9)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
-    ax = plt.gca()        
+    ax  = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
-    #m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
 
-    dset = dset.drop(['lon', 'lat', 'sde']).load()
+    dset = dset.drop(['lon', 'lat', 'z']).load()
+
+    levels_mslp = np.arange(dset['prmsl'].min().astype("int"),
+                            dset['prmsl'].max().astype("int"), 4.)
 
     # All the arguments that need to be passed to the plotting function
-    args = dict(m=m, x=x, y=y, ax=ax, cmap=cmap, norm=norm,
-                 levels_hsnow=levels_hsnow,
-                 levels_snowlmt=levels_snowlmt, time=dset.time)
-
+    args = dict(x=x, y=y, ax=ax, cmap=cmap,
+                levels_gph=levels_gph,
+                levels_mslp=levels_mslp)
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
@@ -81,43 +74,48 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        #data['SNOWLMT'].values = mpcalc.smooth_n_point(data['SNOWLMT'].values, n=5, passes=4)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
 
         cs = args['ax'].contourf(args['x'], args['y'],
-                                 data['snow_increment'],
+                                 data['geop'],
                                  extend='both', 
                                  cmap=args['cmap'],
-                                 norm=args['norm'],
-                                 levels=args['levels_hsnow'])
+                                 levels=args['levels_gph'])
 
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
         c = args['ax'].contour(args['x'], args['y'],
-                               data['SNOWLMT'],
-                               levels=args['levels_snowlmt'],
-                               colors='red', linewidths=0.5)
+                               data['prmsl'], 
+                               levels=args['levels_mslp'],
+                               colors='white', 
+                               linewidths=1.5)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', 
+                                   fontsize=6)
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
+                                        'max', 90, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
+                                        'min', 90, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'],
-            'Snow depth change [cm] since run beginning and snow limit [m]',
-            loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'], 
+            'Geopotential height @500hPa [m] and MSLP (hPa)',
+             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],
                                 zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Snow depth change [m]', pad=0.035, fraction=0.03)
+            plt.colorbar(cs, orientation='horizontal', label='Geopotential height [m]', pad=0.03, fraction=0.04)
 
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
 
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, logo])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
 
         first = False 
 
@@ -128,4 +126,3 @@ if __name__ == "__main__":
     main()
     elapsed_time=time.time()-start_time
     print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-

@@ -4,6 +4,7 @@ from functools import partial
 from utils import *
 import sys
 from computations import compute_geopot_height
+from matplotlib import patheffects
 
 debug = False
 if not debug:
@@ -36,10 +37,10 @@ def main():
     dset = compute_geopot_height(dset, zvar='z', level=50000)
     dset = dset.sel(plev=85000, method='nearest')
 
-    levels_temp = np.arange(-30., 30., 1.)
+    levels_temp = np.arange(-34., 36., 2.)
     levels_gph = np.arange(4700., 6000., 70.)
 
-    cmap = get_colormap('temp')
+    cmap = get_colormap('temp_meteociel')
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -81,6 +82,14 @@ def plot_files(dss, **args):
                                  cmap=args['cmap'],
                                  levels=args['levels_temp'])
 
+        css = args['ax'].contour(args['x'], args['y'],
+                                 data['t'], colors='gray',
+                                 levels=np.arange(-32., 34., 4.),
+                                 linestyles='solid',
+                                 linewidths=0.3)
+
+        css.collections[8].set_linewidth(1.5)
+
         c = args['ax'].contour(args['x'], args['y'],
                                data['geop'], 
                                levels=args['levels_gph'],
@@ -89,6 +98,13 @@ def plot_files(dss, **args):
 
         labels = args['ax'].clabel(
             c, c.levels, inline=True, fmt='%4.0f', fontsize=6)
+
+
+        labels2 = args['ax'].clabel(
+            css, css.levels, inline=True, fmt='%4.0f', fontsize=7)
+        plt.setp(labels2, path_effects=[
+        patheffects.withStroke(linewidth=0.5, foreground="w")])
+
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['geop'],
                                         'max', 80, symbol='H', color='royalblue', random=True)
@@ -113,7 +129,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections(
-            [c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
+            [c, cs, css, labels, labels2, an_fc, an_var, an_run, maxlabels, minlabels, logo])
 
         first = False
 

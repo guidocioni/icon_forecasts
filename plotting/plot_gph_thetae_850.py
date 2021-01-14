@@ -4,6 +4,7 @@ from functools import partial
 from utils import *
 import sys
 from computations import compute_thetae
+import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -72,6 +73,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour

@@ -3,6 +3,7 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
+import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -69,6 +70,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
@@ -92,7 +94,7 @@ def plot_files(dss, **args):
                                colors='white', linewidths=1.)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', fontsize=6)
-        labels2 = args['ax'].clabel(cs2, cs2.levels, inline=True, fmt='%2.0f', fontsize=6)
+        labels2 = args['ax'].clabel(cs2, cs2.levels, inline=True, fmt='%2.0f', fontsize=7)
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
                                        'max', 150, symbol='H', color='royalblue', random=True)
@@ -103,10 +105,10 @@ def plot_files(dss, **args):
         # these values work pretty well
         if projection == 'euratl':
             density = 25
-            scale = 4e2
+            scale = 5e2
         else:
             density = 5
-            scale = 2e2
+            scale = 3e2
         cv = args['ax'].quiver(args['x'][::density, ::density],
                                args['y'][::density, ::density],
                                data['10u'][::density, ::density],

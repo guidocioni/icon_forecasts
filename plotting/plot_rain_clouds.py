@@ -4,6 +4,7 @@ from functools import partial
 from utils import *
 import sys
 from computations import compute_rate
+import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -84,6 +85,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
@@ -93,16 +95,16 @@ def plot_files(dss, **args):
                          levels=args['levels_rain'], zorder=4, antialiased=True)
         cs_snow = args['ax'].contourf(args['x'], args['y'], data['snow_rate'],
                          extend='max', cmap=args['cmap_snow'], norm=args['norm_snow'],
-                         levels=args['levels_snow'], zorder=5, antialiased=True)
+                         levels=args['levels_snow'], zorder=5)
         cs_clouds_low = args['ax'].contourf(args['x'], args['y'], data['CLCL'],
                          extend='max', cmap=args['cmap_clouds'],
-                         levels=args['levels_clouds'], zorder=3, antialiased=True)
+                         levels=args['levels_clouds'], zorder=3)
         cs_clouds_high = args['ax'].contourf(args['x'], args['y'], data['CLCH'],
                          extend='max', cmap=args['cmap_clouds_high'],
                          levels=args['levels_clouds'], zorder=2, alpha=0.5, antialiased=True)
 
         c = args['ax'].contour(args['x'], args['y'], data['prmsl'],
-                             levels=args['levels_mslp'], colors='black', linewidths=1., zorder=6, alpha=1.0)
+                             levels=args['levels_mslp'], colors='whitesmoke', linewidths=1., zorder=7, alpha=1.0)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 

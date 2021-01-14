@@ -3,6 +3,7 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
+import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -43,7 +44,8 @@ def main():
 
     ax  = plt.gca()
     m, x, y = get_projection(dset, projection, labels=True)
-    m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
+    #m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
 
     dset = dset.drop(['lon', 'lat']).load()
 
@@ -72,6 +74,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
@@ -96,7 +99,7 @@ def plot_files(dss, **args):
             scale = 4e2
         else:
             density = 5
-            scale = 2e2
+            scale = 2.5e2
 
         cv = args['ax'].quiver(args['x'][::density, ::density],
                                args['y'][::density, ::density],
@@ -106,7 +109,7 @@ def plot_files(dss, **args):
                                alpha=0.5, color='gray')
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], '10m Winds (intensity and direction)',
+        an_var = annotation(args['ax'], '10m Winds direction and max. wind gust',
             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],

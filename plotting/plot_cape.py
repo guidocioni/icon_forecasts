@@ -82,7 +82,7 @@ def plot_files(dss, **args):
             scale = None
         else:
             density = 5
-            scale = 2.5e2
+            scale = 3e2
         cv = args['ax'].quiver(args['x'][::density, ::density],
                                args['y'][::density, ::density],
                                data['u'][::density, ::density],

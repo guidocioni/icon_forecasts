@@ -57,7 +57,8 @@ options_savefig = {
 subfolder_images = {
     'euratl' : folder_images,
     'it' : folder_images+'it',
-    'de' : folder_images+'de'
+    'de' : folder_images+'de',
+    'euratl_new' : folder_images
 }
 
 folder_glyph = home_folder + '/plotting/yrno_png/'
@@ -118,6 +119,22 @@ proj_defs = {
         'urcrnrlon': 45,
         'urcrnrlat': 70.5,
         'resolution': 'l',
+        'epsg': 4269
+    },
+    'euratl_new':
+    {
+        'projection': 'stere',
+        'lon_0': 12,
+        'lat_0': 43,
+        'boundinglat': 0,
+        'k_0': 0.9330127018922193,
+        'width': 1500000,
+        'height': 1500000,
+        'resolution': 'h',
+        'llcrnrlon': 6,
+        'llcrnrlat': 36,
+        'urcrnrlon': 19,
+        'urcrnrlat': 48,
         'epsg': 4269
     },
     'it':
@@ -369,7 +386,7 @@ def annotation_run(ax, time, loc='upper right',fontsize=8):
     """Put annotation of the run obtaining it from the
     time array passed to the function."""
     time = pd.to_datetime(time)
-    at = AnchoredText('Run %s'% time.strftime('%Y%m%d %H UTC'), 
+    at = AnchoredText('ICON-EU Run %s'% time.strftime('%Y%m%d %H UTC'), 
                        prop=dict(size=fontsize), frameon=True, loc=loc)
     at.patch.set_boxstyle("round,pad=0.,rounding_size=0.1")
     at.zorder = 10
@@ -460,6 +477,10 @@ def get_colormap_norm(cmap_type, levels):
         colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_winds.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
+    elif cmap_type == "rain_acc_wxcharts":
+        colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_rain_acc_wxcharts.rgba').values    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
+                         extend='max')
 
     return(cmap, norm)
 
@@ -524,10 +545,10 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
     for i in range(len(mxy)):
         texts.append( ax.text(lon[mxy[i], mxx[i]], lat[mxy[i], mxx[i]], symbol, color=color, size=15,
                 clip_on=True, horizontalalignment='center', verticalalignment='center',
-                path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=6) )
+                path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=8) )
         texts.append( ax.text(lon[mxy[i], mxx[i]], lat[mxy[i], mxx[i]], '\n' + str(data[mxy[i], mxx[i]].astype('int')),
                 color="gray", size=10, clip_on=True, fontweight='bold',
-                horizontalalignment='center', verticalalignment='top', zorder=6) )
+                horizontalalignment='center', verticalalignment='top', zorder=8) )
     return(texts)
 
 

@@ -3,6 +3,7 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
+import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -33,17 +34,21 @@ def main():
                         projection=projection)
     dset['prmsl'].metpy.convert_units('hPa')
 
-    levels_precip = (5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40,
-                    45, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 400, 500)
+    levels_precip = list(np.arange(1, 50, 0.4)) + \
+                    list(np.arange(51, 100, 2)) +\
+                    list(np.arange(101, 200, 3)) +\
+                    list(np.arange(201, 500, 6)) + \
+                    list(np.arange(501, 1000, 50)) + \
+                    list(np.arange(1001, 2000, 100))
 
-    cmap, norm = get_colormap_norm("rain_new", levels_precip)
+    cmap, norm = get_colormap_norm('rain_acc_wxcharts', levels=levels_precip)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
     ax  = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
     # additional maps adjustment for this map
-    m.fillcontinents(color='lightgray', lake_color='whitesmoke', zorder=0)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
 
     dset = dset.drop(['lon', 'lat']).load()
 
@@ -57,7 +62,7 @@ def main():
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
-        plot_files(dset.isel(time=slice(0, 2)), **args)
+        plot_files(dset.isel(time=slice(-2, -1)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and processes
         dss = chunks_dataset(dset, chunks_size)
@@ -70,6 +75,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
@@ -99,7 +105,8 @@ def plot_files(dss, **args):
         logo = add_logo_on_map(ax=args['ax'], zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]', pad=0.035, fraction=0.035)
+            plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]',
+                pad=0.035, fraction=0.04)
 
         if debug:
             plt.show(block=True)
