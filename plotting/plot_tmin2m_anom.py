@@ -14,7 +14,7 @@ if not debug:
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported 
-variable_name = 't_2m_anom'
+variable_name = 'tmin_2m_anom'
 
 print_message('Starting script to plot '+variable_name)
 
@@ -31,29 +31,29 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset = read_dataset(variables=['T_2M'],
-                        projection=projection)
+    dset = read_dataset(variables=['TMIN_2M'], projection=projection)
 
     original_time = dset.time
     run = dset['run']
     # Mean over day of the year
-    dset = dset.groupby(dset.time.dt.dayofyear).mean()
+    dset = dset.groupby(dset.time.dt.dayofyear).min()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_mescan_t2m_mean_remap_iconeu.nc').squeeze()
+    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1997-2019_cosmo_rea6_surface_variables_remap_iconeu.nc').squeeze()['mn2t6']
     # Also year transform time to dayoftheyear to compare 
     clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
     # remove duplicates in time
     clima = clima.sel(dayofyear=~clima.get_index("dayofyear").duplicated())
     # merge the two datasets
-    merged = xr.merge([clima.rename({'2t':'2t_clim'}), dset], join='inner')
+    merged = xr.merge([clima, dset], join='inner')
     # now compute anomaly
-    merged['anomaly'] = merged['2t'] - merged['2t_clim']
+    merged['anomaly'] = merged['TMIN_2M'] - merged['mn2t6']
     # Transform back the time dimension to the "forecast" time with the first input 
     merged = merged.rename({'dayofyear': 'time'}).assign_coords({'time': original_time.resample(time='1D').first()})
     # Conver the clima 
-    merged['2t_clim'] = merged['2t_clim'] - 273.15
-    merged['2t'] = merged['2t'] - 273.15
+    merged['TMIN_2M'] = merged['TMIN_2M'] - 273.15
+    merged['mn2t6'] = merged['mn2t6'] - 273.15
     merged['run'] = run
+
 
     levels_temp = np.arange(-20, 21)
 
@@ -63,7 +63,7 @@ def main():
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
 
-    merged = merged.drop(['lon', 'lat']).load()
+    merged = merged.load()
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_temp=levels_temp)
@@ -95,19 +95,25 @@ def plot_files(dss, **args):
                                  cmap='seismic',
                                  levels=args['levels_temp'])
 
-#         css = args['ax'].contour(args['x'], args['y'],
-#                                data['2t'],
-#                                levels=np.arange(-25., 40., 3.),
-#                                colors='gray', linewidths=0.5,
-#                               linestyles='solid')
+        # plot every -th element
+        if projection == "euratl":
+            density = 28
+        elif projection == "it":
+            density = 6
+        elif projection == "de":
+            density = 5
 
-#         labels2 = args['ax'].clabel(
-#             css, css.levels, inline=True, fmt='%4.0f', fontsize=8, zorder=10)
-#         plt.setp(labels2, path_effects=[
-#         patheffects.withStroke(linewidth=0.1, foreground="green")])
+        vals = add_vals_on_map(args['ax'], projection,
+                               data['TMIN_2M'], np.arange(-25, 40, 1),
+                               cmap = get_colormap("temp"),
+                               fontsize=7,
+                               density=density)
+
+        for val in vals:
+            val.set_alpha(0.4)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Daily 2m temp. anomaly (w.r.t to MESCAN-SURFEX 1981-2010 clima)',
+        an_var = annotation(args['ax'], 'Daily 2m Minimum temp. anomaly (w.r.t to COSMO-REA6 1997-2018 clima) with forecast (values)',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],
@@ -121,7 +127,7 @@ def plot_files(dss, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, logo])
+        remove_collections([cs, an_fc, an_var, an_run, vals, logo])
 
         first = False 
 

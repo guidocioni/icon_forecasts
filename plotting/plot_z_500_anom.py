@@ -41,11 +41,11 @@ def main():
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_era5_atmo_z_500_remap_iconeu.nc').squeeze().sel(time='2010')
+    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_uerra_z_500_remap_iconeu.nc').squeeze().sel(time='2010')
     # Also year transform time to dayoftheyear to compare 
     clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
     # merge the two datasets
-    merged = xr.merge([clima.rename({'geop': 'geop_clima'}), dset], join='inner')
+    merged = xr.merge([clima.rename({'gh': 'geop_clima'}), dset], join='inner')
     # now compute anomaly
     merged['anomaly'] = merged['geop'] - merged['geop_clima']
     # Transform back the time dimension to the "forecast" time with the first input 
@@ -61,7 +61,7 @@ def main():
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
 
-    merged = merged.drop(['lon', 'lat', 'z']).load()
+    merged = merged.drop(['lon', 'lat']).load()
 
 
     # All the arguments that need to be passed to the plotting function
@@ -69,7 +69,7 @@ def main():
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
-        plot_files(dset.isel(time=slice(0, 2)), **args)
+        plot_files(merged.isel(time=slice(0, 2)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and processes 
         dss = chunks_dataset(merged, chunks_size)
@@ -106,7 +106,7 @@ def plot_files(dss, **args):
         patheffects.withStroke(linewidth=0.1, foreground="green")])
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Daily 500 hPa geopotential height anomaly (w.r.t to ERA5 1981-2010 clima) with forecast',
+        an_var = annotation(args['ax'], 'Daily 500 hPa geopotential height anomaly (w.r.t to UERRA 1981-2010 clima) with forecast',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],

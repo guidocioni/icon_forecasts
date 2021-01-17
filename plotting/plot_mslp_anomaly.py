@@ -14,7 +14,7 @@ if not debug:
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported 
-variable_name = 't_2m_anom'
+variable_name = 'mslp_anom'
 
 print_message('Starting script to plot '+variable_name)
 
@@ -31,31 +31,31 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset = read_dataset(variables=['T_2M'],
+    dset = read_dataset(variables=['PMSL'],
                         projection=projection)
 
     original_time = dset.time
+    dset.prmsl.metpy.convert_units('hPa')
     run = dset['run']
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_mescan_t2m_mean_remap_iconeu.nc').squeeze()
+    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1997-2019_cosmo_rea6_surface_variables_remap_iconeu.nc').squeeze()['msl']
     # Also year transform time to dayoftheyear to compare 
     clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
     # remove duplicates in time
     clima = clima.sel(dayofyear=~clima.get_index("dayofyear").duplicated())
     # merge the two datasets
-    merged = xr.merge([clima.rename({'2t':'2t_clim'}), dset], join='inner')
+    merged = xr.merge([clima, dset], join='inner')
+    merged['msl'] = merged['msl'] / 100.
     # now compute anomaly
-    merged['anomaly'] = merged['2t'] - merged['2t_clim']
+    merged['anomaly'] = merged['prmsl'] - merged['msl']
     # Transform back the time dimension to the "forecast" time with the first input 
     merged = merged.rename({'dayofyear': 'time'}).assign_coords({'time': original_time.resample(time='1D').first()})
     # Conver the clima 
-    merged['2t_clim'] = merged['2t_clim'] - 273.15
-    merged['2t'] = merged['2t'] - 273.15
     merged['run'] = run
 
-    levels_temp = np.arange(-20, 21)
+    levels_temp = np.arange(-25, 26, 2.5)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -86,6 +86,7 @@ def plot_files(dss, **args):
         data = dss.sel(time=time_sel)
         time, run, cum_hour = get_time_run_cum(data)
         #data['t_clima'].values = mpcalc.smooth_n_point(data['t_clima'].values, n=9, passes=9)
+        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % i
 
@@ -95,33 +96,36 @@ def plot_files(dss, **args):
                                  cmap='seismic',
                                  levels=args['levels_temp'])
 
-#         css = args['ax'].contour(args['x'], args['y'],
-#                                data['2t'],
-#                                levels=np.arange(-25., 40., 3.),
-#                                colors='gray', linewidths=0.5,
-#                               linestyles='solid')
+        css = args['ax'].contour(args['x'], args['y'],
+                               data['prmsl'],
+                               levels=np.arange(960, 1040, 4),
+                               colors='black', linewidths=0.5,
+                               linestyles='solid')
 
-#         labels2 = args['ax'].clabel(
-#             css, css.levels, inline=True, fmt='%4.0f', fontsize=8, zorder=10)
-#         plt.setp(labels2, path_effects=[
-#         patheffects.withStroke(linewidth=0.1, foreground="green")])
+        labels = args['ax'].clabel(
+            css, css.levels, inline=True, fmt='%4.0f', fontsize=7, zorder=10)
+
+        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
+                                       'max', 150, symbol='H', color='royalblue', random=True)
+        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'], 
+                                       'min', 150, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Daily 2m temp. anomaly (w.r.t to MESCAN-SURFEX 1981-2010 clima)',
+        an_var = annotation(args['ax'], 'Daily mean MSLP anomaly (w.r.t to ERA-6 1997-2018 clima) with forecast',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],
                                 zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Anomaly (°C)', pad=0.035, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal', label='Anomaly (hPa)', pad=0.035, fraction=0.04)
 
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, logo])
+        remove_collections([cs, css, labels, maxlabels, minlabels, an_fc, an_var, an_run, logo])
 
         first = False 
 

@@ -101,7 +101,7 @@ if [ "$DATA_PLOTTING" = true ]; then
 		"plot_gph_thetae_850.py" "plot_hsnow.py" "plot_jetstream.py" "plot_pres_t2m_winds10m.py" "plot_rain_acc.py"\
 		"plot_rain_clouds.py" "plot_winds10m.py" "plot_vorticity.py" "plot_soil_moisture.py" "plot_tmax.py" "plot_tmin.py" \
 		"plot_sat.py" "plot_gph_500_mslp.py" "plot_t_850_anom.py" "plot_t2m_anom.py" "plot_z_500_anom.py" \
-		"plot_hsnow_anom.py")
+		"plot_hsnow_anom.py" "plot_tmax2m_anom.py" "plot_tmin2m_anom.py" "plot_mslp_anomaly.py")
 
 	projections=("euratl" "it" "de")
 
@@ -135,9 +135,9 @@ if [ "$DATA_UPLOAD" = true ]; then
 	#
 	# Then upload the other pictures
 	#
-	images_output=("gph_t_850" "gph_t_500" "gph_thetae_850" "precip_clouds" "winds10m" "winds_jet" "vort_850" "hsnow" "cape"\
+	images_output=("tmax_2m_anom" "tmin_2m_anom" "hsnow_anom" "gph_t_850" "gph_t_500" "gph_thetae_850" "precip_clouds" "winds10m" "winds_jet" "vort_850" "hsnow" "cape"\
 		"conv" "soil_moisture" "t_v_pres" "precip_acc" "vort_850" "winter" "tmax" "tmin" "sat" "gph_500_mslp" "t_850_anom" \
-		"t_2m_anom" "z_500_anom" "hsnow_anom")
+		"t_2m_anom" "z_500_anom" "mslp_anom")
 
 	# suffix for naming
 	projections_output=("" "it/" "de/")

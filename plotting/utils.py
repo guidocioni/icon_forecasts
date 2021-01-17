@@ -264,7 +264,10 @@ def get_coordinates(ds):
     if longitude.max() > 180:
         longitude = (((longitude.lon + 180) % 360) - 180)
 
-    return np.meshgrid(longitude.values, latitude.values)
+    if (len(longitude.shape) > 1) & (len(latitude.shape) > 1):
+        return longitude.values, latitude.values
+    else:
+        return np.meshgrid(longitude.values, latitude.values)
 
 
 def get_city_coordinates(city):
@@ -570,6 +573,8 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
     # Remove values outside of the extents
     var = var.sel(lat=slice(lat_min + 0.15, lat_max - 0.15),
                   lon=slice(lon_min + 0.15, lon_max - 0.15))[::density, ::density]
+    # var.where((ds.lon <= 150) & (ds.lon >= 60)
+    #                  & (ds.lat <= 75) & (ds.lat >= 30), drop=True)
     lons = var.lon
     lats = var.lat
 
@@ -577,7 +582,7 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
     for ilat, ilon in np.ndindex(var.shape):
         if lcolors:
             at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                             color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
+                              color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
                               path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
         else:
             at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
