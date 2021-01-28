@@ -1,7 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import xarray as xr
 from metpy.units import units
 from glob import glob
 import numpy as np

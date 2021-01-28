@@ -37,20 +37,20 @@ def main():
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_era5_land_snow_depth_remap_iconeu.nc').squeeze().sel(time='2010')
+    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_uerra_snow_remap_iconeu.nc').squeeze().sel(time='2010')
     # Also year transform time to dayoftheyear to compare 
     clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
     # merge the two datasets
     merged = xr.merge([clima, dset], join='inner')
     # now compute anomaly
     merged['sde'] = merged['sde'] * 100.
-    merged['anomaly'] = merged['sde'] - merged['Snow_Thickness_Mean']
+    merged['anomaly'] = merged['sde'] - merged['sd']
     # Transform back the time dimension to the "forecast" time with the first input 
     merged = merged.rename({'dayofyear': 'time'}).assign_coords({'time': original_time.resample(time='1D').first()})
     # Conver the clima
     merged['run'] = run
 
-    levels_temp = np.arange(-50, 51, 5)
+    levels_temp = np.arange(-100, 101, 5)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
@@ -92,7 +92,7 @@ def plot_files(dss, **args):
 
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Daily snow thickness anomaly (w.r.t to ERA5 1981-2010 clima)',
+        an_var = annotation(args['ax'], 'Daily snow thickness anomaly (w.r.t to UERRA 1981-2010 clima)',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],

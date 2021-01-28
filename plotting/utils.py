@@ -58,7 +58,8 @@ subfolder_images = {
     'euratl' : folder_images,
     'it' : folder_images+'it',
     'de' : folder_images+'de',
-    'euratl_new' : folder_images
+    'euratl_new' : folder_images,
+    'nh_polar' : folder_images+'nh_polar'
 }
 
 folder_glyph = home_folder + '/plotting/yrno_png/'
