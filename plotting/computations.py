@@ -66,7 +66,7 @@ def compute_thetae(dset, tvar='t', rvar='r'):
 def compute_snow_change(dset, snowvar='sde'):
     hsnow_acc = dset[snowvar]
     hsnow = (hsnow_acc - hsnow_acc[0, :, :])
-    hsnow = hsnow.where((hsnow > 0.5) | (hsnow < -0.5))
+    hsnow = hsnow.where((hsnow > 0.25) | (hsnow < -0.25))
 
     hsnow = xr.DataArray(hsnow,
                            coords= hsnow_acc.coords,

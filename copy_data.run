@@ -42,10 +42,10 @@ export day=${latest_run:6:2}
 export run=${latest_run:8:2}
 
 # Skip runs that we don't want to process
-if [ $run -eq "09" ] || [ $run -eq "15" ] || [ $run -eq "21" ] || [ $run -eq "03" ]; then
-	echo "Skipping run ${latest_run}"
-	exit 0
-fi
+# if [ $run -eq "09" ] || [ $run -eq "15" ] || [ $run -eq "21" ] || [ $run -eq "03" ]; then
+# 	echo "Skipping run ${latest_run}"
+# 	exit 0
+# fi
 #############################################
 
 

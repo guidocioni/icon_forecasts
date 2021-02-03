@@ -3,7 +3,7 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
-from computations import compute_rain_snow_change
+from computations import compute_snow_change
 
 debug = False
 if not debug:
@@ -30,17 +30,25 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset = read_dataset(variables=['RAIN_GSP', 'RAIN_CON', 'SNOW_GSP', 'SNOW_CON', 'SNOWLMT'],
+    dset = read_dataset(variables=['RAIN_GSP', 'RAIN_CON', 'H_SNOW', 'SNOWLMT'],
                         projection=projection)
 
-    dset = compute_rain_snow_change(dset)
+    rain_acc = dset['RAIN_GSP'] + dset['RAIN_CON']
+    rain = (rain_acc - rain_acc[0, :, :])
+    rain = xr.DataArray(rain, name='rain_increment')
+
+    dset.sde.metpy.convert_units('cm')
+    dset = compute_snow_change(dset)
+
+    dset = xr.merge([dset, rain])
+
     dset['SNOWLMT'].metpy.convert_units('m')
 
-    levels_snow = (1, 5, 10, 15, 20, 30, 40, 50, 70, 90, 120)
+    levels_snow = (0.25, 0.5, 1, 2.5, 5, 10, 15, 20, 25, 30, 40, 50, 70, 90, 150)
     levels_rain = (10, 15, 25, 35, 50, 75, 100, 125, 150)
     levels_snowlmt = np.arange(0., 3000., 500.)
 
-    cmap_snow, norm_snow = get_colormap_norm("snow_discrete", levels_snow)
+    cmap_snow, norm_snow = get_colormap_norm("snow_wxcharts", levels_snow)
     cmap_rain, norm_rain = get_colormap_norm("rain", levels_rain)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
@@ -49,13 +57,12 @@ def main():
     m, x, y = get_projection(dset, projection, labels=True)
     m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
 
-    dset = dset.drop(['lon', 'lat', 'RAIN_GSP', 'RAIN_CON', 'SNOW_GSP', 'SNOW_CON']).load()
+    dset = dset.drop(['RAIN_GSP', 'RAIN_CON']).load()
 
     # All the arguments that need to be passed to the plotting function
     args = dict(m=m, x=x, y=y, ax=ax,
              levels_snowlmt=levels_snowlmt, levels_rain=levels_rain,
-             levels_snow=levels_snow,
-             time=dset.time, norm_snow=norm_snow,
+             levels_snow=levels_snow, norm_snow=norm_snow,
              cmap_rain=cmap_rain, cmap_snow=cmap_snow, norm_rain=norm_rain)
 
     print_message('Pre-processing finished, launching plotting scripts')
@@ -88,10 +95,19 @@ def plot_files(dss, **args):
         c = args['ax'].contour(args['x'], args['y'], data['SNOWLMT'], levels=args['levels_snowlmt'],
                              colors='red', linewidths=0.5)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=5)  
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', fontsize=5)
+
+        if projection != 'euratl':
+            vals = add_vals_on_map(args['ax'],
+                               projection,
+                               data['snow_increment'].where(data['snow_increment'] >= 1),
+                               args['levels_snow'],
+                               cmap=args['cmap_snow'],
+                               norm=args['norm_snow'],
+                               density=5)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Snow and rain accumulated',
+        an_var = annotation(args['ax'], 'New snow and accumulated rain (since run start)',
             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'],
@@ -107,7 +123,7 @@ def plot_files(dss, **args):
             elif projection == "it":
                 x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size     = 0.18, 0.05, 0.3, 0.02
                 x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.3, 0.02 
-   
+
             ax_cbar = plt.gcf().add_axes([x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size])
             ax_cbar_2 = plt.gcf().add_axes([x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size])
             cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
@@ -123,6 +139,8 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections([cs_rain, cs_snow, c, labels, an_fc, an_var, an_run, logo])
+        if projection != 'euratl':
+            remove_collections([vals])
 
         first = False 
 

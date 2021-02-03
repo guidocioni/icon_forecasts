@@ -67,7 +67,7 @@ def main():
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
-        plot_files(dset.isel(time=slice(0, 2)), **args)
+        plot_files(dset.isel(time=slice(-2, -1)), **args)
     else:
         # Parallelize the plotting by dividing into chunks and processes 
         dss = chunks_dataset(dset, chunks_size)
@@ -93,7 +93,15 @@ def plot_files(dss, **args):
                                  norm=args['norm'],
                                  levels=args['levels_hsnow'])
 
-        # Unfortunately m.contour with tri = True doesn't work because of a bug 
+        css = args['ax'].contour(args['x'], args['y'],
+                                 data['snow_increment'],
+                                 levels=args['levels_hsnow'],
+                                 colors='gray',
+                                 linewidths=0.2)
+
+        labels2 = args['ax'].clabel(css, css.levels,
+            inline=True, fmt='%4.0f', fontsize=6)
+
         c = args['ax'].contour(args['x'], args['y'],
                                data['SNOWLMT'],
                                levels=args['levels_snowlmt'],
@@ -110,14 +118,16 @@ def plot_files(dss, **args):
                                 zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Snow depth change [m]', pad=0.035, fraction=0.03)
+            cb = plt.colorbar(cs, orientation='horizontal', label='Snow depth change [m]',
+                pad=0.038, fraction=0.035, ticks=args['levels_hsnow'][::2])
+            cb.ax.tick_params(labelsize=7)
 
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)        
 
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, logo])
+        remove_collections([c, cs, css, labels, labels2, an_fc, an_var, an_run, logo])
 
         first = False 
 

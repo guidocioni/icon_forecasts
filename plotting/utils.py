@@ -485,6 +485,10 @@ def get_colormap_norm(cmap_type, levels):
         colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_rain_acc_wxcharts.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
+    elif cmap_type == "snow_wxcharts":
+        colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_snow_wxcharts.rgba').values    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
+                         extend='max')
 
     return(cmap, norm)
 
@@ -494,7 +498,7 @@ def remove_collections(elements):
     touching the background, which can then be used afterwards."""
     for element in elements:
         try:
-            for coll in element.collections: 
+            for coll in element.collections:
                 coll.remove()
         except AttributeError:
             try:
@@ -557,14 +561,16 @@ def plot_maxmin_points(ax, lon, lat, data, extrema, nsize, symbol, color='k',
 
 
 def add_vals_on_map(ax, projection, var, levels, density=50,
-                     cmap='rainbow', shift_x=0., shift_y=0., fontsize=7.5, lcolors=True):
+                     cmap='rainbow', norm=None, shift_x=0., shift_y=0., fontsize=7.5, lcolors=True):
     '''Given an input projection, a variable containing the values and a plot put
     the values on a map exlcuing NaNs and taking care of not going
     outside of the map boundaries, which can happen.
     - shift_x and shift_y apply a shifting offset to all text labels
     - colors indicate whether the colorscale cmap should be used to map the values of the array'''
 
-    norm = colors.Normalize(vmin=levels.min(), vmax=levels.max())
+    if norm is None:
+        norm = colors.Normalize(vmin=np.min(levels), vmax=np.max(levels))
+
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
 
     proj_options = proj_defs[projection]
@@ -574,20 +580,20 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
     # Remove values outside of the extents
     var = var.sel(lat=slice(lat_min + 0.15, lat_max - 0.15),
                   lon=slice(lon_min + 0.15, lon_max - 0.15))[::density, ::density]
-    # var.where((ds.lon <= 150) & (ds.lon >= 60)
-    #                  & (ds.lat <= 75) & (ds.lat >= 30), drop=True)
-    lons = var.lon
-    lats = var.lat
+    lons = var.lon.values
+    lats = var.lat.values
 
     at = []
     for ilat, ilon in np.ndindex(var.shape):
-        if lcolors:
-            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                              color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
-                              path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
-        else:
-            at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                             color = 'white', weight='bold', fontsize=fontsize,
-                              path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+        if not var[ilat, ilon].isnull():
+            if lcolors:
+                at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
+                                  color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
+                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+
+            else:
+                at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
+                                 color = 'white', weight='bold', fontsize=fontsize,
+                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
 
     return at
