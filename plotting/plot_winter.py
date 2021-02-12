@@ -41,7 +41,6 @@ def main():
     dset = compute_snow_change(dset)
 
     dset = xr.merge([dset, rain])
-
     dset['SNOWLMT'].metpy.convert_units('m')
 
     levels_snow = (0.25, 0.5, 1, 2.5, 5, 10, 15, 20, 25, 30, 40, 50, 70, 90, 150)
@@ -55,7 +54,7 @@ def main():
     ax = plt.gca()
 
     m, x, y = get_projection(dset, projection, labels=True)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
+    m.arcgisimage(service='Canvas/World_Dark_Gray_Base', xpixels = 800)
 
     dset = dset.drop(['RAIN_GSP', 'RAIN_CON']).load()
 

@@ -18,13 +18,12 @@ import time
 
 print_message('Starting script to plot meteograms')
 
-# Get the projection as system argument from the call so that we can
-# span multiple instances of this script outside
 if not sys.argv[1:]:
     print_message('City not defined, falling back to default (Hamburg)')
     cities = ['Hamburg']
 else:
     cities = sys.argv[1:]
+
 
 def main():
     dset = read_dataset(variables=['T_2M','TD_2M','T','VMAX_10M',
@@ -168,7 +167,6 @@ def plot(dset_city):
     plt.clf()
 
 if __name__ == "__main__":
-    import time
     start_time=time.time()
     main()
     elapsed_time=time.time()-start_time

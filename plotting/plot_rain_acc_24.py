@@ -3,7 +3,6 @@ from multiprocessing import Pool
 from functools import partial
 from utils import *
 import sys
-import metpy.calc as mpcalc
 
 debug = False
 if not debug:
@@ -13,7 +12,7 @@ if not debug:
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported 
-variable_name = 'precip_acc'
+variable_name = 'precip_acc_24'
 
 print_message('Starting script to plot '+variable_name)
 
@@ -30,9 +29,8 @@ else:
 def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
-    dset = read_dataset(variables=['TOT_PREC', 'PMSL'],
+    dset = read_dataset(variables=['TOT_PREC'],
                         projection=projection)
-    dset['prmsl'].metpy.convert_units('hPa')
 
     levels_precip = list(np.arange(1, 50, 0.4)) + \
                     list(np.arange(51, 100, 2)) +\
@@ -41,6 +39,9 @@ def main():
                     list(np.arange(501, 1000, 50)) + \
                     list(np.arange(1001, 2000, 100))
 
+    dset = dset.resample(time="24H",
+                         base=dset.time[0].dt.hour.item()).nearest().diff(dim='time')
+
     cmap, norm = get_colormap_norm('rain_acc_wxcharts', levels=levels_precip)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
@@ -48,16 +49,13 @@ def main():
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
     # additional maps adjustment for this map
-    m.arcgisimage(service='Canvas/World_Dark_Gray_Base', xpixels = 800)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
 
     dset = dset.drop(['lon', 'lat']).load()
-
-    levels_mslp = np.arange(dset['prmsl'].min().astype("int"), dset['prmsl'].max().astype("int"), 4.)
 
     # All the arguments that need to be passed to the plotting function
     args=dict(x=x, y=y, ax=ax,
              levels_precip=levels_precip,
-             levels_mslp=levels_mslp, time=dset.time,
              cmap=cmap, norm=norm)
 
     print_message('Pre-processing finished, launching plotting scripts')
@@ -75,7 +73,6 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
@@ -87,19 +84,9 @@ def plot_files(dss, **args):
                                  norm=args['norm'],
                                  levels=args['levels_precip'])
 
-        c = args['ax'].contour(args['x'], args['y'],
-                               data['prmsl'],
-                                levels=args['levels_mslp'], colors='black', linewidths=1.)
-
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
-
-        maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'max', 150, symbol='H', color='royalblue', random=True)
-        minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'min', 150, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]',
+        an_var = annotation(args['ax'], 'Accumulated precipitation in the last 24 hours',
             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'], zoom=0.1, pos=(0.95, 0.08))
@@ -113,7 +100,7 @@ def plot_files(dss, **args):
         else:
             plt.savefig(filename, **options_savefig)        
 
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
+        remove_collections([cs, an_fc, an_var, an_run, logo])
 
         first = False
 

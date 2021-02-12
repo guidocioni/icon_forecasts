@@ -16,6 +16,7 @@ import re
 from matplotlib.image import imread as read_png
 import requests
 import json
+import matplotlib.pyplot as plt
 
 import warnings
 warnings.filterwarnings(
@@ -58,7 +59,7 @@ subfolder_images = {
     'euratl' : folder_images,
     'it' : folder_images+'it',
     'de' : folder_images+'de',
-    'euratl_new' : folder_images,
+    'euratl_merc' : folder_images,
     'nh_polar' : folder_images+'nh_polar'
 }
 
@@ -122,21 +123,14 @@ proj_defs = {
         'resolution': 'l',
         'epsg': 4269
     },
-    'euratl_new':
+    'euratl_merc':
     {
-        'projection': 'stere',
-        'lon_0': 12,
-        'lat_0': 43,
-        'boundinglat': 0,
-        'k_0': 0.9330127018922193,
-        'width': 1500000,
-        'height': 1500000,
-        'resolution': 'h',
-        'llcrnrlon': 6,
-        'llcrnrlat': 36,
-        'urcrnrlon': 19,
-        'urcrnrlat': 48,
-        'epsg': 4269
+        'resolution': 'l',
+        'llcrnrlon': -23.5,
+        'llcrnrlat': 29.5,
+        'urcrnrlon': 45,
+        'urcrnrlat': 70.5,
+        'epsg': 3857
     },
     'it':
     {
@@ -151,7 +145,7 @@ proj_defs = {
     'de':
     {
         'projection': 'cyl',
-        'llcrnrlon': 5,
+        'llcrnrlon': 4.5,
         'llcrnrlat': 46.5,
         'urcrnrlon': 16,
         'urcrnrlat': 56,
@@ -331,6 +325,8 @@ def get_projection(dset, projection="euratl", countries=True, labels=True, color
                 labels=[True, False, False, True], fontsize=7)
             m.drawmeridians(np.arange(0.0, 360.0, 5.), linewidth=0.2, color='white',
                 labels=[True, False, False, True], fontsize=7)
+    elif projection == 'euratl_merc':
+        plot_background_mapbox(m)
 
     m.drawcoastlines(linewidth=0.5, linestyle='solid', color=color_borders, zorder=7)
     if countries:
@@ -339,6 +335,16 @@ def get_projection(dset, projection="euratl", countries=True, labels=True, color
     x, y = m(lon2d, lat2d)
 
     return(m, x, y)
+
+
+def plot_background_mapbox(m, xpixels=800):
+    ypixels = round(m.aspect * xpixels)
+    bbox = '[%s,%s,%s,%s]' % (m.llcrnrlon,m.llcrnrlat,m.urcrnrlon,m.urcrnrlat)
+    url = 'https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/%s/%sx%s?access_token=%s&logo=false' % (bbox, xpixels, ypixels, apiKey)
+
+    img = plt.imread(url)
+
+    m.imshow(img, origin='upper')
 
 
 # def get_projection_cartopy(plt, projection="euratl"):
@@ -589,11 +595,11 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
             if lcolors:
                 at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
                                   color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
-                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="white")], zorder=5))
 
             else:
                 at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
                                  color = 'white', weight='bold', fontsize=fontsize,
-                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="black")], zorder=5))
+                                  path_effects=[path_effects.withStroke(linewidth=1, foreground="white")], zorder=5))
 
     return at

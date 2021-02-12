@@ -1,7 +1,7 @@
 # icon_forecasts
 Download and plot ICON-EU data.
 
-![Plotting sample](http://guidocioni.altervista.org/icon_forecasts/winds_jet/winds_jet_72.png)
+![Plotting sample](https://maps.meteoindiretta.it/icon_forecasts/winds_jet/winds_jet_72.png)
 
 In the following repository I include a fully-functional suite of scripts 
 needed to download, merge and plot data from the ICON-EU model,
