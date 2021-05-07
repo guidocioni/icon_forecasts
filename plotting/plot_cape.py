@@ -31,6 +31,8 @@ def main():
                         projection=projection,
                         level=85000)
 
+    dset['CAPE_ML'] = dset['CAPE_ML'].where(dset['CAPE_ML'] >= 250)
+
     levels_cape = np.arange(250., 5000., 50.)
     cmap = get_colormap("winds")
 
