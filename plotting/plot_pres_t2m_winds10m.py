@@ -33,10 +33,10 @@ def main():
     dset  = read_dataset(variables=['U_10M', 'V_10M', 'T_2M', 'PMSL'],
                          projection=projection)
 
-    dset['2t'].metpy.convert_units('degC')
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['2t'] = dset['2t'].metpy.convert_units('degC').metpy.dequantify()
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
-    levels_t2m = np.arange(-25, 40, 1)
+    levels_t2m = np.arange(-25, 50, 1)
 
     cmap = get_colormap("temp")
     _ = plt.figure(figsize=(figsize_x, figsize_y))

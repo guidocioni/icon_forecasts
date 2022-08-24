@@ -8,7 +8,7 @@ echo "icon-forecasts: Starting processing of icon-eu model data - `date`"
 echo "----------------------------------------------------------------------------------------------"
 
 # Folder to be used to download and process data
-export MODEL_DATA_FOLDER="/tmp/icon-eu/"
+export MODEL_DATA_FOLDER="/home/ekman/ssd/guido/icon-eu/"
 export HOME_FOLDER=$(pwd)
 export N_CONCUR_PROCESSES=12 # not used anymore as it needs to be tuned per case
 export NCFTP_BOOKMARK="mid"

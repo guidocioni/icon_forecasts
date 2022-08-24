@@ -71,7 +71,7 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        data['t'].metpy.convert_units('degC')
+        data['t'] = data['t'].metpy.convert_units('degC').metpy.dequantify()
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
         filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour

@@ -37,8 +37,8 @@ def main():
                                     projection=projection)
 
     #dset = compute_rate(dset)
-    dset['prmsl'].metpy.convert_units('hPa')
-    dset['SYNMSG_BT_CL_IR10.8'].metpy.convert_units('degC')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
+    dset['SYNMSG_BT_CL_IR10.8'] = dset['SYNMSG_BT_CL_IR10.8'].metpy.convert_units('degC').metpy.dequantify()
 
     levels_rain  = (0.1, 0.2, 0.4, 0.6, 0.8, 1., 1.5, 2., 2.5, 3.0, 4.,
                     5, 7.5, 10., 15., 20., 30., 40., 60., 80., 100., 120.)

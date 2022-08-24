@@ -47,17 +47,17 @@ def plot(dset_city):
     print_message('Producing meteogram for %s' % city)
     time, run, cum_hour = get_time_run_cum(dset_city)
     t = dset_city['t']
-    t.metpy.convert_units('degC')
+    t = t.metpy.convert_units('degC').metpy.dequantify()
     rh = dset_city['r']
     clc = dset_city['ccl']
     t2m = dset_city['2t']
-    t2m.metpy.convert_units('degC')
+    t2m = t2m.metpy.convert_units('degC').metpy.dequantify()
     td2m = dset_city['2d']
-    td2m.metpy.convert_units('degC')
+    td2m = td2m.metpy.convert_units('degC').metpy.dequantify()
     vmax_10m = dset_city['VMAX_10M']
-    vmax_10m.metpy.convert_units('kph')
+    vmax_10m = vmax_10m.metpy.convert_units('kph').metpy.dequantify()
     pmsl = dset_city['prmsl']
-    pmsl.metpy.convert_units('hPa')
+    pmsl = pmsl.metpy.convert_units('hPa').metpy.dequantify()
     plevs = dset_city['t'].metpy.vertical.metpy.unit_array.to('hPa').magnitude
 
     rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']

@@ -36,7 +36,7 @@ def main():
                                     'PMSL', 'CLCL', 'CLCH'],
                                     projection=projection)
     dset = compute_rate(dset)
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
     levels_rain  = (0.1, 0.2, 0.4, 0.6, 0.8, 1., 1.5, 2., 2.5, 3.0, 4.,
                     5, 7.5, 10., 15., 20., 30., 40., 60., 80., 100., 120.)

@@ -30,9 +30,9 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     dset = read_dataset(variables=['TMAX_2M'], projection=projection)
-    dset['TMAX_2M'].metpy.convert_units('degC')
+    dset['TMAX_2M'] = dset['TMAX_2M'].metpy.convert_units('degC').metpy.dequantify()
 
-    levels_t2m = np.arange(-25, 40, 1)
+    levels_t2m = np.arange(-25, 50, 1)
 
     cmap = get_colormap("temp")
 
@@ -78,6 +78,12 @@ def plot_files(dss, **args):
             density = 5
         elif projection == "de":
             density = 4
+        elif projection =='south_it':
+            density = 3
+        elif projection == 'spain_france':
+            density = 8
+        else:
+            density = 10
 
         vals = add_vals_on_map(args['ax'], projection,
                                data['TMAX_2M'], args['levels_t2m'],

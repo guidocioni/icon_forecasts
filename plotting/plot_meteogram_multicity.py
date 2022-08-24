@@ -47,7 +47,7 @@ for city in cities:# This works regardless if cities is either single value or a
     lon, lat = get_city_coordinates(city)
     dset_city =  dset.sel(lon=lon, lat=lat, method='nearest')
     height = hsurf.sel(lon=lon, lat=lat, method='nearest')
-    dset_city['2t'].metpy.convert_units('degC')
+    dset_city['2t'] = dset_city['2t'].metpy.convert_units('degC').metpy.dequantify()
 
     rain_acc = dset_city['RAIN_GSP'] + dset_city['RAIN_CON']
     snow_acc = dset_city['SNOW_GSP'] + dset_city['SNOW_CON']

@@ -6,10 +6,11 @@ from utils import *
 
 def compute_convergence(dset, uvar='10u', vvar='10v'):
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
-    conv = - mpcalc.divergence(dset[uvar], dset[vvar],
-                               dx[None, :, :],
-                               dy[None, :, :])
-    conv = xr.DataArray(conv.magnitude,
+    conv = - mpcalc.divergence(u=dset[uvar],
+                               v=dset[vvar],
+                               dx=dx[None, :, :],
+                               dy=dy[None, :, :]).metpy.dequantify()
+    conv = xr.DataArray(conv.values,
                         coords=dset[uvar].coords,
                         attrs={'standard_name': 'convergence',
                                'units': conv.units},
@@ -20,10 +21,11 @@ def compute_convergence(dset, uvar='10u', vvar='10v'):
 
 def compute_vorticity(dset, uvar='10u', vvar='10v'):
     dx, dy = mpcalc.lat_lon_grid_deltas(dset['lon'], dset['lat'])
-    vort = mpcalc.vorticity(dset[uvar], dset[vvar],
-                            dx[None, :, :],
-                            dy[None, :, :])
-    vort = xr.DataArray(vort.magnitude,
+    vort = mpcalc.vorticity(u=dset[uvar],
+                            v=dset[vvar],
+                            dx=dx[None, :, :],
+                            dy=dy[None, :, :]).metpy.dequantify()
+    vort = xr.DataArray(vort.values,
                         coords=dset[uvar].coords,
                         attrs={'standard_name': 'vorticity',
                                'units': vort.units},
@@ -37,8 +39,8 @@ def compute_geopot_height(dset, zvar='z', level=None):
         zlevel = dset[zvar].sel(plev=level)
     else:
         zlevel = dset[zvar]
-    gph = mpcalc.geopotential_to_height(zlevel)
-    gph = xr.DataArray(gph.magnitude,
+    gph = mpcalc.geopotential_to_height(zlevel).metpy.dequantify()
+    gph = xr.DataArray(gph.values,
                        coords=zlevel.coords,
                        attrs={'standard_name': 'geopotential height',
                               'units': gph.units},
@@ -52,9 +54,9 @@ def compute_thetae(dset, tvar='t', rvar='r'):
                                                 dset['r'] / 100.)
     theta_e = mpcalc.equivalent_potential_temperature(850 * units.hPa,
                                                       dset['t'],
-                                                      rh).to('degC')
-
-    theta_e = xr.DataArray(theta_e.magnitude,
+                                                      rh)
+    theta_e = theta_e.metpy.convert_units('degC').metpy.dequantify()
+    theta_e = xr.DataArray(theta_e.values,
                            coords= dset['t'].coords,
                            attrs={'standard_name': 'Equivalent potential temperature',
                                   'units': theta_e.units},
@@ -97,7 +99,7 @@ def compute_rain_snow_change(dset):
 
 
 def compute_wind_speed(dset, uvar='u', vvar='v'):
-    wind = mpcalc.wind_speed(dset[uvar], dset[vvar]).to(units.kph)
+    wind = mpcalc.wind_speed(dset[uvar], dset[vvar]).metpy.convert_units('kph').metpy.dequantify()
     wind = xr.DataArray(wind, coords=dset[uvar].coords,
                            attrs={'standard_name': 'wind intensity',
                                   'units': wind.units},

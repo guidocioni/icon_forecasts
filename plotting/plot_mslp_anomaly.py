@@ -35,7 +35,7 @@ def main():
                         projection=projection)
 
     original_time = dset.time
-    dset.prmsl.metpy.convert_units('hPa')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
     run = dset['run']
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()

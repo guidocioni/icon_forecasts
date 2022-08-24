@@ -33,8 +33,8 @@ def main():
     dset = read_dataset(variables=['VMAX_10M', 'PMSL', 'U_10M', 'V_10M'],
                         projection=projection)
 
-    dset['VMAX_10M'].metpy.convert_units('kph')
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['VMAX_10M'] = dset['VMAX_10M'].metpy.convert_units('kph').metpy.dequantify()
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
     levels_winds_10m = np.arange(20., 150., 5.)
 

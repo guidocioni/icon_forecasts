@@ -46,9 +46,9 @@ def main():
     m, x, y = get_projection(dset, projection, labels=True)
 
     dset = dset.drop(['lon', 'lat', 't', 'r']).load()
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
-    levels_temp = np.arange(-10, 80, .5)
+    levels_temp = np.arange(-10, 80, 1)
     levels_mslp = np.arange(dset.prmsl.min().astype("int"),
                             dset.prmsl.max().astype("int"), 4)
 

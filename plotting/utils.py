@@ -30,12 +30,12 @@ apiURL_places = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 if 'MODEL_DATA_FOLDER' in os.environ:
     folder = os.environ['MODEL_DATA_FOLDER']
 else:
-    folder = '/tmp/icon-eu/'
+    folder = '/home/ekman/ssd/guido/icon-eu/'
 
 input_file = folder + 'ICON_*.nc'
 folder_images = folder
 chunks_size = 10
-processes = 9
+processes = 6
 figsize_x = 11
 figsize_y = 9
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
@@ -60,7 +60,10 @@ subfolder_images = {
     'it' : folder_images+'it',
     'de' : folder_images+'de',
     'euratl_merc' : folder_images,
-    'nh_polar' : folder_images+'nh_polar'
+    'nh_polar' : folder_images+'nh_polar',
+    'south_it': '/tmp',
+    'spain_france':'/tmp',
+    'western_europe':'/tmp'
 }
 
 folder_glyph = home_folder + '/plotting/yrno_png/'
@@ -142,6 +145,16 @@ proj_defs = {
         'resolution': 'i',
         'epsg': 4269
     },
+    'south_it':
+    {
+        'projection': 'mill',
+        'llcrnrlon': 11,
+        'llcrnrlat': 36,
+        'urcrnrlon': 19,
+        'urcrnrlat': 43,
+        'resolution': 'i',
+        'epsg': 4269
+    },
     'de':
     {
         'projection': 'cyl',
@@ -151,7 +164,27 @@ proj_defs = {
         'urcrnrlat': 56,
         'resolution': 'i',
         'epsg': 4269
-    }
+    },
+    'spain_france':
+    {
+        'projection': 'mill',
+        'llcrnrlon': -10,
+        'llcrnrlat': 34,
+        'urcrnrlon': 10,
+        'urcrnrlat': 53,
+        'resolution': 'i',
+        'epsg': 4269
+    },
+    'western_europe':
+    {
+        'projection': 'mill',
+        'llcrnrlon': -14,
+        'llcrnrlat': 35,
+        'urcrnrlon': 13,
+        'urcrnrlat': 61,
+        'resolution': 'i',
+        'epsg': 4269
+    },
 }
 
 

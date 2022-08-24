@@ -35,7 +35,7 @@ def main():
                         projection=projection)
 
     dset = compute_geopot_height(dset, zvar='z', level=50000)
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
     levels_gph = np.arange(5000., 6000., 40.)
 

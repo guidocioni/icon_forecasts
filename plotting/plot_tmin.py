@@ -30,7 +30,7 @@ def main():
     """In the main function we basically read the files and prepare the variables to be plotted.
     This is not included in utils.py as it can change from case to case."""
     dset = read_dataset(variables=['TMIN_2M'], projection=projection)
-    dset['TMIN_2M'].metpy.convert_units('degC')
+    dset['TMIN_2M'] = dset['TMIN_2M'].metpy.convert_units('degC').metpy.dequantify()
 
     levels_t2m = np.arange(-25, 40, 1)
 

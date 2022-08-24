@@ -32,7 +32,7 @@ def main():
     This is not included in utils.py as it can change from case to case."""
     dset = read_dataset(variables=['TOT_PREC', 'PMSL'],
                         projection=projection)
-    dset['prmsl'].metpy.convert_units('hPa')
+    dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
     levels_precip = list(np.arange(1, 50, 0.4)) + \
                     list(np.arange(51, 100, 2)) +\
