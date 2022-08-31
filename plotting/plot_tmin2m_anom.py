@@ -75,7 +75,7 @@ def main():
         # Parallelize the plotting by dividing into chunks and processes 
         dss = chunks_dataset(merged, chunks_size)
         plot_files_param = partial(plot_files, **args)
-        p = Pool(processes)
+        p = Pool(6)
         p.map(plot_files_param, dss)
 
 

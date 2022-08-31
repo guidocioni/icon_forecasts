@@ -105,7 +105,7 @@ if [ "$DATA_PLOTTING" = true ]; then
 
 	projections=("euratl" "it" "de")
 
-	parallel -j 5 --delay 1 python ::: "${scripts[@]}" ::: "${projections[@]}"
+	parallel -j 4 --delay 1 python ::: "${scripts[@]}" ::: "${projections[@]}"
 	rm ${MODEL_DATA_FOLDER}*.py
 fi
 
@@ -153,11 +153,21 @@ if [ "$DATA_UPLOAD" = true ]; then
 	done
 
 
-	for k in "${upload_elements[@]}"; do
-		ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ${k}
+	# for k in "${upload_elements[@]}"; do
+	# 	ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ${k}
+	# done
+	# Parallel version
+    # Unfortunately I cannot find a way to make it work with GNU parallel
+	num_procs=5
+	num_iters=${#upload_elements[@]}
+	num_jobs="\j"  # The prompt escape for number of jobs currently running
+	for ((i=0; i<num_iters; i++)); do
+		while (( ${num_jobs@P} >= num_procs )); do
+		wait -n
+		done
+	ncftpput -R -v -DD -m ${NCFTP_BOOKMARK} ${upload_elements[$i]} &
 	done
-	# For some reason the parallel version does not work
-	# parallel -j 1 --link ncftpput -R -v -DD ${NCFTP_BOOKMARK} ::: ${upload_folder[@]} ::: ${upload_elements[@]}
+
 fi 
 
 # SECTION 4 - CLEANING ############################################################

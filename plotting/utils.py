@@ -35,7 +35,7 @@ else:
 input_file = folder + 'ICON_*.nc'
 folder_images = folder
 chunks_size = 10
-processes = 6
+processes = 4
 figsize_x = 11
 figsize_y = 9
 invariant_file = folder+'icon-eu_europe_regular-lat-lon_time-invariant_HSURF.nc'
