@@ -37,7 +37,7 @@ def main():
     dset = compute_geopot_height(dset, zvar='z', level=50000)
     dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
-    levels_gph = np.arange(5000., 6000., 40.)
+    levels_gph = np.arange(5000., 6200., 40.)
 
     cmap = get_colormap('gph')
     #cmap = truncate_colormap(cmap, 0.05, 0.9)

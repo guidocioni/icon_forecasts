@@ -36,8 +36,8 @@ def main():
     dset = compute_wind_speed(dset)
     dset = compute_geopot_height(dset)
 
-    levels_wind = np.arange(80., 300., 10.)
-    levels_gph = np.arange(8200., 9700., 100.)
+    levels_wind = np.arange(60., 300., 10.)
+    levels_gph = np.arange(8200., 9700., 80.)
 
     cmap = truncate_colormap(plt.get_cmap('CMRmap_r'), 0., 0.9)
 

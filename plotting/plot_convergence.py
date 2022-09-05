@@ -98,7 +98,7 @@ def plot_files(dss, **args):
                                 zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Convergence [' + str(
+            plt.colorbar(cs, orientation='horizontal', label='Convergence @ 10m height [' + str(
                 data['conv'].units) + ']', pad=0.035, fraction=0.035, format='%.0e')
 
         if debug:

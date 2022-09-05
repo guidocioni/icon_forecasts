@@ -78,7 +78,7 @@ def plot_files(dss, **args):
             density = 5
         elif projection == "de":
             density = 4
-        elif projection =='south_it':
+        elif projection == 'south_it':
             density = 3
         elif projection == 'spain_france':
             density = 8
