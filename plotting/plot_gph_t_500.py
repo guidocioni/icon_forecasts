@@ -38,7 +38,7 @@ def main():
     dset = dset.sel(plev=50000, method='nearest')
 
     levels_temp = np.arange(-58, 12, 2)
-    levels_gph = np.arange(4700., 6000., 70.)
+    levels_gph = np.arange(4700., 6000., 60.)
 
     cmap = get_colormap('temp_meteociel')
 
@@ -95,7 +95,7 @@ def plot_files(dss, **args):
                                data['geop'], 
                                levels=args['levels_gph'],
                                colors='white', 
-                               linewidths=1.)
+                               linewidths=1.5)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', 
                                    fontsize=6)

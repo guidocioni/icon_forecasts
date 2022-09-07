@@ -50,7 +50,7 @@ def main():
 
     levels_temp = np.arange(-10, 80, 2)
     levels_mslp = np.arange(dset.prmsl.min().astype("int"),
-                            dset.prmsl.max().astype("int"), 4)
+                            dset.prmsl.max().astype("int"), 3)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, cmap=cmap,
@@ -88,7 +88,7 @@ def plot_files(dss, **args):
                                args['y'],
                                data['prmsl'],
                                levels=args['levels_mslp'],
-                               colors='white', linewidths=1.)
+                               colors='white', linewidths=1.5)
 
         labels = args['ax'].clabel(
             c, c.levels, inline=True, fmt='%4.0f', fontsize=6)

@@ -61,7 +61,7 @@ def main():
     dset = dset.drop(['lon', 'lat', 'RAIN_GSP', 'RAIN_CON', 'SNOW_GSP', 'SNOW_CON']).load()
 
     levels_mslp   = np.arange(dset['prmsl'].min().astype("int"),
-                              dset['prmsl'].max().astype("int"), 4.)
+                              dset['prmsl'].max().astype("int"), 3.)
 
     args=dict(x=x, y=y, ax=ax,
          levels_mslp=levels_mslp, levels_rain=levels_rain, levels_snow=levels_snow,
@@ -104,7 +104,7 @@ def plot_files(dss, **args):
                          levels=args['levels_clouds'], zorder=2, alpha=0.5, antialiased=True)
 
         c = args['ax'].contour(args['x'], args['y'], data['prmsl'],
-                             levels=args['levels_mslp'], colors='whitesmoke', linewidths=1., zorder=7, alpha=1.0)
+                             levels=args['levels_mslp'], colors='whitesmoke', linewidths=1.5, zorder=7, alpha=1.0)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
 

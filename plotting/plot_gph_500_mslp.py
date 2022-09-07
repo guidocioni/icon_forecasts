@@ -88,7 +88,7 @@ def plot_files(dss, **args):
         c = args['ax'].contour(args['x'], args['y'],
                                data['prmsl'], 
                                levels=args['levels_mslp'],
-                               colors='white', 
+                               colors='gray', 
                                linewidths=1.5)
 
         labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', 

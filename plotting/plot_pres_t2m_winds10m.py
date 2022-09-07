@@ -48,7 +48,7 @@ def main():
     dset = dset.drop(['lon', 'lat']).load()
 
     levels_mslp = np.arange(dset['prmsl'].min().astype("int"),
-                            dset['prmsl'].max().astype("int"), 4.)
+                            dset['prmsl'].max().astype("int"), 3.)
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, cmap=cmap,
