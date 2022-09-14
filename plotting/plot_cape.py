@@ -32,9 +32,10 @@ def main():
                         level=85000)
 
     dset['CAPE_ML'] = dset['CAPE_ML'].where(dset['CAPE_ML'] >= 250)
-
-    levels_cape = np.arange(250., 5000., 50.)
-    cmap = get_colormap("winds")
+    
+    levels_cape = np.concatenate([np.arange(0., 3000., 100.),
+                                 np.arange(3000., 7000., 200.)])
+    cmap, norm = get_colormap_norm('cape_wxcharts', levels=levels_cape)
 
     # initialize figure
     _ = plt.figure(figsize=(figsize_x, figsize_y))
@@ -42,13 +43,13 @@ def main():
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
     # additional maps adjustment for this map
-    m.fillcontinents(color='lightgray', lake_color='whitesmoke', zorder=0)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     dset = dset.drop(['lon', 'lat'])
 
     # All the arguments that need to be passed to the plotting function
     # we pass only arrays to avoid the pickle problem when unpacking in multiprocessing
-    args = dict(x=x, y=y, ax=ax, cmap=cmap,
+    args = dict(x=x, y=y, ax=ax, cmap=cmap, norm=norm,
                 levels_cape=levels_cape,
                 time=dset.time)
 

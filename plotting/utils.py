@@ -528,6 +528,10 @@ def get_colormap_norm(cmap_type, levels):
         colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_snow_wxcharts.rgba').values    
         cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
                          extend='max')
+    elif cmap_type == "cape_wxcharts":
+        colors_tuple = pd.read_csv(home_folder + '/plotting/cmap_cape_wxcharts.rgba').values    
+        cmap, norm = from_levels_and_colors(levels, sns.color_palette(colors_tuple, n_colors=len(levels)),
+                         extend='max')
 
     return(cmap, norm)
 

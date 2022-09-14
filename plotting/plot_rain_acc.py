@@ -48,7 +48,7 @@ def main():
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
     # additional maps adjustment for this map
-    m.arcgisimage(service='Canvas/World_Dark_Gray_Base', xpixels = 800)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     dset = dset.drop(['lon', 'lat']).load()
 

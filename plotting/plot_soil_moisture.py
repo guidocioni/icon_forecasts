@@ -42,7 +42,7 @@ def main():
     ax = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
-    m.drawmapboundary(fill_color='whitesmoke')
+    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     dset = dset.drop(['lon', 'lat', 'W_SO']).load()
 

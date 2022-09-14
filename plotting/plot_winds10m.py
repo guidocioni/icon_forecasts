@@ -44,8 +44,7 @@ def main():
 
     ax  = plt.gca()
     m, x, y = get_projection(dset, projection, labels=True)
-    m.arcgisimage(service='World_Shaded_Relief', xpixels = 1500)
-    #m.fillcontinents(color='lightgray',lake_color='whitesmoke', zorder=0)
+    m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
     dset = dset.drop(['lon', 'lat']).load()
 
