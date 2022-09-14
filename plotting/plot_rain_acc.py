@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
@@ -10,9 +11,8 @@ if not debug:
     import matplotlib
     matplotlib.use('Agg')
 
-import matplotlib.pyplot as plt
 
-# The one employed for the figure name when exported 
+# The one employed for the figure name when exported
 variable_name = 'precip_acc'
 
 print_message('Starting script to plot '+variable_name)
@@ -35,16 +35,16 @@ def main():
     dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
     levels_precip = list(np.arange(1, 50, 0.4)) + \
-                    list(np.arange(51, 100, 2)) +\
-                    list(np.arange(101, 200, 3)) +\
-                    list(np.arange(201, 500, 6)) + \
-                    list(np.arange(501, 1000, 50)) + \
-                    list(np.arange(1001, 2000, 100))
+        list(np.arange(51, 100, 2)) +\
+        list(np.arange(101, 200, 3)) +\
+        list(np.arange(201, 500, 6)) + \
+        list(np.arange(501, 1000, 50)) + \
+        list(np.arange(1001, 2000, 100))
 
     cmap, norm = get_colormap_norm('rain_acc_wxcharts', levels=levels_precip)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
-    ax  = plt.gca()
+    ax = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
     # additional maps adjustment for this map
@@ -52,13 +52,14 @@ def main():
 
     dset = dset.drop(['lon', 'lat']).load()
 
-    levels_mslp = np.arange(dset['prmsl'].min().astype("int"), dset['prmsl'].max().astype("int"), 4.)
+    levels_mslp = np.arange(dset['prmsl'].min().astype(
+        "int"), dset['prmsl'].max().astype("int"), 4.)
 
     # All the arguments that need to be passed to the plotting function
-    args=dict(x=x, y=y, ax=ax,
-             levels_precip=levels_precip,
-             levels_mslp=levels_mslp, time=dset.time,
-             cmap=cmap, norm=norm)
+    args = dict(x=x, y=y, ax=ax,
+                levels_precip=levels_precip,
+                levels_mslp=levels_mslp, time=dset.time,
+                cmap=cmap, norm=norm)
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
@@ -75,10 +76,12 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
+        data['prmsl'].values = mpcalc.smooth_n_point(
+            data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % cum_hour
 
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['tp'],
@@ -89,39 +92,41 @@ def plot_files(dss, **args):
 
         c = args['ax'].contour(args['x'], args['y'],
                                data['prmsl'],
-                                levels=args['levels_mslp'], colors='black', linewidths=1.)
+                               levels=args['levels_mslp'], colors='white', linewidths=1.)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        labels = args['ax'].clabel(
+            c, c.levels, inline=True, fmt='%4.0f', fontsize=6)
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'max', 150, symbol='H', color='royalblue', random=True)
+                                       'max', 150, symbol='H', color='royalblue', random=True)
         minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'min', 150, symbol='L', color='coral', random=True)
+                                       'min', 150, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]',
-            loc='lower left', fontsize=6)
+                            loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
         logo = add_logo_on_map(ax=args['ax'], zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]',
-                pad=0.035, fraction=0.04)
+                         pad=0.035, fraction=0.04)
 
         if debug:
             plt.show(block=True)
         else:
-            plt.savefig(filename, **options_savefig)        
+            plt.savefig(filename, **options_savefig)
 
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
+        remove_collections([c, cs, labels, an_fc, an_var,
+                           an_run, maxlabels, minlabels, logo])
 
         first = False
 
 
 if __name__ == "__main__":
     import time
-    start_time=time.time()
+    start_time = time.time()
     main()
-    elapsed_time=time.time()-start_time
-    print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-
+    elapsed_time = time.time()-start_time
+    print_message("script took " + time.strftime("%H:%M:%S",
+                  time.gmtime(elapsed_time)))

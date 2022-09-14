@@ -31,7 +31,7 @@ def main():
                         projection=projection,
                         level=85000)
 
-    dset['CAPE_ML'] = dset['CAPE_ML'].where(dset['CAPE_ML'] >= 250)
+    dset['CAPE_ML'] = dset['CAPE_ML'].where(dset['CAPE_ML'] >= 100)
     
     levels_cape = np.concatenate([np.arange(0., 3000., 100.),
                                  np.arange(3000., 7000., 200.)])
