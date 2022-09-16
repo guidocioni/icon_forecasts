@@ -1,7 +1,11 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, get_colormap_norm, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    processes, get_time_run_cum, subfolder_images, plot_maxmin_points, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections
 import sys
 import metpy.calc as mpcalc
 
@@ -9,15 +13,14 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
-# The one employed for the figure name when exported 
+# The one employed for the figure name when exported
 variable_name = 'winds10m'
 
 print_message('Starting script to plot '+variable_name)
 
-# Get the projection as system argument from the call so that we can 
+# Get the projection as system argument from the call so that we can
 # span multiple instances of this script outside
 if not sys.argv[1:]:
     print_message(
@@ -33,16 +36,16 @@ def main():
     dset = read_dataset(variables=['VMAX_10M', 'PMSL', 'U_10M', 'V_10M'],
                         projection=projection)
 
-    dset['VMAX_10M'] = dset['VMAX_10M'].metpy.convert_units('kph').metpy.dequantify()
+    dset['VMAX_10M'] = dset['VMAX_10M'].metpy.convert_units(
+        'kph').metpy.dequantify()
     dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
 
-    levels_winds_10m = np.arange(20., 150., 5.)
-
-    cmap = get_colormap("winds")
+    levels_winds_10m = np.linspace(0, 255., 178)
+    cmap, norm = get_colormap_norm('winds_wxcharts', levels=levels_winds_10m)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
-    ax  = plt.gca()
+    ax = plt.gca()
     m, x, y = get_projection(dset, projection, labels=True)
     m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
@@ -52,11 +55,10 @@ def main():
                             dset['prmsl'].max().astype("int"), 4.)
 
     # All the arguments that need to be passed to the plotting function
-    args=dict(x=x, y=y, ax=ax,
-             levels_winds_10m=levels_winds_10m,
-             levels_mslp=levels_mslp, time=dset.time,
-             cmap=cmap)
-
+    args = dict(x=x, y=y, ax=ax,
+                levels_winds_10m=levels_winds_10m,
+                levels_mslp=levels_mslp, time=dset.time,
+                cmap=cmap, norm=norm)
 
     print_message('Pre-processing finished, launching plotting scripts')
     if debug:
@@ -73,28 +75,31 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
+        data['prmsl'].values = mpcalc.smooth_n_point(
+            data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % cum_hour
 
         cs = args['ax'].contourf(args['x'], args['y'], data['VMAX_10M'],
-                         extend='max', cmap=args['cmap'], levels=args['levels_winds_10m'])
+                                 extend='max', cmap=args['cmap'], norm=args['norm'], levels=args['levels_winds_10m'])
 
         c = args['ax'].contour(args['x'], args['y'], data['prmsl'],
-                             levels=args['levels_mslp'], colors='red', linewidths=1.)
+                               levels=args['levels_mslp'], colors='red', linewidths=1.)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f' , fontsize=6)
+        labels = args['ax'].clabel(
+            c, c.levels, inline=True, fmt='%4.0f', fontsize=6)
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'max', 100, symbol='H', color='royalblue', random=True)
+                                       'max', 100, symbol='H', color='royalblue', random=True)
         minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'min', 100, symbol='L', color='coral', random=True)
+                                       'min', 100, symbol='L', color='coral', random=True)
 
         # We need to reduce the number of points before plotting the vectors,
         # these values work pretty well
         if projection == 'euratl':
-            density=25
+            density = 25
             scale = 4e2
         else:
             density = 5
@@ -109,28 +114,28 @@ def plot_files(dss, **args):
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(args['ax'], '10m Winds direction and max. wind gust',
-            loc='lower left', fontsize=6)
+                            loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Wind [km/h]', pad=0.03, fraction=0.03)
-        
+            plt.colorbar(cs, orientation='horizontal',
+                         label='Wind [km/h]', pad=0.03, fraction=0.045)
+
         if debug:
             plt.show(block=True)
         else:
-            plt.savefig(filename, **options_savefig)        
-        
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, cv, maxlabels, minlabels, logo])
+            plt.savefig(filename, **options_savefig)
 
-        first = False 
+        remove_collections([c, cs, labels, an_fc, an_var,
+                           an_run, cv, maxlabels, minlabels])
+
+        first = False
 
 
 if __name__ == "__main__":
     import time
-    start_time=time.time()
+    start_time = time.time()
     main()
-    elapsed_time=time.time()-start_time
-    print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-
+    elapsed_time = time.time()-start_time
+    print_message("script took " + time.strftime("%H:%M:%S",
+                  time.gmtime(elapsed_time)))

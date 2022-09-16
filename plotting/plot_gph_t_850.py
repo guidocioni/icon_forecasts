@@ -1,7 +1,11 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import get_colormap, plot_maxmin_points, print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes
 import sys
 from computations import compute_geopot_height
 from matplotlib import patheffects
@@ -10,7 +14,6 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported
@@ -74,11 +77,12 @@ def plot_files(dss, **args):
         data['t'] = data['t'].metpy.convert_units('degC').metpy.dequantify()
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % cum_hour
 
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['t'],
-                                 extend='both', 
+                                 extend='both',
                                  cmap=args['cmap'],
                                  levels=args['levels_temp'])
 
@@ -91,7 +95,7 @@ def plot_files(dss, **args):
         css.collections[8].set_linewidth(1.5)
 
         c = args['ax'].contour(args['x'], args['y'],
-                               data['geop'], 
+                               data['geop'],
                                levels=args['levels_gph'],
                                colors='white',
                                linewidths=1.5)
@@ -99,25 +103,21 @@ def plot_files(dss, **args):
         labels = args['ax'].clabel(
             c, c.levels, inline=True, fmt='%4.0f', fontsize=6)
 
-
         labels2 = args['ax'].clabel(
             css, css.levels, inline=True, fmt='%4.0f', fontsize=7)
         plt.setp(labels2, path_effects=[
-        patheffects.withStroke(linewidth=0.5, foreground="w")])
-
+            patheffects.withStroke(linewidth=0.5, foreground="w")])
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['geop'],
-                                        'max', 80, symbol='H', color='royalblue', random=True)
+                                       'max', 80, symbol='H', color='royalblue', random=True)
         minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['geop'],
-                                        'min', 80, symbol='L', color='coral', random=True)
+                                       'min', 80, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 
-            'Geopotential height @500hPa [m] and temperature @850hPa [C]',
-            loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'],
+                            'Geopotential height @500hPa [m] and temperature @850hPa [C]',
+                            loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -129,7 +129,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections(
-            [c, cs, css, labels, labels2, an_fc, an_var, an_run, maxlabels, minlabels, logo])
+            [c, cs, css, labels, labels2, an_fc, an_var, an_run, maxlabels, minlabels])
 
         first = False
 

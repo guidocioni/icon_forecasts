@@ -1,7 +1,11 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import plot_maxmin_points, print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes
 import sys
 from computations import compute_thetae
 import metpy.calc as mpcalc
@@ -10,7 +14,6 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported
@@ -61,7 +64,7 @@ def main():
     if debug:
         plot_files(dset.isel(time=slice(0, 2)), **args)
     else:
-        # Parallelize the plotting by dividing into chunks and processes 
+        # Parallelize the plotting by dividing into chunks and processes
         dss = chunks_dataset(dset, chunks_size)
         plot_files_param = partial(plot_files, **args)
         p = Pool(processes)
@@ -73,14 +76,16 @@ def plot_files(dss, **args):
     first = True
     for time_sel in dss.time:
         data = dss.sel(time=time_sel)
-        data['prmsl'].values = mpcalc.smooth_n_point(data['prmsl'].values, n=9, passes=10)
+        data['prmsl'].values = mpcalc.smooth_n_point(
+            data['prmsl'].values, n=9, passes=10)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % cum_hour
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % cum_hour
 
-        cs = args['ax'].contourf(args['x'], args['y'], 
+        cs = args['ax'].contourf(args['x'], args['y'],
                                  data['theta_e'],
-                                 extend='both', 
+                                 extend='both',
                                  cmap=args['cmap'],
                                  levels=args['levels_temp'])
 
@@ -100,11 +105,9 @@ def plot_files(dss, **args):
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(
-            args['ax'], 'MSLP [hPa] and $\theta_e$ @850hPa [C]', 
+            args['ax'], 'MSLP [hPa] and $\theta_e$ @850hPa [C]',
             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -116,7 +119,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections([c, cs, labels, an_fc, an_var,
-                            an_run, maxlabels, minlabels, logo])
+                            an_run, maxlabels, minlabels])
 
         first = False
 

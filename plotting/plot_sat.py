@@ -1,8 +1,11 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes, truncate_colormap, home_folder
 import sys
 from computations import compute_rate
 import pickle
@@ -11,7 +14,7 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
+import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported
 variable_name = 'sat'
@@ -34,7 +37,6 @@ def main():
     dset = read_dataset(variables=['PMSL', 'SYNMSG_BT_CL_IR10.8'],
                         projection=projection)
 
-    #dset = compute_rate(dset)
     dset['prmsl'] = dset['prmsl'].metpy.convert_units('hPa').metpy.dequantify()
     dset['SYNMSG_BT_CL_IR10.8'] = dset['SYNMSG_BT_CL_IR10.8'].metpy.convert_units(
         'degC').metpy.dequantify()
@@ -94,8 +96,6 @@ def plot_files(dss, **args):
                             'Satellite IR temperature',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                               zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -106,7 +106,7 @@ def plot_files(dss, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, logo])
+        remove_collections([cs, an_fc, an_var, an_run])
 
         first = False
 

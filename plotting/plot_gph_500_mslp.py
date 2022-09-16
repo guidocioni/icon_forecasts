@@ -1,7 +1,11 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import plot_maxmin_points, print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes, get_colormap
 import sys
 from computations import compute_geopot_height
 import metpy.calc as mpcalc
@@ -10,15 +14,14 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
-# The one employed for the figure name when exported 
+# The one employed for the figure name when exported
 variable_name = 'gph_500_mslp'
 
 print_message('Starting script to plot '+variable_name)
 
-# Get the projection as system argument from the call so that we can 
+# Get the projection as system argument from the call so that we can
 # span multiple instances of this script outside
 if not sys.argv[1:]:
     print_message(
@@ -40,11 +43,10 @@ def main():
     levels_gph = np.arange(5000., 6200., 40.)
 
     cmap = get_colormap('gph')
-    #cmap = truncate_colormap(cmap, 0.05, 0.9)
 
     _ = plt.figure(figsize=(figsize_x, figsize_y))
 
-    ax  = plt.gca()
+    ax = plt.gca()
     # Get coordinates from dataset
     m, x, y = get_projection(dset, projection, labels=True)
 
@@ -62,7 +64,7 @@ def main():
     if debug:
         plot_files(dset.isel(time=slice(0, 2)), **args)
     else:
-        # Parallelize the plotting by dividing into chunks and processes 
+        # Parallelize the plotting by dividing into chunks and processes
         dss = chunks_dataset(dset, chunks_size)
         plot_files_param = partial(plot_files, **args)
         p = Pool(processes)
@@ -81,31 +83,29 @@ def plot_files(dss, **args):
 
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['geop'],
-                                 extend='both', 
+                                 extend='both',
                                  cmap=args['cmap'],
                                  levels=args['levels_gph'])
 
         c = args['ax'].contour(args['x'], args['y'],
-                               data['prmsl'], 
+                               data['prmsl'],
                                levels=args['levels_mslp'],
-                               colors='gray', 
+                               colors='gray',
                                linewidths=1.5)
 
-        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f', 
+        labels = args['ax'].clabel(c, c.levels, inline=True, fmt='%4.0f',
                                    fontsize=6)
 
         maxlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'max', 100, symbol='H', color='royalblue', random=True)
+                                       'max', 100, symbol='H', color='royalblue', random=True)
         minlabels = plot_maxmin_points(args['ax'], args['x'], args['y'], data['prmsl'],
-                                        'min', 100, symbol='L', color='coral', random=True)
+                                       'min', 100, symbol='L', color='coral', random=True)
 
         an_fc = annotation_forecast(args['ax'], time)
-        an_var = annotation(args['ax'], 
-            'Geopotential height @500hPa [m] and MSLP (hPa)',
-             loc='lower left', fontsize=6)
+        an_var = annotation(args['ax'],
+                            'Geopotential height @500hPa [m] and MSLP (hPa)',
+                            loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Geopotential height [m]', pad=0.03, fraction=0.04)
@@ -113,16 +113,16 @@ def plot_files(dss, **args):
         if debug:
             plt.show(block=True)
         else:
-            plt.savefig(filename, **options_savefig)        
+            plt.savefig(filename, **options_savefig)
 
-        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels, logo])
+        remove_collections([c, cs, labels, an_fc, an_var, an_run, maxlabels, minlabels])
 
-        first = False 
+        first = False
 
 
 if __name__ == "__main__":
     import time
-    start_time=time.time()
+    start_time = time.time()
     main()
-    elapsed_time=time.time()-start_time
+    elapsed_time = time.time() - start_time
     print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))

@@ -1,8 +1,11 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes, get_colormap_norm, plot_maxmin_points
 import sys
 import metpy.calc as mpcalc
 
@@ -10,7 +13,7 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
+import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported
 variable_name = 'precip_acc'
@@ -106,7 +109,6 @@ def plot_files(dss, **args):
         an_var = annotation(args['ax'], 'Accumulated precipitation and MSLP [hPa]',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'], zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal', label='Accumulated precipitation [mm]',
@@ -118,7 +120,7 @@ def plot_files(dss, **args):
             plt.savefig(filename, **options_savefig)
 
         remove_collections([c, cs, labels, an_fc, an_var,
-                           an_run, maxlabels, minlabels, logo])
+                           an_run, maxlabels, minlabels])
 
         first = False
 

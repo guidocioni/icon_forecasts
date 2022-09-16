@@ -5,10 +5,11 @@ from utils import *
 import sys
 from computations import compute_snow_change
 
-debug = False
+debug = True
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 
 # The one employed for the figure name when exported 
@@ -36,7 +37,7 @@ def main():
     rain = (rain_acc - rain_acc[0, :, :])
     rain = xr.DataArray(rain, name='rain_increment')
 
-    dset['sde'] = dset['sde'].metpy.convert_units('cm').metpy.dequantify()
+    dset.sde = dset.sde.metpy.convert_units('cm').metpy.dequantify()
     dset = compute_snow_change(dset)
 
     dset = xr.merge([dset, rain])

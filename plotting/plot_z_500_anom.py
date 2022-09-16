@@ -1,7 +1,12 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, get_colormap_norm, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    processes, get_time_run_cum, subfolder_images, plot_maxmin_points, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections
+import xarry as xr
 import sys
 from matplotlib import patheffects
 from computations import compute_geopot_height
@@ -10,10 +15,9 @@ debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
-# The one employed for the figure name when exported 
+# The one employed for the figure name when exported
 variable_name = 'z_500_anom'
 
 print_message('Starting script to plot '+variable_name)
@@ -41,16 +45,19 @@ def main():
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_uerra_z_500_remap_iconeu.nc').squeeze().sel(time='2010')
-    # Also year transform time to dayoftheyear to compare 
-    clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
+    clima = xr.open_dataset(
+        '/home/ekman/guido/climatologies/clima_1981-2010_uerra_z_500_remap_iconeu.nc').squeeze().sel(time='2010')
+    # Also year transform time to dayoftheyear to compare
+    clima = clima.rename({'time': 'dayofyear'}).assign_coords(
+        {'dayofyear': clima.time.dt.dayofyear.values})
     # merge the two datasets
     merged = xr.merge([clima.rename({'gh': 'geop_clima'}), dset], join='inner')
     # now compute anomaly
     merged['anomaly'] = merged['geop'] - merged['geop_clima']
-    # Transform back the time dimension to the "forecast" time with the first input 
-    merged = merged.rename({'dayofyear': 'time'}).assign_coords({'time': original_time.resample(time='1D').first()})
-    # Conver the clima 
+    # Transform back the time dimension to the "forecast" time with the first input
+    merged = merged.rename({'dayofyear': 'time'}).assign_coords(
+        {'time': original_time.resample(time='1D').first()})
+    # Conver the clima
     merged['run'] = run
 
     levels_temp = np.arange(-500, 501, 25)
@@ -63,7 +70,6 @@ def main():
 
     merged = merged.drop(['lon', 'lat']).load()
 
-
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, levels_temp=levels_temp)
 
@@ -71,7 +77,7 @@ def main():
     if debug:
         plot_files(merged.isel(time=slice(0, 2)), **args)
     else:
-        # Parallelize the plotting by dividing into chunks and processes 
+        # Parallelize the plotting by dividing into chunks and processes
         dss = chunks_dataset(merged, chunks_size)
         plot_files_param = partial(plot_files, **args)
         p = Pool(processes)
@@ -85,50 +91,49 @@ def plot_files(dss, **args):
         data = dss.sel(time=time_sel)
         time, run, cum_hour = get_time_run_cum(data)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % i
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % i
 
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['anomaly'],
-                                 extend='both', 
+                                 extend='both',
                                  cmap='seismic',
                                  levels=args['levels_temp'])
 
         css = args['ax'].contour(args['x'], args['y'],
-                               data['geop'],
-                               levels=np.arange(5000., 6000., 80.),
-                               colors='gray', linewidths=0.5,
-                               linestyles='solid', antialiased=True)
-
+                                 data['geop'],
+                                 levels=np.arange(5000., 6000., 80.),
+                                 colors='gray', linewidths=0.5,
+                                 linestyles='solid', antialiased=True)
 
         labels2 = args['ax'].clabel(
             css, css.levels, inline=True, fmt='%4.0f', fontsize=8, zorder=10)
         plt.setp(labels2, path_effects=[
-        patheffects.withStroke(linewidth=0.1, foreground="green")])
+            patheffects.withStroke(linewidth=0.1, foreground="green")])
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(args['ax'], 'Daily 500 hPa geopotential height anomaly (w.r.t to UERRA 1981-2010 clima) with forecast',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Anomaly (m)', pad=0.035, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal',
+                         label='Anomaly (m)', pad=0.035, fraction=0.04)
 
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, css, labels2, an_fc, an_var, an_run, logo])
+        remove_collections([cs, css, labels2, an_fc, an_var, an_run])
 
-        first = False 
+        first = False
 
 
 if __name__ == "__main__":
     import time
-    start_time=time.time()
+    start_time = time.time()
     main()
-    elapsed_time=time.time()-start_time
-    print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-
+    elapsed_time = time.time()-start_time
+    print_message("script took " + time.strftime("%H:%M:%S",
+                  time.gmtime(elapsed_time)))

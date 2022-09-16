@@ -1,19 +1,23 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes
+import xarray as xr
 import sys
-from matplotlib import patheffects
-import metpy.calc as mpcalc
+# from matplotlib import patheffects
+# import metpy.calc as mpcalc
 
 debug = False
 if not debug:
     import matplotlib
     matplotlib.use('Agg')
-
 import matplotlib.pyplot as plt
 
-# The one employed for the figure name when exported 
+# The one employed for the figure name when exported
 variable_name = 't_2m_anom'
 
 print_message('Starting script to plot '+variable_name)
@@ -39,18 +43,21 @@ def main():
     # Mean over day of the year
     dset = dset.groupby(dset.time.dt.dayofyear).mean()
     # Read climatology remapped over ICON-EU grid
-    clima = xr.open_dataset('/home/ekman/guido/climatologies/clima_1981-2010_mescan_t2m_mean_remap_iconeu.nc').squeeze()
-    # Also year transform time to dayoftheyear to compare 
-    clima = clima.rename({'time': 'dayofyear'}).assign_coords({'dayofyear': clima.time.dt.dayofyear.values})
+    clima = xr.open_dataset(
+        '/home/ekman/guido/climatologies/clima_1981-2010_mescan_t2m_mean_remap_iconeu.nc').squeeze()
+    # Also year transform time to dayoftheyear to compare
+    clima = clima.rename({'time': 'dayofyear'}).assign_coords(
+        {'dayofyear': clima.time.dt.dayofyear.values})
     # remove duplicates in time
     clima = clima.sel(dayofyear=~clima.get_index("dayofyear").duplicated())
     # merge the two datasets
-    merged = xr.merge([clima.rename({'2t':'2t_clim'}), dset], join='inner')
+    merged = xr.merge([clima.rename({'2t': '2t_clim'}), dset], join='inner')
     # now compute anomaly
     merged['anomaly'] = merged['2t'] - merged['2t_clim']
-    # Transform back the time dimension to the "forecast" time with the first input 
-    merged = merged.rename({'dayofyear': 'time'}).assign_coords({'time': original_time.resample(time='1D').first()})
-    # Conver the clima 
+    # Transform back the time dimension to the "forecast" time with the first input
+    merged = merged.rename({'dayofyear': 'time'}).assign_coords(
+        {'time': original_time.resample(time='1D').first()})
+    # Conver the clima
     merged['2t_clim'] = merged['2t_clim'] - 273.15
     merged['2t'] = merged['2t'] - 273.15
     merged['run'] = run
@@ -72,7 +79,7 @@ def main():
     if debug:
         plot_files(merged.isel(time=slice(0, 2)), **args)
     else:
-        # Parallelize the plotting by dividing into chunks and processes 
+        # Parallelize the plotting by dividing into chunks and processes
         dss = chunks_dataset(merged, chunks_size)
         plot_files_param = partial(plot_files, **args)
         p = Pool(processes)
@@ -85,9 +92,10 @@ def plot_files(dss, **args):
     for i, time_sel in enumerate(dss.time):
         data = dss.sel(time=time_sel)
         time, run, cum_hour = get_time_run_cum(data)
-        #data['t_clima'].values = mpcalc.smooth_n_point(data['t_clima'].values, n=9, passes=9)
+        # data['t_clima'].values = mpcalc.smooth_n_point(data['t_clima'].values, n=9, passes=9)
         # Build the name of the output image
-        filename = subfolder_images[projection] + '/' + variable_name + '_%s.png' % i
+        filename = subfolder_images[projection] + \
+            '/' + variable_name + '_%s.png' % i
 
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['anomaly'],
@@ -110,26 +118,25 @@ def plot_files(dss, **args):
         an_var = annotation(args['ax'], 'Daily 2m temp. anomaly (w.r.t to MESCAN-SURFEX 1981-2010 clima)',
                             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
-            plt.colorbar(cs, orientation='horizontal', label='Anomaly (°C)', pad=0.035, fraction=0.04)
+            plt.colorbar(cs, orientation='horizontal',
+                         label='Anomaly (°C)', pad=0.035, fraction=0.04)
 
         if debug:
             plt.show(block=True)
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, logo])
+        remove_collections([cs, an_fc, an_var, an_run])
 
-        first = False 
+        first = False
 
 
 if __name__ == "__main__":
     import time
-    start_time=time.time()
+    start_time = time.time()
     main()
-    elapsed_time=time.time()-start_time
-    print_message("script took " + time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-
+    elapsed_time = time.time()-start_time
+    print_message("script took " + time.strftime("%H:%M:%S",
+                  time.gmtime(elapsed_time)))

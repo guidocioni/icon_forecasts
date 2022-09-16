@@ -1,7 +1,11 @@
 import numpy as np
 from multiprocessing import Pool
 from functools import partial
-from utils import *
+from utils import print_message, read_dataset, \
+    figsize_x, figsize_y, get_projection, chunks_dataset, chunks_size, \
+    get_time_run_cum, subfolder_images, \
+    annotation_forecast, annotation, annotation_run, options_savefig, \
+    remove_collections, processes, get_colormap_norm
 import sys
 
 debug = False
@@ -32,7 +36,7 @@ def main():
                         level=85000)
 
     dset['CAPE_ML'] = dset['CAPE_ML'].where(dset['CAPE_ML'] >= 100)
-    
+
     levels_cape = np.concatenate([np.arange(0., 3000., 100.),
                                  np.arange(3000., 7000., 200.)])
     cmap, norm = get_colormap_norm('cape_wxcharts', levels=levels_cape)
@@ -95,11 +99,9 @@ def plot_files(dss, **args):
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(
-            args['ax'], 'Convective Available Potential Energy and Winds @ 850 hPa', 
+            args['ax'], 'Convective Available Potential Energy and Winds @ 850 hPa',
             loc='lower left', fontsize=6)
         an_run = annotation_run(args['ax'], run)
-        logo = add_logo_on_map(ax=args['ax'],
-                                zoom=0.1, pos=(0.95, 0.08))
 
         if first:
             plt.colorbar(cs, orientation='horizontal',
@@ -110,7 +112,7 @@ def plot_files(dss, **args):
         else:
             plt.savefig(filename, **options_savefig)
 
-        remove_collections([cs, an_fc, an_var, an_run, cv, logo])
+        remove_collections([cs, an_fc, an_var, an_run, cv])
 
         first = False
 
