@@ -6,7 +6,7 @@ from utils import print_message, read_dataset, get_colormap_norm, \
     processes, get_time_run_cum, subfolder_images, plot_maxmin_points, \
     annotation_forecast, annotation, annotation_run, options_savefig, \
     remove_collections
-import xarry as xr
+import xarray as xr
 import sys
 from matplotlib import patheffects
 from computations import compute_geopot_height

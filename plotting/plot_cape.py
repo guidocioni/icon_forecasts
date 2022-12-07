@@ -49,7 +49,7 @@ def main():
     # additional maps adjustment for this map
     m.arcgisimage(service='World_Shaded_Relief', xpixels=1500)
 
-    dset = dset.drop(['lon', 'lat'])
+    dset = dset.drop(['lon', 'lat']).compute()
 
     # All the arguments that need to be passed to the plotting function
     # we pass only arrays to avoid the pickle problem when unpacking in multiprocessing

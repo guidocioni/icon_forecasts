@@ -63,7 +63,7 @@ subfolder_images = {
     'nh_polar' : folder_images+'nh_polar',
     'south_it': '/tmp',
     'spain_france':'/tmp',
-    'western_europe':'/tmp'
+    'western_europe':folder_images
 }
 
 folder_glyph = home_folder + '/plotting/yrno_png/'
@@ -178,10 +178,10 @@ proj_defs = {
     'western_europe':
     {
         'projection': 'mill',
-        'llcrnrlon': -14,
-        'llcrnrlat': 35,
+        'llcrnrlon': -23.5,
+        'llcrnrlat': 45,
         'urcrnrlon': 13,
-        'urcrnrlat': 61,
+        'urcrnrlat': 70.5,
         'resolution': 'i',
         'epsg': 4269
     },
@@ -219,7 +219,7 @@ def get_weather_icons(ww, time):
 
 
 def read_dataset(variables = ['T_2M', 'TD_2M'], level=None, projection=None,
-                 engine='scipy'):
+                 engine='netcdf4'):
     """Wrapper to initialize the dataset"""
     # Create the regex for the files with the needed variables
     variables_search = '('+'|'.join(variables)+')'
@@ -233,12 +233,8 @@ def read_dataset(variables = ['T_2M', 'TD_2M'], level=None, projection=None,
     dset = xr.open_mfdataset(needed_files,
                              preprocess=preprocess,
                              engine=engine,
-                             chunks={'time': 2, 'lon': 100, 'lat': 100}
+                            #  chunks={'time': 2, 'lon': 100, 'lat': 100}
                              )
-    # NOTE!! Even though we use open_mfdataset, which creates a Dask array, we then 
-    # load the dataset into memory since otherwise the object cannot be pickled by 
-    # multiprocessing
-    dset = dset.metpy.parse_cf()
     if level:
         dset = dset.sel(plev=level, method='nearest')
     if projection:
@@ -620,13 +616,14 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
 
     m = mplcm.ScalarMappable(norm=norm, cmap=cmap)
 
-    proj_options = proj_defs[projection]
-    lon_min, lon_max, lat_min, lat_max = proj_options['llcrnrlon'], proj_options['urcrnrlon'],\
-                                         proj_options['llcrnrlat'], proj_options['urcrnrlat']
+    #     proj_options = proj_defs[projection]
+    #     lon_min, lon_max, lat_min, lat_max = proj_options['llcrnrlon'], proj_options['urcrnrlon'],\
+    #                                          proj_options['llcrnrlat'], proj_options['urcrnrlat']
 
     # Remove values outside of the extents
-    var = var.sel(lat=slice(lat_min + 0.15, lat_max - 0.15),
-                  lon=slice(lon_min + 0.15, lon_max - 0.15))[::density, ::density]
+    #     var = var.sel(lat=slice(lat_min + 0.15, lat_max - 0.15),
+    #                   lon=slice(lon_min + 0.15, lon_max - 0.15))[::density, ::density]
+    var = var[::density, ::density]
     lons = var.lon.values
     lats = var.lat.values
 
@@ -635,7 +632,8 @@ def add_vals_on_map(ax, projection, var, levels, density=50,
         if not var[ilat, ilon].isnull():
             if lcolors:
                 at.append(ax.annotate(('%d'%var[ilat, ilon]), (lons[ilon] + shift_x, lats[ilat] + shift_y),
-                                  color = m.to_rgba(float(var[ilat, ilon])), weight='bold', fontsize=fontsize,
+                                  color = m.to_rgba(float(var[ilat, ilon])), weight='bold',
+                                  fontsize=fontsize,
                                   path_effects=[path_effects.withStroke(linewidth=1, foreground="white")], zorder=5))
 
             else:

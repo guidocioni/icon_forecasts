@@ -71,11 +71,11 @@ if [ "$DATA_DOWNLOAD" = true ]; then
 	variables=("T_2M" "TD_2M" "U_10M" "V_10M" "PMSL" "CAPE_ML" "VMAX_10M" "TOT_PREC"\
 				"CLCL" "CLCH" "CLCT" "SNOWLMT" "HZEROCL" "H_SNOW" "SNOW_GSP"\
 				"SNOW_CON" "RAIN_GSP" "RAIN_CON" "TMAX_2M" "TMIN_2M" "WW" "SYNMSG_BT_CL_IR10.8")
-	parallel -j 8 --delay 1 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
+	parallel -j 4 --delay 1 download_merge_2d_variable_icon_eu ::: "${variables[@]}"
 
 	#3-D variables on pressure levels
 	variables=("T" "FI" "RELHUM" "U" "V" "CLC")
-	parallel -j 8 --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
+	parallel -j 4 --delay 2 download_merge_3d_variable_icon_eu ::: "${variables[@]}"
 
 	#soil levelsls
 	download_merge_soil_variable_icon_eu W_SO

@@ -55,8 +55,7 @@ def main():
     m, x, y = get_projection(
         dset, projection, labels=True, color_borders='white')
 
-    dset = dset.drop(['lon', 'lat', 'RAIN_GSP', 'RAIN_CON',
-                     'SNOW_GSP', 'SNOW_CON']).load()
+    dset = dset.drop(['lon', 'lat']).load()
 
     levels_mslp = np.arange(dset['prmsl'].min().astype("int"),
                             dset['prmsl'].max().astype("int"), 4.)

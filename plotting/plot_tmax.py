@@ -7,6 +7,7 @@ from utils import print_message, read_dataset, \
     annotation_forecast, annotation, annotation_run, options_savefig, \
     remove_collections, add_vals_on_map, get_colormap
 import sys
+from tqdm.contrib.concurrent import process_map
 
 debug = False
 if not debug:
@@ -44,6 +45,8 @@ def main():
 
     ax = plt.gca()
     m, x, y = get_projection(dset, projection, labels=True)
+    
+    dset = dset.compute()
 
     # All the arguments that need to be passed to the plotting function
     args = dict(x=x, y=y, ax=ax, cmap=cmap,
@@ -69,7 +72,7 @@ def plot_files(dss, **args):
         # Build the name of the output image
         filename = subfolder_images[projection] + \
             '/' + variable_name + '_%s.png' % cum_hour
-
+        
         cs = args['ax'].contourf(args['x'], args['y'],
                                  data['TMAX_2M'],
                                  extend='both',
@@ -94,6 +97,7 @@ def plot_files(dss, **args):
                                data['TMAX_2M'], args['levels_t2m'],
                                cmap=args['cmap'],
                                density=density)
+        
 
         an_fc = annotation_forecast(args['ax'], time)
         an_var = annotation(args['ax'], 'Maximum 2m Temperature in last 6 hours',

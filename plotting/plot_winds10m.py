@@ -101,6 +101,9 @@ def plot_files(dss, **args):
         if projection == 'euratl':
             density = 25
             scale = 4e2
+        elif projection  == 'western_europe':
+            density = 15
+            scale = 4e2
         else:
             density = 5
             scale = 2.5e2
