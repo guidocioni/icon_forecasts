@@ -6,7 +6,7 @@ from utils import print_message, read_dataset, \
     get_time_run_cum, subfolder_images, \
     annotation_forecast, annotation, annotation_run, options_savefig, \
     remove_collections, processes, get_colormap_norm, truncate_colormap, \
-    plot_maxmin_points
+    plot_maxmin_points, divide_axis_for_cbar
 import sys
 from computations import compute_rate
 import metpy.calc as mpcalc
@@ -125,25 +125,11 @@ def plot_files(dss, **args):
         an_run = annotation_run(args['ax'], run)
 
         if first:
-            if projection == "euratl":
-                x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size = 0.15, 0.15, 0.35, 0.02
-                x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.15, 0.35, 0.02
-            elif projection == "de":
-                x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size = 0.17, 0.05, 0.32, 0.02
-                x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.32, 0.02
-            elif projection == "it":
-                x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size = 0.18, 0.05, 0.3, 0.02
-                x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size = 0.55, 0.05, 0.3, 0.02
-            ax_cbar = plt.gcf().add_axes(
-                [x_cbar_0, y_cbar_0, x_cbar_size, y_cbar_size])
-            ax_cbar_2 = plt.gcf().add_axes(
-                [x_cbar2_0, y_cbar2_0, x_cbar2_size, y_cbar2_size])
+            ax_cbar, ax_cbar_2 = divide_axis_for_cbar(args['ax'])
             cbar_snow = plt.gcf().colorbar(cs_snow, cax=ax_cbar, orientation='horizontal',
                                            label='Snow [cm/hr]')
             cbar_rain = plt.gcf().colorbar(cs_rain, cax=ax_cbar_2, orientation='horizontal',
                                            label='Rain [mm/hr]')
-            cbar_snow.ax.tick_params(labelsize=8)
-            cbar_rain.ax.tick_params(labelsize=8)
 
         if debug:
             plt.show(block=True)
